@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+/* vim: set filetype=javascript: */
+/* eslint-disable */
+const fs = require("fs");
+const path = require("path");
+const glob = require("glob");
+const minimist = require("minimist");
+const clear = require("cli-clear");
+const chalk = require("chalk");
+const constants = require("./constants/");
+const log = require("./utils/log");
+const basePath = constants.basePath;
+
+const help = () => {
+  console.log(`Update component exports
+
+${chalk.yellow("Usage:")}
+    $ ./tasks/update-component-exports
+
+${chalk.yellow("Options:")}
+    -h, --help        Show this message
+`);
+  process.exit();
+};
+
+const atomicDirectories = [
+  "atoms",
+  "molecules",
+  "organisms",
+  "templates",
+  "pages"
+];
+
+const directories = [
+  `${basePath}/containers/pages`,
+  `${basePath}/containers/ui`,
+  ...atomicDirectories.map(dir => `${basePath}/components/${dir}`)
+];
+
+const ignoreDirectories = [
+  "internal"
+];
+
+const argv = minimist(process.argv.slice(2), {
+  boolean: "help",
+  alias: {
+    h: "help"
+  }
+});
+
+
+if (argv.help) help();
+
+
+clear();
+
+
+const matchDirectories = (dir, ignoreDirs = []) => {
+  const output = `${dir}/index.js`;
+  const files = glob.sync(`${dir}/*`, {
+    ignore: [
+      output,
+      ...ignoreDirs.map(v => `${dir}/${v}`)
+    ]
+  });
+
+  return files.length < 1 ? [] : files;
+};
+
+const exportComponentString = (files => {
+  return [
+    '// @flow',
+    ...files.map(file => {
+      const name = path.parse(file).name;
+      return `export { default as ${name} } from "./${name}/${name}";`;
+    })
+  ].join("\n");
+});
+
+
+const results = {};
+
+directories.forEach(dir => {
+  const output = `${dir}/index.js`;
+  const files = matchDirectories(dir, ignoreDirectories);
+  if (files.length < 1) return;
+
+  const content = exportComponentString(files);
+  fs.writeFileSync(output, content);
+  results[output] = content;
+});
+
+const resultContent = Object.keys(results).map(path =>
+  `${chalk.blue(path)}: \n\n${results[path]}`
+).join("\n\n");
+
+log.success(`Updated component index`, resultContent);

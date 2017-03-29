@@ -1,0 +1,26 @@
+@import "variables.css";
+
+.root {
+  padding: 10px 20px;
+  background: var(--primary-color);
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  user-select: none;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: color(var(--primary-color) blackness(40%));
+  }
+
+  &:active {
+    background-color: color(var(--primary-color) blackness(50%));
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2) inset;
+  }
+}

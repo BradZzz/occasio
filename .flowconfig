@@ -1,0 +1,13 @@
+[ignore]
+.*/node_modules/.*
+
+[include]
+
+[libs]
+./node_modules/iflow-react-router/index.js.flow
+./node_modules/iflow-react-router-redux/index.js.flow
+./node_modules/iflow-redux-logger/index.js.flow
+./src/declares/
+
+[options]
+esproposal.class_static_fields=enable

@@ -1,0 +1,44 @@
+@import "normalize.css";
+@import "base.css";
+@import "variables.css";
+
+.root {
+}
+
+.header {
+  padding: 5em 0;
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.nav {
+  margin: 2em 0 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+
+  & li {
+    display: inline-block;
+    margin: 0 .5em;
+  }
+
+  & a {
+    color: #fff;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.content {
+  max-width: 100%;
+  width: 600px;
+  margin: 40px auto;
+}

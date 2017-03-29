@@ -1,0 +1,7 @@
+declare module "react-router" {
+  declare function Link(): any;
+  declare function Route(): any;
+  declare function IndexRoute(): any;
+  declare function Router(): any;
+  declare function hashHistory(): any;
+}

@@ -1,0 +1,5 @@
+declare module "react-router-redux" {
+  declare function syncHistoryWithStore(): any;
+  declare function routerMiddleware(): any;
+  declare function routerReducer(): any;
+}

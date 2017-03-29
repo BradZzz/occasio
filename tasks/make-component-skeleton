@@ -1,0 +1,92 @@
+#!/usr/bin/env node
+/* vim: set filetype=javascript: */
+/* eslint-disable */
+const fs = require("fs");
+const path = require("path");
+const glob = require("glob");
+const minimist = require("minimist");
+const mkdirp = require("mkdirp");
+const chalk = require("chalk");
+const clear = require("cli-clear");
+const constants = require("./constants/");
+const log = require("./utils/log");
+const skeletons = require("./skeletons/");
+
+const help = () => {
+  console.log(`Make component skeleton
+
+${chalk.yellow("Usage:")}
+    $ ./tasks/make-component-skeleton <type> <component> [options]
+
+${chalk.yellow("Arguments:")}
+    type              Type of Atomic Design parts.
+                        - atoms      or  a
+                        - molecules  or  m
+                        - organisms  or  o
+                        - templates  or  t
+                        - pages      or  p
+    component         Component name.
+
+${chalk.yellow("Options:")}
+    -f, --functional  Functional component (stateless)
+    -h, --help        Show this message
+
+${chalk.yellow("Example:")}
+    $ ./tasks/make-component-skeleton atoms Button
+`);
+  process.exit();
+};
+
+
+clear();
+
+const argv = minimist(process.argv.slice(2), {
+  boolean: ["help", "functional"],
+  alias: { h: "help", f: "functional" }
+});
+
+if (argv.help) help();
+if (argv._.length !== 2) {
+  log.error(`Invalid arguments`, false);
+  help();
+}
+
+const [tmpType, name] = argv._;
+const typeMaps = {
+  "a"        : "atoms",
+  "m"        : "molecules",
+  "o"        : "organisms",
+  "t"        : "templates",
+  "p"        : "pages",
+  "atoms"    : "atoms",
+  "molecules": "molecules",
+  "organisms": "organisms",
+  "templates": "templates",
+  "pages"    : "pages"
+};
+
+if (!typeMaps.hasOwnProperty(tmpType)) {
+  log.error(`"${tmpType}" is invalid type`, true);
+}
+
+const type = typeMaps[tmpType];
+const basePath = `${constants.basePath}/components/${type}/${name}`;
+const skeletonComponent = argv.functional ? skeletons.uiFunctionalComponent : skeletons.uiComponent;
+const files = {
+  [`${basePath}/${name}.js`]     : skeletonComponent(name),
+  [`${basePath}/${name}.css`]    : skeletons.css(name),
+  [`${basePath}/${name}.spec.js`]: skeletons.uiComponentSpec(name),
+  [`${basePath}/${name}.md`]     : skeletons.uiComponentExample(name)
+};
+
+mkdirp.sync(basePath);
+
+Object.keys(files).forEach(path => {
+  if (!fs.existsSync(path)) {
+    fs.writeFileSync(path, files[path]);
+  }
+});
+
+
+const result = Object.keys(files).join("\n");
+log.success(`Maked ${type}/${name} component`, result);
