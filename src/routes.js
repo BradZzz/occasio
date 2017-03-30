@@ -5,7 +5,8 @@ import CoreLayout from "./layouts/CoreLayout";
 import {
   IndexPage,
   AboutPage,
-  LoginPage
+  LoginPage,
+  LoginPanel
 } from "./containers/pages/";
 
 import type { Store } from "redux";
