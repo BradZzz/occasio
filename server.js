@@ -1,27 +1,58 @@
-const browserSync = require("browser-sync");
-const webpack = require("webpack");
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpackHotMiddleware = require("webpack-hot-middleware");
-const webpackConfig = require("./webpack.config");
-const bundler = webpack(webpackConfig);
+//const browserSync = require("browser-sync");
+//const webpack = require("webpack");
+//const webpackDevMiddleware = require("webpack-dev-middleware");
+//const webpackHotMiddleware = require("webpack-hot-middleware");
+//const webpackConfig = require("./webpack.config");
+//const bundler = webpack(webpackConfig);
+//
+//browserSync({
+//  server: {
+//    baseDir: "dist",
+//    middleware: [
+//      webpackDevMiddleware(bundler, {
+//        publicPath: webpackConfig.output.publicPath,
+//        stats: { colors: true }
+//      }),
+//      webpackHotMiddleware(bundler)
+//    ]
+//  },
+//  files: [
+//    "dist/css/*.css",
+//    "dist/*.html"
+//  ],
+//  notify: false,
+//  open: false,
+//  ghostMode: false
+//});
+//
+//
+const path = require('path');
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000
 
-browserSync({
-  server: {
-    baseDir: "dist",
-    middleware: [
-      webpackDevMiddleware(bundler, {
-        publicPath: webpackConfig.output.publicPath,
-        stats: { colors: true }
-      }),
-      webpackHotMiddleware(bundler)
-    ]
-  },
-  files: [
-    "dist/css/*.css",
-    "dist/*.html"
-  ],
-  notify: false,
-  open: false,
-  ghostMode: false
+// using webpack-dev-server and middleware in development environment
+if(process.env.NODE_ENV !== 'production') {
+  const webpackDevMiddleware = require('webpack-dev-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
+  const webpack = require('webpack');
+  const config = require('./webpack.config');
+  const compiler = webpack(config);
+
+  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+  app.use(webpackHotMiddleware(compiler));
+}
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/dist/index.html')
 });
 
+app.listen(PORT, function(error) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.info("==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.", PORT, PORT);
+  }
+});
