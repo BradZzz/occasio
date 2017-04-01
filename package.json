@@ -38,9 +38,7 @@
     "recompose": "^0.21.2",
     "redux": "^3.6.0",
     "redux-actions": "^1.2.0",
-    "redux-saga": "^0.14.0"
-  },
-  "devDependencies": {
+    "redux-saga": "^0.14.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
