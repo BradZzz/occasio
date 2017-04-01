@@ -1,7 +1,7 @@
 {
-  "name": "frontend-boilerplate",
+  "name": "occasio",
   "version": "0.0.1",
-  "description": "It's boilerplate of React + Redux using Atomic Design.",
+  "description": "Occasio domain trading network",
   "private": true,
   "author": "tsuyoshiwada",
   "license": "MIT",
