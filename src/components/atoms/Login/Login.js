@@ -66,7 +66,6 @@ export class Login extends Component {
   render() {
     return (
       <div>
-        <h1>Firebase Auth</h1>
         <div id="firebaseui-auth-container"></div>
       </div>
     );

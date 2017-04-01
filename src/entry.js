@@ -3,7 +3,7 @@ import "babel-polyfill";
 import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { Router, hashHistory } from "react-router";
+import { Router, browserHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
 import configureStore from "./store/configure-store";
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -12,7 +12,7 @@ import Root from './containers/Root'
 
 injectTapEventPlugin()
 const store = configureStore(hashHistory);
-const history = syncHistoryWithStore(hashHistory, store);
+const history = syncHistoryWithStore(browserHistory, store);
 
 const App = () => (
   <MuiThemeProvider>

@@ -2,7 +2,7 @@
 
 .root {
   padding: 10px 20px;
-  background: var(--primary-color);
+  background: var(--accent-color);
   border: none;
   border-radius: 3px;
   color: #fff;
@@ -16,11 +16,11 @@
   }
 
   &:hover {
-    background-color: color(var(--primary-color) blackness(40%));
+    background-color: color(var(--accent-color) blackness(40%));
   }
 
   &:active {
-    background-color: color(var(--primary-color) blackness(50%));
+    background-color: color(var(--accent-color) blackness(50%));
     box-shadow: 0 2px 6px rgba(0, 0, 0, .2) inset;
   }
 }

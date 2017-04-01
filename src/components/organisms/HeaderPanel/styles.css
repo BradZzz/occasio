@@ -1,0 +1,9 @@
+@import "variables.css";
+
+.root {
+  min-width: 100%;
+  min-height: 50px;
+  padding-top: 2px;
+  position: relative;
+  background: var(--primary-color-dark);
+}

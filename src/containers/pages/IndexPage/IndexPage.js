@@ -1,54 +1,27 @@
 // @flow
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Helmet from "../../../components/utils/Helmet";
-import * as CounterActions from "../../../actions/counter";
-import * as UserActions from "../../../actions/user";
-import styles from "./IndexPage.css";
-import { Button } from "../../../components/atoms/";
+import React, { Component, PropTypes } from "react"
+import { connect } from "react-redux"
 
-import type { Dispatch } from "redux";
+import * as UserActions from "../../../actions/user"
 
+import styles from "./styles.css"
+import { Button } from "../../../components/atoms/"
+import { CenterBox } from "../../../components/molecules/"
+import { LoginPanel } from "../../../components/organisms/"
+import TextField from 'material-ui/TextField';
+import type { Dispatch } from "redux"
 
-type Props = {
-  dispatch: Dispatch<*>;
-  counter: { count: number; };
-};
-
-export class IndexPage extends Component {
-  props: Props;
-
-  increment = () => {
-    this.props.dispatch(CounterActions.increment())
-  }
-
-  decrement = () => {
-    this.props.dispatch(CounterActions.decrement())
-  }
-
-  incrementAsync = () => {
-    this.props.dispatch(CounterActions.incrementAsync())
+export default class IndexPage extends Component {
+  constructor(props) {
+    super(props)
   }
 
   render() {
     return (
       <div className={styles.root}>
-        <Helmet title="Index" />
-
-        <Button onClick={this.increment}>+1</Button>
-        {" "}
-        <Button onClick={this.decrement}>-1</Button>
-        {" "}
-        <Button onClick={this.incrementAsync}>+1 (async)</Button>
-
-        <p>Result: {this.props.counter.count}</p>
+          <LoginPanel></LoginPanel>
       </div>
     )
   }
-}
 
-export default connect(
-  state => ({
-    counter: state.counter
-  })
-)(IndexPage)
+}

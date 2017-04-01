@@ -1,8 +1,9 @@
 // @flow
 import React, { Component, PropTypes } from "react"
-import { Login, Profile, LogoutButton } from "../../../components/atoms/"
+import { Login, Profile } from "../../../components/atoms/"
+import { LogoutButton } from "../../../components/molecules/"
 import { connect } from "react-redux"
-
+import styles from "./styles.css"
 
 export class LoginPanel extends Component {
   constructor(props) {
@@ -22,13 +23,12 @@ export class LoginPanel extends Component {
 
   render() {
     return (
-      <div>
+      <div className={styles.root}>
         <div style={{ display: this.state.signedIn ? 'none' : 'block' }}>
           <Login auth={ this.state.auth }></Login>
         </div>
         <div style={{ display: this.state.signedIn ? 'block' : 'none' }}>
           <Profile></Profile>
-          <LogoutButton auth={ this.state.auth }></LogoutButton>
         </div>
       </div>
     )

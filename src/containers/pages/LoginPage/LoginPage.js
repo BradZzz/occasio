@@ -7,7 +7,7 @@ import * as UserActions from "../../../actions/user"
 
 import styles from "./styles.css"
 import { Button } from "../../../components/atoms/"
-import { LoginPanel } from "../../../components/molecules/"
+import { LoginPanel } from "../../../components/organisms/"
 import TextField from 'material-ui/TextField';
 import type { Dispatch } from "redux"
 

@@ -8,7 +8,7 @@ export class LogoutButton extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      auth: props.auth
+      style: props.style
     }
   }
 
@@ -23,7 +23,7 @@ export class LogoutButton extends Component {
 
   render() {
     return (
-      <div>
+      <div style={ this.state.style }>
         <Button onClick={ this.logout }>Log Out</Button>
       </div>
     )
