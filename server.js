@@ -24,3 +24,4 @@ browserSync({
   open: false,
   ghostMode: false
 });
+

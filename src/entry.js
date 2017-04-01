@@ -11,7 +11,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Root from './containers/Root'
 
 injectTapEventPlugin()
-const store = configureStore(hashHistory);
+const store = configureStore(browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
 
 const App = () => (
