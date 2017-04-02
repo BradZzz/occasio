@@ -8,6 +8,21 @@
   <title>Occas.io</title>
   <!-- <link rel="stylesheet" href="./css/style.css"> -->
   <link rel="stylesheet" href="https://raw.githubusercontent.com/billjohnston/react-material-layout/master/dist/react-material-class-layout.min.css">
+  <!-- This is so we can have our custom loading bar. Not compiled at build-time -->
+  <style>
+    #firebaseui-auth-container { background: #ffcdd2; }
+    .firebaseui-id-page-callback { display: none !important; }
+    .center {
+      position: fixed;
+      left: 50%;
+      width: auto;
+      -webkit-transform: translateX(-50%);
+      -moz-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+      -o-transform: translateX(-50%);
+      transform: translateX(-50%);
+    }
+  </style>
 </head>
 <body>
   <div id="react-root"></div>

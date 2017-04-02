@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
 import * as UserActions from "../../../actions/user"
+import styles from "./styles.css"
 
 export class Login extends Component {
   constructor(props) {
@@ -35,6 +36,12 @@ export class Login extends Component {
     }
   }
 
+  click = () => {
+    const { dispatch } = this.props
+    dispatch(UserActions.requestLogin({}))
+    console.log("Click")
+  }
+
   reset = () => {
     const { dispatch } = this.props
     this.state.auth.start('#firebaseui-auth-container', this.uiConfig)
@@ -65,7 +72,7 @@ export class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div className={ "center" }>
         <div id="firebaseui-auth-container"></div>
       </div>
     );
