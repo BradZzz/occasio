@@ -7,11 +7,14 @@ import styles from "./styles.css"
 export default class FoldingCube extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      style: props.style
+    }
   }
 
   render() {
     return (
-      <div className={ "center" }>
+      <div style={ this.state.style } className={ "center" }>
         <div className={ styles.skfoldingcube } >
           <div className={ styles.skcube1 + " " + styles.skcube }></div>
           <div className={ styles.skcube2 + " " + styles.skcube }></div>

@@ -7,6 +7,7 @@ const config = {
   storageBucket: "xdomio-1fdcc.appspot.com",
   messagingSenderId: "1002071359895"
 };
+
 firebase.initializeApp(config)
 const database = firebase.database()
 

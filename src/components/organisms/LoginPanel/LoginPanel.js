@@ -25,7 +25,7 @@ export class LoginPanel extends Component {
     return (
       <div className={styles.root}>
         <div style={{ display: !this.state.signedIn ? 'block' : 'none' }}>
-          <FoldingCube></FoldingCube>
+          <FoldingCube style={{ 'margin-top' : '5em' }}></FoldingCube>
           <Login auth={ this.state.auth }></Login>
         </div>
         <div style={{ display: this.state.signedIn ? 'block' : 'none' }}>

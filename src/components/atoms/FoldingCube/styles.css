@@ -1,7 +1,9 @@
+@import "variables";
+
 .skfoldingcube {
   margin: 20px auto;
-  width: 40px;
-  height: 40px;
+  width: 80px;
+  height: 80px;
   position: relative;
   -webkit-transform: rotateZ(45deg);
           transform: rotateZ(45deg);
@@ -42,15 +44,21 @@
   -webkit-transform: scale(1.1) rotateZ(270deg);
           transform: scale(1.1) rotateZ(270deg);
 }
+.skfoldingcube .skcube1:before {
+  border: color(var(--primary-color-dark) alpha(100%)) 2px solid;
+}
 .skfoldingcube .skcube2:before {
+  border: color(var(--primary-color-dark) alpha(100%)) 2px solid;
   -webkit-animation-delay: 0.3s;
           animation-delay: 0.3s;
 }
 .skfoldingcube .skcube3:before {
+  border: color(var(--primary-color-dark) alpha(100%)) 2px solid;
   -webkit-animation-delay: 0.6s;
           animation-delay: 0.6s;
 }
 .skfoldingcube .skcube4:before {
+  border: color(var(--primary-color-dark) alpha(100%)) 2px solid;
   -webkit-animation-delay: 0.9s;
           animation-delay: 0.9s;
 }
