@@ -37,6 +37,7 @@
     "cli-clear": "^1.0.4",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
+    "dotenv": "^4.0.0",
     "enzyme": "^2.7.0",
     "eslint": "^3.12.2",
     "eslint-plugin-babel": "^4.0.0",
@@ -47,6 +48,7 @@
     "express": "^4.15.2",
     "file-loader": "^0.9.0",
     "firebase": "^3.7.4",
+    "firebase-admin": "^4.2.0",
     "firebase-saga": "^1.1.2",
     "flow-bin": "^0.37.4",
     "glob": "^7.1.1",
@@ -59,6 +61,7 @@
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "mocha": "^3.2.0",
+    "mongoose": "^4.9.4",
     "node-emoji": "^1.4.3",
     "normalize.css": "^5.0.0",
     "path": "^0.12.7",
@@ -86,11 +89,13 @@
     "redux-actions": "^1.2.0",
     "redux-logger": "^2.7.4",
     "redux-saga": "^0.14.0",
+    "request": "^2.81.0",
     "rimraf": "^2.5.4",
     "sinon": "^1.17.6",
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
-    "webpack-hot-middleware": "^2.14.0"
+    "webpack-hot-middleware": "^2.14.0",
+    "whois-ux": "0.0.2"
   }
 }
