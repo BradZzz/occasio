@@ -29,7 +29,7 @@ import socket, ssl
 
 from eppy.client import EppClient
 
-client = EppClient(ssl_keyfile='client.key', ssl_certfile='client.pem')
+client = EppClient(cacerts='root.crt')
 client.connect('ote.nic.io')
 resp = client.login('NIC-1253', ".[<2&q'xKn9NMdD:")
 
