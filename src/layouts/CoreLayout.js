@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router";
 import styles from "./CoreLayout.css";
-import { HeaderPanel } from "../components/organisms/"
+import { HeaderPanel, TitlePanel } from "../components/organisms/"
 
 
 type Props = {
@@ -15,16 +15,13 @@ const CoreLayout = (props: Props) => {
   return (
     <div className={styles.root}>
       <HeaderPanel></HeaderPanel>
-      <header className={styles.header}>
-        <h1 className={styles.title}>occas.io</h1>
-      </header>
+      <TitlePanel></TitlePanel>
 
-      <div className={styles.content}>
+      <div className={styles.frame}>
         {children}
       </div>
     </div>
   )
 };
-
 
 export default CoreLayout;

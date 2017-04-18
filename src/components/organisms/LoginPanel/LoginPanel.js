@@ -1,6 +1,6 @@
 // @flow
 import React, { Component, PropTypes } from "react"
-import { Login, Profile, FoldingCube } from "../../../components/atoms/"
+import { Login, FoldingCube } from "../../../components/atoms/"
 import { LogoutButton } from "../../../components/molecules/"
 import { connect } from "react-redux"
 import styles from "./styles.css"
@@ -24,13 +24,8 @@ export class LoginPanel extends Component {
   render() {
     return (
       <div className={styles.root}>
-        <div style={{ display: !this.state.signedIn ? 'block' : 'none' }}>
-          <FoldingCube style={{ 'margin-top' : '5em' }}></FoldingCube>
-          <Login auth={ this.state.auth }></Login>
-        </div>
-        <div style={{ display: this.state.signedIn ? 'block' : 'none' }}>
-          <Profile></Profile>
-        </div>
+        <FoldingCube style={{ 'margin-top' : '5em' }}></FoldingCube>
+        <Login auth={ this.state.auth }></Login>
       </div>
     )
   }

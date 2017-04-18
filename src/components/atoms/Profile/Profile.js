@@ -1,46 +1,48 @@
 // @flow
-import React, { Component, PropTypes } from "react";
+import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
-import * as UserActions from "../../../actions/user"
+//import * as UserActions from "../../../actions/user"
+import * as DomainActions from "../../../actions/domain"
+import Infinite from 'react-infinite'
 
 export class Profile extends Component {
   constructor(props) {
     super(props)
-    this.fields = [ 'name', 'email',  'emailV', 'photoURL', 'uid', 'accessToken', 'providerData']
   }
 
-  renderField = (field, idx) => {
-    const { meta } = this.props
+  componentDidMount() {
+    const { dispatch } = this.props
+    dispatch(DomainActions.queryDomains({ period : 30 }))
+  }
+
+  renderField = (dom, idx) => {
     return (
-      <div key={idx}>
-        Field: { field } : { meta[field] }
-      </div>
+      <div key={dom._id}>{dom.name} - {dom.expires}</div>
     )
   }
 
   render() {
-    const { signedIn, isFetching } = this.props
+    const { isFetching, meta } = this.props
     return (
       <div>
-        <div>SignedIn: { signedIn.toString() }</div>
         <div>Fetching: { isFetching.toString() }</div>
-        { this.fields.map(this.renderField) }
+        <Infinite containerHeight={200} elementHeight={40}>
+          { meta.map(this.renderField) }
+        </Infinite>
       </div>
     )
   }
 }
 
 Profile.propTypes = {
-  signedIn: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  meta: PropTypes.object.isRequired,
+  meta: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { signedIn, isFetching, meta } = state.user
+  const { isFetching, meta } = state.domain
   return {
-    signedIn,
     isFetching,
     meta,
   }

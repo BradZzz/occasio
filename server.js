@@ -4,10 +4,14 @@ const path = require('path')
 const express = require('express')
 const request = require('request')
 const whois = require('whois-ux')
+const dn = require('dn')
 const mongoose = require('mongoose')
 const DOMAIN = require('./models/domain')
 const app = express()
 const PORT = process.env.PORT || 3000
+
+const dateOpts = { year: '2-digit', month: '2-digit', day: '2-digit' }
+const pIncrements = [ 30 , 60 , 90 ]
 
 mongoose.connect(process.env.MONGODB)
 
@@ -44,13 +48,14 @@ app.get('/data/io', function(req, res) {
 //This queries the domain for info
 app.get('/whois/:domain', function(req, res) {
   if ('domain' in req.params){
-    whois.whois(req.params.domain, function (error, data){
-      if (error) {
-        res.send(error)
-      } else {
-        res.send(JSON.stringify(data))
+    getDig(req.params.domain).then(
+      function(data){
+        res.send(data)
+      },
+      function(err){
+        res.send(err)
       }
-    })
+    )
   } else {
     res.send("No domain in request")
   }
@@ -104,11 +109,17 @@ app.get('/whois/:domain/find', function(req, res) {
   }
 })
 
-app.get('/list', function(req, res) {
-  findMongoL().then(
-    function( details ) { res.send(JSON.stringify(details)) },
-    function( error ) { res.send(JSON.stringify(error)) }
-  )
+app.get('/list/:period', function(req, res) {
+  if ('period' in req.params && pIncrements.indexOf(parseInt(req.params.period)) > -1){
+    var sPeriod = new Date();
+    sPeriod.setDate(sPeriod.getDate() + parseInt(req.params.period));
+    findMongoL({ "expires" : { "$lte": sPeriod } }).then(
+      function( details ) { res.send(JSON.stringify(details)) },
+      function( error ) { res.send(JSON.stringify(error)) }
+    )
+  } else {
+    res.send("Bad period, or no period in request")
+  }
 })
 
 app.get('/saveall', function(req, res) {
@@ -116,7 +127,7 @@ app.get('/saveall', function(req, res) {
     if (error) {
       res.send(error)
     } else {
-      saveBatches(body.split(/\r\n|\r|\n/).splice(100,200)).then(
+      saveBatches(body.split(/\r\n|\r|\n/).splice(0,10)).then(
         function( details ) { res.send("Process started successfully") },
         function( error ) { res.send("Error starting process") }
       )
@@ -135,6 +146,30 @@ app.get('/removeall', function(req, res) {
   })
 })
 
+function getDig(domain){
+  return new Promise(function(resolve, reject) {
+    dn.dig(domain + '.check.nic.io', 'A', function (err, data) {
+      console.log(data)
+      if (err){
+        reject({ name: domain, error: err})
+      } else {
+        if ('answer' in data && data.answer.length > 0) {
+          const format = data.answer[0].address.split('.')
+          if (format.length < 4 || (format.length > 1 && format[1] === 255)) {
+            //These domains never expire. We can't buy them
+            reject({ name: domain, expires: NaN })
+          } else {
+            const exp = new Date(format[1], format[2] - 1, format[3], 0, 0, 0, 0)
+            resolve({ name: domain, expires: exp.toLocaleDateString("en-US",dateOpts) })
+          }
+        } else {
+          reject({ name: domain, error: 'no answer in response!'})
+        }
+      }
+    })
+  })
+}
+
 function saveDomain(domain){
   return new Promise(function(resolve, reject) {
     findMongo(domain).then(
@@ -143,38 +178,18 @@ function saveDomain(domain){
         console.log(domain)
         console.log(details)
         if (!details.length){
-          whois.whois(domain, function (error, data){
-            if (error || !('Status' in data || 'Expiry' in data)) {
-              console.log("Error")
-              console.log({ origin: domain, error: error })
-              if (!('Status' in data || 'Expiry' in data)){
-                //return saveDomain(domain)
-                resolve({ origin: domain, error: error })
-              } else {
-                resolve({ origin: domain, error: error })
-              }
-            } else {
-              console.log("Lookup")
-              console.log({
-                name: domain,
-                status: data.Status,
-                expires: data.Expiry,
-                meta: JSON.stringify(data),
-              })
-              return addMongo({
-                name: domain,
-                status: data.Status,
-                expires: data.Expiry,
-                meta: JSON.stringify(data),
-              })
-            }
-          })
+          getDig(domain).then(
+            function(data){
+              addMongo(data).then(function(dat){ resolve(dat) },function(err){ reject(err) })
+            },
+            function(err){ reject(err) }
+          )
         } else {
           console.log("Dupe")
-          resolve({ origin: domain, error: "dupe" })
+          resolve({ name: domain, error: "dupe" })
         }
       }, function( error ) {
-        resolve({ error: error })
+        reject({ name: domain, error: error })
       }
     )
   })
@@ -205,14 +220,6 @@ function saveBatches(domains){
   return new Promise(function(resolve, reject) {
     saveDomain(domains[0]).then(function(dat){
       console.log("Done")
-      //    count++
-      //    if (count > 50){
-      //      console.log("Cooling Down... (5 sec)")
-      //      myVar = setTimeout(iterate(domains), 5000)
-      //    } else {
-      //      iterate(domains)
-      //    }
-      //      return iterate(domains)
       domains.shift()
       if (domains.length) {
         console.log("Left: " + domains.length)
@@ -221,7 +228,6 @@ function saveBatches(domains){
         console.log("Fin")
         resolve("fin")
       }
-
     },function(err){
       console.log(err)
       resolve(err)
@@ -233,9 +239,9 @@ function saveBatches(domains){
 //  return Promise.all(domains.map(saveDomain))
 //}
 
-function findMongoL(){
+function findMongoL(query){
   return new Promise(function(resolve, reject) {
-    DOMAIN.find({ }, function(error, data){
+    DOMAIN.find(query, function(error, data){
       if(error){
         reject(error)
       } else {
