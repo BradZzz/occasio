@@ -2,17 +2,22 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
 import * as UserActions from "../../../actions/user"
+import AUTH from "../../../firebase/auth"
 import styles from "./styles.css"
 
 export class Login extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
+
     this.state = {
       signedin: props.signedIn,
-      auth: props.auth
+      auth: AUTH,
     }
+//    const { dispatch } = props
+//    dispatch(UserActions.auth({ auth : this.state.auth }))
+
     this.uiConfig = {
-//      signInSuccessUrl: '/login',
       signInOptions: [
         // Leave the lines as is for the providers you want to offer your users.
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -26,7 +31,7 @@ export class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.state.signedIn) !== JSON.stringify(nextProps.signedIn)) // Check if it's a new user, you can also use some unique, like the ID
+    if ((JSON.stringify(this.state.signedIn) !== JSON.stringify(nextProps.signedIn))) // Check if it's a new user, you can also use some unique, like the ID
     {
       this.setState({ signedIn: nextProps.signedIn })
       if (!nextProps.signedIn) {

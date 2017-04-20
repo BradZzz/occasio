@@ -23,7 +23,7 @@ export class TitlePanel extends Component {
     return (
       <div className={styles.root} style={{
         padding: this.state.signedIn ? '1.8em 0' : '5em 0',
-        height: this.state.signedIn ? '100px' : '300px',
+        height: this.state.signedIn ? '100px' : '200px',
       }}>
         <header>
           <h1 className={styles.title}>occas.io</h1>

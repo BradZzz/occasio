@@ -1,10 +1,18 @@
 // @flow
+export const AUTH = 'AUTH'
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const REQUEST_LOGIN = 'REQUEST_LOGIN'
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN'
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT'
 export const RECEIVE_LOGOUT = 'RECEIVE_LOGOUT'
+
+export function auth(payload) {
+  return {
+    type: AUTH,
+    payload
+  }
+}
 
 export function login(payload) {
   return {

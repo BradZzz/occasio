@@ -7,6 +7,7 @@ const initialState = {
   meta: BLANK_USR,
   isFetching: false,
   signedIn: false,
+  auth: {},
   errorMsg: "",
 }
 
@@ -34,5 +35,9 @@ export default handleActions({
     signedIn: initialState.signedIn,
     meta: initialState.meta,
     errorMsg: action.msg
+  }),
+  [U.AUTH]: (state = { }, action) => ({
+    ...state,
+    auth: action.payload.auth,
   }),
 }, initialState);
