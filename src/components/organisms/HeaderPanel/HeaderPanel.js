@@ -1,8 +1,9 @@
 // @flow
 import React, { Component, PropTypes } from "react"
-import { Name } from "../../../components/atoms/"
+import { Name, Button } from "../../../components/atoms/"
 import { CenterBox, LogoutButton, UsrImgBox } from "../../../components/molecules/"
 import { connect } from "react-redux"
+import { browserHistory } from 'react-router'
 import styles from "./styles.css"
 
 const imgStyle = {
@@ -37,7 +38,7 @@ export class HeaderPanel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.state.signedIn) !== JSON.stringify(nextProps.signedIn)) // Check if it's a new user, you can also use some unique, like the ID
+    if(JSON.stringify(this.state.signedIn) !== JSON.stringify(nextProps.signedIn))
     {
       this.setState({ signedIn: nextProps.signedIn })
     }
@@ -47,13 +48,21 @@ export class HeaderPanel extends Component {
     const { meta } = this.props
     return (
       <div className={styles.root} style={{ display: this.state.signedIn ? 'block' : 'none' }}>
-          <CenterBox align="right" height="50px">
-            <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
-              <UsrImgBox style={ imgStyle }></UsrImgBox>
-              <Name style={ nameStyle }></Name>
-              <LogoutButton style={ buttonStyle }></LogoutButton>
-            </div>
-          </CenterBox>
+        <div style={{ position: 'absolute', 'zIndex': 1 }}>
+          <Button onClick={ () => browserHistory.push('/domains') }>
+            Domains
+          </Button>
+          <Button onClick={ () => browserHistory.push('/auctions') }>
+            Auction
+          </Button>
+        </div>
+        <CenterBox align="right" height="50px">
+          <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
+            <UsrImgBox style={ imgStyle }></UsrImgBox>
+            <Name style={ nameStyle }></Name>
+            <LogoutButton style={ buttonStyle }></LogoutButton>
+          </div>
+        </CenterBox>
       </div>
     )
   }

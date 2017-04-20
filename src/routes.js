@@ -5,6 +5,7 @@ import CoreLayout from "./layouts/CoreLayout";
 import {
   IndexPage,
   DomainPage,
+  AuctionPage,
 } from "./containers/pages/";
 
 import type { Store } from "redux";
@@ -16,7 +17,7 @@ const getRoutes = (store: Store<*, *>) => {
     <Route path="/" component={CoreLayout}>
       <IndexRoute component={IndexPage} />
       <Route path="/domains" component={DomainPage} />
-      <Route path="/auctions" component={DomainPage} />
+      <Route path="/auctions" component={AuctionPage} />
     </Route>
   );
 };
