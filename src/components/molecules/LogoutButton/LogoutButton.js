@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
 import { Button } from "../../atoms/"
 import * as UserActions from "../../../actions/user"
-import { Link } from 'react-router'
+import { browserHistory } from 'react-router';
 
 export class LogoutButton extends Component {
   constructor(props) {
@@ -14,7 +14,10 @@ export class LogoutButton extends Component {
   }
 
   logout = () => {
-    const { dispatch } = this.props
+    const { dispatch, router } = this.props
+
+    browserHistory.push('/');
+
     firebase.auth().signOut().then(function() {
       dispatch(UserActions.logout())
     }, function(error) {
@@ -25,7 +28,7 @@ export class LogoutButton extends Component {
   render() {
     return (
       <div style={ this.state.style }>
-        <Button onClick={ this.logout }><Link to='/'>Log Out</Link></Button>
+        <Button onClick={ this.logout }>Log Out</Button>
       </div>
     )
   }
