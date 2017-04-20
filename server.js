@@ -109,6 +109,35 @@ app.get('/whois/:domain/find', function(req, res) {
   }
 })
 
+app.get('/auctions/get', function(req, res) {
+  //For testing purposes, we are setting the exp date 7 days from now
+  const fakeDomains = [
+    'fake.io',
+    'awesome.io',
+    'disney.io',
+    'tables.io',
+    'keyboardcatz.io',
+    'milkshakes.io',
+  ]
+
+  var d = new Date()
+  var day = d.getDay()
+  var diff = d.getDate() - day + (day == 0 ? -6:1)
+  var placed  = new Date(d.setDate(diff))
+  var monday  = new Date(d.setDate(diff + 7))
+
+  const fakeBids = [
+    { uuid : 'abc123', bid : 10, placed: placed },
+    { uuid : 'abc124', bid : 50, placed: placed  },
+    { uuid : 'abc123', bid : 100, placed: placed },
+    { uuid : 'abc126', bid : 120, placed: placed },
+    { uuid : 'abc124', bid : 150, placed: placed },
+    { uuid : 'abc125', bid : 200, placed: placed },
+  ]
+
+  res.send(JSON.stringify(fakeDomains.map((dom) => { return { name : dom, expires : monday, bids : fakeBids } })))
+})
+
 app.get('/list/:period', function(req, res) {
   if ('period' in req.params && pIncrements.indexOf(parseInt(req.params.period)) > -1){
     var sPeriod = new Date();

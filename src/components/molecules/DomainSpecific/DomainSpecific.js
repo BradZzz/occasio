@@ -16,7 +16,7 @@ export class DomainSpecific extends Component {
     return (
       <div>
         { specific }
-        <BackButton style={ buttonStyle }>Back</BackButton>
+        <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
       </div>
     )
   }

@@ -48,13 +48,13 @@ export class HeaderPanel extends Component {
     const { meta } = this.props
     return (
       <div className={styles.root} style={{ display: this.state.signedIn ? 'block' : 'none' }}>
-        <div style={{ position: 'absolute', 'zIndex': 1 }}>
-          <Button onClick={ () => browserHistory.push('/domains') }>
+        <div className={styles.navWrap} style={{ zIndex: '1' }}>
+          <span className={styles.nav} onClick={ () => browserHistory.push('/domains') }>
             Domains
-          </Button>
-          <Button onClick={ () => browserHistory.push('/auctions') }>
-            Auction
-          </Button>
+          </span>
+          <span className={styles.nav} onClick={ () => browserHistory.push('/auctions') }>
+            Auctions
+          </span>
         </div>
         <CenterBox align="right" height="50px">
           <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>

@@ -4,12 +4,14 @@ import { routerReducer } from "react-router-redux";
 import counter from "./counter";
 import user from "./user";
 import domain from "./domain";
+import auction from "./auction";
 
 const rootReducer = combineReducers({
   routing: routerReducer,
   counter,
   user,
-  domain
+  domain,
+  auction
 });
 
 export default rootReducer;

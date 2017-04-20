@@ -7,3 +7,21 @@
   position: relative;
   background: var(--primary-color-dark);
 }
+
+.navWrap {
+  position: absolute;
+}
+
+.nav {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  margin: 0 1.6em;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  &:hover {
+    opacity: .8;
+  }
+}

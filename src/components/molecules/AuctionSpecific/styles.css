@@ -1,0 +1,36 @@
+@import "variables.css";
+
+.root {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.scrollable {
+  overflow-y: auto;
+  display: inline-grid;
+}
+
+.lHeader {
+  padding: 1em 0 2em 0 !important;
+  background: #f44336;
+  font-weight: bold;
+}
+
+.lHeaderField:hover {
+  cursor: pointer;
+}
+
+.lItem {
+  border-bottom: 1px solid #111111;
+  vertical-align: middle;
+  padding: 1em 0px;
+  display: inline-flex;
+}
+
+.lItemField {
+  margin: auto;
+  text-align: start;
+  width: 20%;
+}

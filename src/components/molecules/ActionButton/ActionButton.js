@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
 import { Button } from "../../atoms/"
 import * as DomainActions from "../../../actions/domain"
+import * as AuctionActions from "../../../actions/auction"
 
 export class ActionButton extends Component {
   constructor(props) {
@@ -14,8 +15,14 @@ export class ActionButton extends Component {
   }
 
   action = () => {
-    const { dispatch } = this.props
-    dispatch(DomainActions.navDomSpec({ specific : this.state.domain }))
+    const { dispatch, redirect } = this.props
+    if (redirect === 'domain') {
+      dispatch(DomainActions.navDomSpec({ specific : this.state.domain }))
+    } else if (redirect === 'auction') {
+      dispatch(AuctionActions.navAuctSpec({ specific : this.state.domain }))
+    } else {
+      alert('back button not configured!')
+    }
   }
 
   render() {
@@ -30,7 +37,8 @@ export class ActionButton extends Component {
 }
 
 ActionButton.propTypes = {
-  dispatch: PropTypes.func.isRequired
+  redirect: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

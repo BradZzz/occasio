@@ -1,9 +1,8 @@
 // @flow
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
-//import * as UserActions from "../../../actions/user"
-import * as DomainActions from "../../../actions/domain"
-import { ActionButton, DomainList, DomainSpecific } from "../../../components/molecules/"
+import * as AuctionActions from "../../../actions/auction"
+import { AuctionList, AuctionSpecific } from "../../../components/molecules/"
 import styles from "./styles.css"
 
 export class AuctionPanel extends Component {
@@ -16,7 +15,7 @@ export class AuctionPanel extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props
-    dispatch(DomainActions.queryDomains({ period : 30 }))
+    dispatch(AuctionActions.queryAuctions())
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,7 +28,12 @@ export class AuctionPanel extends Component {
   render() {
     return (
       <div className={styles.root + ' columnFlex'} >
-        Auctions!
+        <div style={{ display: !this.state.details ? 'block' : 'none' }}>
+          <AuctionList></AuctionList>
+        </div>
+        <div style={{ display: this.state.details ? 'block' : 'none' }}>
+          <AuctionSpecific></AuctionSpecific>
+        </div>
       </div>
     )
   }
@@ -42,7 +46,7 @@ AuctionPanel.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { details } = state.domain
+  const { details } = state.auction
   return {
     details,
   }
