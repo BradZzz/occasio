@@ -1,0 +1,12 @@
+@import "variables.css";
+
+.root {
+  height: 100%;
+}
+
+.content {
+  min-width: 100%;
+  transition: all 0.5s ease;
+  position:relative;
+  height: 100%;
+}
