@@ -6,7 +6,7 @@ const initialState = {
   meta: [],
   details: false,
   isFetching: false,
-  specific: { name: "", expires: "", bids: [] },
+  specific: { name: '', expires: '', bids: [{ uuid : '', bid : 0, placed: '' }] },
   errorMsg: "",
 }
 

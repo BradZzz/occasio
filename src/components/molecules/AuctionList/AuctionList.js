@@ -6,7 +6,10 @@ import * as AuctionActions from "../../../actions/auction"
 import Infinite from 'react-infinite'
 import styles from "./styles.css"
 
-const buttonStyle = { }
+const buttonStyle = {
+  display: 'inline-block',
+  width: '40%',
+}
 
 export class AuctionList extends Component {
   constructor(props) {
@@ -43,6 +46,7 @@ export class AuctionList extends Component {
         <div className={ styles.lItemField }>{top.bid}</div>
         <div className={ styles.lItemField }>
           <ActionButton redirect='auction' domain={ dom } style={ buttonStyle }>info</ActionButton>
+          <ActionButton redirect='auction' domain={ dom } style={ buttonStyle }>watch</ActionButton>
         </div>
       </div>
     )

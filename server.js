@@ -123,6 +123,7 @@ app.get('/auctions/get', function(req, res) {
   var d = new Date()
   var day = d.getDay()
   var diff = d.getDate() - day + (day == 0 ? -6:1)
+  var start  = new Date(d.setDate(diff - 7))
   var placed  = new Date(d.setDate(diff))
   var monday  = new Date(d.setDate(diff + 7))
 
@@ -135,7 +136,7 @@ app.get('/auctions/get', function(req, res) {
     { uuid : 'abc125', bid : 200, placed: placed },
   ]
 
-  res.send(JSON.stringify(fakeDomains.map((dom) => { return { name : dom, expires : monday, bids : fakeBids } })))
+  res.send(JSON.stringify(fakeDomains.map((dom) => { return { name : dom, start: start, expires : monday, bids : fakeBids } })))
 })
 
 app.get('/list/:period', function(req, res) {

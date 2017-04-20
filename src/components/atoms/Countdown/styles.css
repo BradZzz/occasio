@@ -1,0 +1,13 @@
+@import "variables.css";
+
+.root {
+  border: 1px solid #111;
+  margin: 1em;
+}
+.col {
+  display: inline-block;
+  width: 25%;
+}
+.elem {
+  text-align: center;
+}
