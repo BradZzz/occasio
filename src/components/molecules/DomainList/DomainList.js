@@ -39,7 +39,7 @@ export class DomainList extends Component {
         <div className={ styles.lItemField }>{dom.name}</div>
         <div className={ styles.lItemField }>{formDate}</div>
         <div className={ styles.lItemField }>
-          <ActionButton redirect='domain' domain={ dom.name } style={ buttonStyle }>info</ActionButton>
+          <ActionButton redirect='domain' domain={ dom.name } specObj={ JSON.stringify(dom) } style={ buttonStyle }>info</ActionButton>
         </div>
       </div>
     )

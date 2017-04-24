@@ -46,16 +46,34 @@ app.get('/data/io', function(req, res) {
 })
 
 //This queries the domain for info
+//app.get('/whois/:domain', function(req, res) {
+//  if ('domain' in req.params){
+//    getDig(req.params.domain).then(
+//      function(data){
+//        res.send(data)
+//      },
+//      function(err){
+//        res.send(err)
+//      }
+//    )
+//  } else {
+//    res.send("No domain in request")
+//  }
+//})
+
 app.get('/whois/:domain', function(req, res) {
   if ('domain' in req.params){
-    getDig(req.params.domain).then(
-      function(data){
-        res.send(data)
-      },
-      function(err){
-        res.send(err)
+    whois.whois(req.params.domain, function (error, data){
+      console.log(data)
+      if (error) {
+        res.send(error)
+      } else {
+        console.log("whois fetched")
+        console.log(error)
+        console.log(data)
+        return res.send(JSON.stringify(data))
       }
-    )
+    })
   } else {
     res.send("No domain in request")
   }

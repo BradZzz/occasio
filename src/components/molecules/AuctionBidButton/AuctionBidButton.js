@@ -2,28 +2,21 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
 import { Button } from "../../atoms/"
-import * as DomainActions from "../../../actions/domain"
 import * as AuctionActions from "../../../actions/auction"
 
-export class BackButton extends Component {
+export class AuctionBidButton extends Component {
   constructor(props) {
     super(props)
     this.state = {
       style: props.style,
+      domain: props.domain,
     }
   }
 
   action = () => {
-    const { dispatch, redirect } = this.props
-    if (redirect === 'domain') {
-      dispatch(DomainActions.navDomGen())
-    } else if (redirect === 'auction') {
-      dispatch(AuctionActions.navAuctGen())
-    } else if (redirect === 'auction_spec') {
-      dispatch(AuctionActions.navAuctSpecRev())
-    } else {
-      alert('back button not configured!')
-    }
+    console.log("Auction Bid")
+    const { dispatch } = this.props
+    dispatch(AuctionActions.navAuctBid())
   }
 
   render() {
@@ -37,8 +30,7 @@ export class BackButton extends Component {
   }
 }
 
-BackButton.propTypes = {
-  redirect: PropTypes.string.isRequired,
+AuctionBidButton.propTypes = {
   dispatch: PropTypes.func.isRequired,
 }
 
@@ -46,4 +38,4 @@ function mapStateToProps(state) {
   return { }
 }
 
-export default connect(mapStateToProps)(BackButton)
+export default connect(mapStateToProps)(AuctionBidButton)

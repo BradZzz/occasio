@@ -6,6 +6,7 @@ const initialState = {
   meta: [],
   details: false,
   isFetching: false,
+  bidding: false,
   specific: { name: '', expires: '', bids: [{ uuid : '', bid : 0, placed: '' }] },
   errorMsg: "",
 }
@@ -42,11 +43,23 @@ export default handleActions({
   [U.NAV_AUCTIONS_SPECIFIC]: (state = { }, action) => ({
     ...state,
     details: true,
+    bidding: false,
     specific: action.payload.specific,
+  }),
+  [U.NAV_AUCTIONS_SPECIFIC_REV]: (state = { }, action) => ({
+    ...state,
+    details: true,
+    bidding: false,
   }),
   [U.NAV_AUCTIONS_GENERAL]: (state = { }) => ({
     ...state,
     details: false,
+    bidding: false,
     specific: initialState.specific,
+  }),
+  [U.NAV_AUCTIONS_BID]: (state = { }) => ({
+    ...state,
+    details: false,
+    bidding: true,
   }),
 }, initialState);

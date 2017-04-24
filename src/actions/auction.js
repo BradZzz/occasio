@@ -13,6 +13,8 @@ export const SORT_AUCTIONS_BID = 'SORT_AUCTIONS_BID'
 
 //Navigating to info page
 export const NAV_AUCTIONS_SPECIFIC = 'NAV_AUCTIONS_SPECIFIC'
+export const NAV_AUCTIONS_SPECIFIC_REV = 'NAV_AUCTIONS_SPECIFIC_REV'
+export const NAV_AUCTIONS_BID = 'NAV_AUCTIONS_BID'
 export const NAV_AUCTIONS_GENERAL = 'NAV_AUCTIONS_GENERAL'
 
 export function queryAuctions(payload) {
@@ -55,6 +57,18 @@ export function sortAuctBid(payload) {
   return {
     type: SORT_AUCTIONS_BID,
     payload
+  }
+}
+
+export function navAuctBid() {
+  return {
+    type: NAV_AUCTIONS_BID
+  }
+}
+
+export function navAuctSpecRev() {
+  return {
+    type: NAV_AUCTIONS_SPECIFIC_REV
   }
 }
 

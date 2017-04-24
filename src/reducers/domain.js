@@ -9,6 +9,8 @@ const initialState = {
   isFetching: false,
   specific: "",
   errorMsg: "",
+  specObj: "{}",
+  lastFetched: new Date()
 }
 
 const sortArr = (arr, field, asc = true) => {
@@ -30,7 +32,8 @@ export default handleActions({
     ...state,
     isFetching: false,
     meta: action.payload,
-    errorMsg: ""
+    errorMsg: "",
+    lastFetched: new Date()
   }),
   [U.SORT_DOMAIN_NAME]: (state = { }, action) => ({
     ...state,
@@ -44,6 +47,7 @@ export default handleActions({
     ...state,
     details: true,
     specific: action.payload.specific,
+    specObj: action.payload.specObj,
   }),
   [U.NAV_DOMAIN_GENERAL]: (state = { }) => ({
     ...state,

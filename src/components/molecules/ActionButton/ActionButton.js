@@ -10,6 +10,7 @@ export class ActionButton extends Component {
     super(props)
     this.state = {
       style: props.style,
+      specObj: props.specObj,
       domain: props.domain,
     }
   }
@@ -17,9 +18,9 @@ export class ActionButton extends Component {
   action = () => {
     const { dispatch, redirect } = this.props
     if (redirect === 'domain') {
-      dispatch(DomainActions.navDomSpec({ specific : this.state.domain }))
+      dispatch(DomainActions.navDomSpec({ specific : this.state.domain, specObj: this.state.specObj }))
     } else if (redirect === 'auction') {
-      dispatch(AuctionActions.navAuctSpec({ specific : this.state.domain }))
+      dispatch(AuctionActions.navAuctSpec({ specific : this.state.domain, specObj: this.state.specObj }))
     } else {
       alert('back button not configured!')
     }

@@ -4,6 +4,7 @@ import counterSaga from "./counter"
 import { login, logout } from "./user"
 import { queryDomains } from "./domain"
 import { queryAuctions } from "./auction"
+import { queryWhois } from "./whois"
 
 export default function *rootSaga(): Generator<*, *, *> {
   yield [
@@ -12,5 +13,6 @@ export default function *rootSaga(): Generator<*, *, *> {
     fork(logout),
     fork(queryDomains),
     fork(queryAuctions),
+    fork(queryWhois),
   ];
 }
