@@ -4,8 +4,9 @@ import { select, put, call, fork } from "redux-saga/effects"
 import * as D from "../actions/domain"
 import fetch from 'isomorphic-fetch'
 
-//Qarter hour
+//Quarter hour
 const QHOUR = 15 * 60 * 1000;
+
 //Half hour
 const HHOUR = 30 * 60 * 1000;
 
@@ -14,7 +15,6 @@ export function* queryDomains(req) {
 }
 
 export function* requestD(req) {
-
   const state = yield select()
   const { meta, lastFetched } = state.domain
   if (((new Date) - lastFetched) < HHOUR || meta.length < 1) {

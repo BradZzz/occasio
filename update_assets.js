@@ -7,6 +7,10 @@ const DOMAIN = require('./models/domain')
 const mongoose = require('mongoose')
 
 const dateOpts = { year: '2-digit', month: '2-digit', day: '2-digit' }
+const VOLATILE_LOOKBACK = 90
+
+const sPeriod = new Date()
+sPeriod.setDate(sPeriod.getDate() + parseInt(VOLATILE_LOOKBACK))
 
 mongoose.connect(process.env.MONGODB)
 
@@ -15,7 +19,6 @@ function notWildcard(domain){
 }
 
 function start(){
-  console.log("start")
   request('https://wwws.io/api/full/962/' + process.env.DOM_USR + '/' + process.env.DOM_PASS + '/', function (error, response, body) {
     console.log("return")
     if (error) {
@@ -87,10 +90,12 @@ function saveDomain(domain){
     findMongo(domain).then(
       function( details ) {
         console.log("return from find")
-        if (!details.length){
+        const cachExp = (details.length > 0 && ('expires' in details[0] && sPeriod > new Date(details[0].expires)))
+        if (!details.length || cachExp){
+          console.log("Cache Exp: " + cachExp)
           getDig(domain).then(
             function(data){
-              addMongo(data).then(
+              addMongo(data, details).then(
                 function(dat){
                   console.log("Saved")
                   console.log(dat)
@@ -113,9 +118,13 @@ function saveDomain(domain){
   })
 }
 
-function addMongo(dom){
+function addMongo(dom, prev){
   return new Promise(function(resolve, reject) {
-    (new DOMAIN(dom)).save( function(error, data){
+    let domOb = new DOMAIN(dom)
+    if (typeof prev[0] != 'undefined') {
+      domOb = Object.assign(prev[0], { expires: dom.expires })
+    }
+    domOb.save( function(error, data){
       if(error){
         reject(error)
       } else {

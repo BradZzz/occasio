@@ -159,9 +159,9 @@ app.get('/auctions/get', function(req, res) {
 
 app.get('/list/:period', function(req, res) {
   if ('period' in req.params && pIncrements.indexOf(parseInt(req.params.period)) > -1){
-    var sPeriod = new Date();
-    sPeriod.setDate(sPeriod.getDate() + parseInt(req.params.period));
-    findMongoL({ "expires" : { "$lte": sPeriod } }).then(
+    var sPeriod = new Date()
+    sPeriod.setDate(sPeriod.getDate() + parseInt(req.params.period))
+    findMongoL({ "expires" : { "$lte": sPeriod, "$gte": new Date() } }).then(
       function( details ) { res.send(JSON.stringify(details)) },
       function( error ) { res.send(JSON.stringify(error)) }
     )
