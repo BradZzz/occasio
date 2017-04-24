@@ -1,20 +1,12 @@
-:zap: frontend-boilerplate
-==========================
+Occas.io
+========
 
-It's boilerplate of React + Redux using Atomic Design.
-
-
+Website for domain experts
 
 ## Overview
 
-* Using Atomic Design with CSS Modules.
-* Adopted Webpack for module bundler.
-* Provide a skeleton generation task for components.
-    - Example: `$ ./task/make-component-skeleton atoms Button`
-* Support HMR(hot reload replacement) and browser-sync.
-* Only front-end application. (Not support universal app)
-
-
+* Atomic design
+* Adopted Webpack for module bundler
 
 ## Main Libraries
 
@@ -23,10 +15,8 @@ It's boilerplate of React + Redux using Atomic Design.
 * react-router
 * react-redux
 * react-redux-router
-* redux
 * redux-saga
-
-
+* nodejs
 
 ## Tasks
 
@@ -82,4 +72,5 @@ $ tree -I node_modules -L 2
 
 ## License
 
-[MIT](https://raw.githubusercontent.com/tsuyoshiwada/frontend-boilerplate/master/LICENSE)
+The code in this repo is licensed under the Apache 2.0 License.
+See [LICENSE.txt](LICENSE.txt) for more info.
