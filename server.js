@@ -7,6 +7,8 @@ const whois = require('whois-ux')
 const dn = require('dn')
 const mongoose = require('mongoose')
 const DOMAIN = require('./models/domain')
+const APPRAISAL = require('./models/appraisal')
+const parser = require('xml2json')
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -44,6 +46,95 @@ app.get('/data/io', function(req, res) {
     }
   })
 })
+
+app.get('/sample/appraisals', function(req, res) {
+  request('http://www.estibot.com/api.php?a=get&email=' + process.env.ESTIBOT_USR + '&password=' + process.env.ESTIBOT_PASS + '&c=appraise&t=websitestud.io>>femto.io', function (error, response, body) {
+    if (error) {
+      res.send(error)
+    } else {
+      res.send(JSON.stringify(parser.toJson(body)))
+    }
+  })
+})
+
+app.get('/sample/appraisals/find', function(req, res) {
+  APPRAISAL.find({ }, function(error, data){
+    if(error){
+      res.send(error)
+    } else {
+      res.send(data)
+    }
+  })
+})
+
+app.get('/sample/appraisals/remove', function(req, res) {
+  APPRAISAL.remove({ }, function(error, data){
+    if(error){
+      res.send(error)
+    } else {
+      res.send(data)
+    }
+  })
+})
+
+
+app.get('/sample/appraisals/:domain', function(req, res) {
+  if ('domain' in req.params){
+    const url = 'http://www.estibot.com/api.php?a=get&email=' + process.env.ESTIBOT_USR + '&password=' +
+      process.env.ESTIBOT_PASS + '&c=appraise&t=' + req.params.domain
+    request(url, function (error, response, body) {
+      if (error) {
+        res.send(error)
+      } else {
+        findAppraisal(req.params.domain).then(
+          function( details ){
+            if (details.length < 1) {
+              addAppraisal({
+                name: req.params.domain,
+                meta: JSON.stringify(parser.toJson(body))
+              }).then(
+                function( details ) { res.send(JSON.stringify(details)) },
+                function( error ) { res.send(JSON.stringify(error)) }
+              )
+            } else {
+              res.send("Dupe: " + req.params.domain)
+            }
+          },
+          function( error ){
+            console.log(error)
+            res.send(error)
+          }
+        )
+      }
+    })
+  } else {
+   res.send("No domain in request")
+  }
+})
+
+function findAppraisal(dom){
+  return new Promise(function(resolve, reject) {
+    APPRAISAL.find({ name: dom }, function(error, data){
+      if(error){
+        reject(error)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+function addAppraisal(dom){
+  return new Promise(function(resolve, reject) {
+    (new APPRAISAL(dom)).save( function(error, data){
+      if(error){
+        reject(error)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
 
 //This queries the domain for info
 //app.get('/whois/:domain', function(req, res) {
@@ -125,6 +216,59 @@ app.get('/whois/:domain/find', function(req, res) {
   } else {
     res.send("No domain in request")
   }
+})
+
+/*
+http://domainindex.com/api.php?action=appraise&domain=example.com&key=7b59b0c6-2017-0425-0640-05594cd56368&mode=json
+process.env.DOM_INDEX
+*/
+
+app.get('/appraisals/:domain', function(req, res) {
+  if ('domain' in req.params){
+  // Here is where the domains need to be appraised if they are within the time period
+  console.log(req.params)
+  console.log('http://domainindex.com/api.php?action=appraise&domain=' + req.params.domain + '&mode=json&key=' + process.env.DOM_INDEX)
+  request('http://domainindex.com/api.php?action=appraise&domain=' + req.params.domain + '&mode=json&key=' + process.env.DOM_INDEX, function (error, response, body) {
+    console.log("return")
+    if (error) {
+      res.send(error)
+    } else {
+      res.send(body)
+    }
+  })
+  } else {
+    res.send("No domain in request")
+  }
+})
+
+app.get('/auctions/get', function(req, res) {
+  //For testing purposes, we are setting the exp date 7 days from now
+  const fakeDomains = [
+    'fake.io',
+    'awesome.io',
+    'disney.io',
+    'tables.io',
+    'keyboardcatz.io',
+    'milkshakes.io',
+  ]
+
+  var d = new Date()
+  var day = d.getDay()
+  var diff = d.getDate() - day + (day == 0 ? -6:1)
+  var start  = new Date(d.setDate(diff - 7))
+  var placed  = new Date(d.setDate(diff))
+  var monday  = new Date(d.setDate(diff + 7))
+
+  const fakeBids = [
+    { uuid : 'abc123', bid : 10, placed: placed },
+    { uuid : 'abc124', bid : 50, placed: placed  },
+    { uuid : 'abc123', bid : 100, placed: placed },
+    { uuid : 'abc126', bid : 120, placed: placed },
+    { uuid : 'abc124', bid : 150, placed: placed },
+    { uuid : 'abc125', bid : 200, placed: placed },
+  ]
+
+  res.send(JSON.stringify(fakeDomains.map((dom) => { return { name : dom, start: start, expires : monday, bids : fakeBids } })))
 })
 
 app.get('/auctions/get', function(req, res) {

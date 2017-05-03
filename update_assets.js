@@ -4,10 +4,13 @@ require('dotenv').config()
 const dn = require('dn')
 const request = require('request')
 const DOMAIN = require('./models/domain')
+const APPRAISAL = require('./models/appraisal')
 const mongoose = require('mongoose')
+const parser = require('xml2json')
 
 const dateOpts = { year: '2-digit', month: '2-digit', day: '2-digit' }
 const VOLATILE_LOOKBACK = 90
+const hYear = (365 * 24 * 60 * 60 * 1000) / 2
 
 const sPeriod = new Date()
 sPeriod.setDate(sPeriod.getDate() + parseInt(VOLATILE_LOOKBACK))
@@ -85,6 +88,70 @@ function getDig(domain){
   })
 }
 
+function updateAppraisals(domain){
+  findAppraisal(domain).then(
+    function( details ){
+      const exp = new Date().getTime() - hYear
+      if ( details.length < 1 || ( details.length > 0 && details[0].updated > exp )) {
+        console.log("Updating Domain: " + domain)
+        const url = 'http://www.estibot.com/api.php?a=get&email=' + process.env.ESTIBOT_USR + '&password=' +
+              process.env.ESTIBOT_PASS + '&c=appraise&t=' + domain
+        request(url, function (error, response, body) {
+          if (error) {
+            res.send(error)
+          } else {
+            try {
+              const parsed = parser.toJson(body)
+              addAppraisal({
+                name: domain,
+                meta: JSON.stringify(parsed)
+              }, details).then(
+                function( details ) { console.log("Finished Updating Domain: " + domain) },
+                function( error ) { console.log("Error Updating Domain: " + JSON.stringify(error))  }
+              )
+            } catch(err) {
+              console.log("Error parsing appraisal XML!")
+            }
+          }
+        })
+      } else {
+        console.log("Dupe: " + domain)
+      }
+    },
+    function( error ){
+      console.log(error)
+    }
+  )
+}
+
+function findAppraisal(dom){
+  return new Promise(function(resolve, reject) {
+    APPRAISAL.find({ name: dom }, function(error, data){
+      if(error){
+        reject(error)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
+function addAppraisal(dom, prev){
+  return new Promise(function(resolve, reject) {
+    let appOb = new APPRAISAL(dom)
+    if (typeof prev[0] != 'undefined') {
+      appOb = Object.assign(prev[0], { meta : dom.meta, updated: new Date() })
+    }
+    appOb.save( function(error, data){
+      if(error){
+        reject(error)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+
 function saveDomain(domain){
   return new Promise(function(resolve, reject) {
     findMongo(domain).then(
@@ -93,12 +160,18 @@ function saveDomain(domain){
         const cachExp = (details.length > 0 && ('expires' in details[0] && sPeriod > new Date(details[0].expires)))
         if (!details.length || cachExp){
           console.log("Cache Exp: " + cachExp)
+          updateAppraisals(domain)
           getDig(domain).then(
             function(data){
               addMongo(data, details).then(
                 function(dat){
                   console.log("Saved")
                   console.log(dat)
+                  const exp = new Date(dat.expires)
+                  if (sPeriod >= exp && exp >= new Date()) {
+                    console.log("Updating Appraisal: " + domain)
+                    updateAppraisals(domain)
+                  }
                   resolve(dat)
                 },
                 function(err){ reject(err) }
@@ -124,6 +197,17 @@ function addMongo(dom, prev){
     if (typeof prev[0] != 'undefined') {
       domOb = Object.assign(prev[0], { expires: dom.expires })
     }
+
+    // Here is where the domains need to be appraised if they are within the time period
+//    request('https://wwws.io/api/full/962/' + process.env.DOM_USR + '/' + process.env.DOM_PASS + '/', function (error, response, body) {
+//      console.log("return")
+//      if (error) {
+//        console.log(error)
+//      } else {
+//        saveBatches(body.split(/\r\n|\r|\n/).filter(notWildcard))
+//      }
+//    })
+
     domOb.save( function(error, data){
       if(error){
         reject(error)
@@ -134,4 +218,5 @@ function addMongo(dom, prev){
   })
 }
 
+//updateAppraisals("myelin.io")
 start()

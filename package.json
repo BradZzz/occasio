@@ -100,6 +100,7 @@
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.14.0",
-    "whois-ux": "0.0.2"
+    "whois-ux": "0.0.2",
+    "xml2json": "^0.11.0"
   }
 }
