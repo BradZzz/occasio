@@ -9,11 +9,15 @@ const mongoose = require('mongoose')
 const DOMAIN = require('./models/domain')
 const APPRAISAL = require('./models/appraisal')
 const parser = require('xml2json')
+const NodeCache = require( "node-cache" )
+
 const app = express()
 const PORT = process.env.PORT || 3000
-
 const dateOpts = { year: '2-digit', month: '2-digit', day: '2-digit' }
 const pIncrements = [ 30 , 60 , 90 ]
+
+//The appraisal service only gets updated once a day, so we can set the cache ttl to that amount
+const cache = new NodeCache({ stdTTL: 86400 })
 
 mongoose.connect(process.env.MONGODB)
 
@@ -109,6 +113,45 @@ app.get('/sample/appraisals/:domain', function(req, res) {
     })
   } else {
    res.send("No domain in request")
+  }
+})
+
+app.get('/appraisals/:period', function(req, res) {
+  if ('period' in req.params && pIncrements.indexOf(parseInt(req.params.period)) > -1){
+    cache.get( "appraisals/" + req.params.period, function( error, value ){
+      if( !error ){
+        if(value == undefined){
+          var sPeriod = new Date()
+          sPeriod.setDate(sPeriod.getDate() + parseInt(req.params.period))
+          findMongoL({ "expires" : { "$lte": sPeriod, "$gte": new Date() } }).then(
+            function( details ) {
+              console.log(details.map((deets) => { return { name : deets.name } } ))
+              const list = details.map((deets) => { return { name : deets.name } })
+              APPRAISAL.find(list, function(error, data){
+                if(error){
+                  res.send(JSON.stringify(error))
+                } else {
+                  cache.set( "appraisals/" + req.params.period, JSON.stringify(data), function( error, success ){
+                    if( !error && success ){
+                      res.send(JSON.stringify(data))
+                    } else {
+                      res.send(JSON.stringify(error))
+                    }
+                  })
+                }
+              })
+            },
+            function( error ) { res.send(JSON.stringify(error)) }
+          )
+        } else {
+          res.send(value)
+        }
+      } else {
+        res.send(JSON.stringify(error))
+      }
+    })
+  } else {
+    res.send("Bad period, or no period in request")
   }
 })
 
@@ -239,36 +282,6 @@ app.get('/appraisals/:domain', function(req, res) {
   } else {
     res.send("No domain in request")
   }
-})
-
-app.get('/auctions/get', function(req, res) {
-  //For testing purposes, we are setting the exp date 7 days from now
-  const fakeDomains = [
-    'fake.io',
-    'awesome.io',
-    'disney.io',
-    'tables.io',
-    'keyboardcatz.io',
-    'milkshakes.io',
-  ]
-
-  var d = new Date()
-  var day = d.getDay()
-  var diff = d.getDate() - day + (day == 0 ? -6:1)
-  var start  = new Date(d.setDate(diff - 7))
-  var placed  = new Date(d.setDate(diff))
-  var monday  = new Date(d.setDate(diff + 7))
-
-  const fakeBids = [
-    { uuid : 'abc123', bid : 10, placed: placed },
-    { uuid : 'abc124', bid : 50, placed: placed  },
-    { uuid : 'abc123', bid : 100, placed: placed },
-    { uuid : 'abc126', bid : 120, placed: placed },
-    { uuid : 'abc124', bid : 150, placed: placed },
-    { uuid : 'abc125', bid : 200, placed: placed },
-  ]
-
-  res.send(JSON.stringify(fakeDomains.map((dom) => { return { name : dom, start: start, expires : monday, bids : fakeBids } })))
 })
 
 app.get('/auctions/get', function(req, res) {

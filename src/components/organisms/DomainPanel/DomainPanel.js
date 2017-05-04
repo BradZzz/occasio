@@ -17,6 +17,7 @@ export class DomainPanel extends Component {
   componentDidMount() {
     const { dispatch } = this.props
     dispatch(DomainActions.queryDomains({ period : 30 }))
+    dispatch(DomainActions.queryAppraisals({ period : 30 }))
   }
 
   componentWillReceiveProps(nextProps) {

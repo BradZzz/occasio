@@ -1,10 +1,14 @@
 // @flow
 //The call to pull in the domain list
 export const QUERY_DOMAINS = 'QUERY_DOMAINS'
+export const QUERY_APPRAISALS = 'QUERY_APPRAISALS'
 
 //Intermediaries for the request
 export const REQUEST_DOMAINS = 'REQUEST_DOMAINS'
 export const RECEIVE_DOMAINS = 'RECEIVE_DOMAINS'
+
+export const REQUEST_APPRAISALS = 'REQUEST_APPRAISALS'
+export const RECEIVE_APPRAISALS = 'RECEIVE_APPRAISALS'
 
 //Sorting the domain list
 export const SORT_DOMAIN_NAME = 'SORT_DOMAIN_NAME'
@@ -31,6 +35,28 @@ export function requestDomains(payload) {
 export function receiveDomains(payload) {
   return {
     type: RECEIVE_DOMAINS,
+    payload,
+    receivedAt: Date.now()
+  }
+}
+
+export function queryAppraisals(payload) {
+  return {
+    type: QUERY_APPRAISALS,
+    payload,
+  }
+}
+
+export function requestAppraisals(payload) {
+  return {
+    type: REQUEST_APPRAISALS,
+    payload,
+  }
+}
+
+export function receiveAppraisals(payload) {
+  return {
+    type: RECEIVE_APPRAISALS,
     payload,
     receivedAt: Date.now()
   }

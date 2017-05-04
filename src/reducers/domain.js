@@ -4,13 +4,16 @@ import * as U from "../actions/domain"
 
 const initialState = {
   meta: [],
+  metaApp: [],
   period: 30,
   details: false,
   isFetching: false,
+  isFetchingApp: false,
   specific: "",
   errorMsg: "",
   specObj: "{}",
-  lastFetched: new Date()
+  lastFetched: new Date(),
+  lastFetchedApp: new Date(),
 }
 
 const sortArr = (arr, field, asc = true) => {
@@ -25,7 +28,7 @@ export default handleActions({
   [U.REQUEST_DOMAINS]: (state = { }, action) => ({
     ...state,
     isFetching: true,
-    period: parseInt(action.payload.period),
+    period: 30,
     errorMsg: ""
   }),
   [U.RECEIVE_DOMAINS]: (state = { }, action) => ({
@@ -34,6 +37,16 @@ export default handleActions({
     meta: action.payload,
     errorMsg: "",
     lastFetched: new Date()
+  }),
+  [U.REQUEST_APPRAISALS]: (state = { }, action) => ({
+    ...state,
+    isFetchingApp: true,
+  }),
+  [U.RECEIVE_APPRAISALS]: (state = { }, action) => ({
+    ...state,
+    isFetchingApp: false,
+    metaApp: action.payload,
+    lastFetchedApp: new Date()
   }),
   [U.SORT_DOMAIN_NAME]: (state = { }, action) => ({
     ...state,
