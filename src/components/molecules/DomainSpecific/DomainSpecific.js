@@ -98,14 +98,14 @@ export class DomainSpecific extends Component {
     const { specific, specObj, metaApp } = this.state
     const sObj = JSON.parse(specObj)
     let pulled = this.formatMeta( specific, metaApp )
+    //{ Object.keys(sObj).map(function(s){ return sObj[s] }).map(this.renderKey) }
     return (
       <div className={ styles.root }>
         <h1>{ specific }</h1>
         <div style={{ "width": "220px", "border" : "1px solid black", "margin" : "1em", "padding" : "1em" }}>
-          <div style={{ display: pulled['appraised_value'] ? 'block' : 'none' }}>Appraised Value: { pulled['appraised_value'] }</div>
-          <div style={{ display: pulled['appraised_wholesale_value'] ? 'block' : 'none' }}>Wholesale Value: { pulled['appraised_wholesale_value'] }</div>
+          <div style={{ display: pulled['appraised_value'] ? 'block' : 'none' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
+          <div style={{ display: pulled['appraised_wholesale_value'] ? 'block' : 'none' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
         </div>
-        { Object.keys(sObj).map(function(s){ return sObj[s] }).map(this.renderKey) }
         <div style={{ "overflowY" : "auto", "height" : "300px", "margin" : "1em 0", "overflowWrap" : "break-word" }}>
           { appKys.map((key,idx) => <span key={ idx } className={ styles.appraisal }>{ key }: { pulled[key] }</span>) }
         </div>
