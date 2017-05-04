@@ -6,7 +6,8 @@ const request = require('request')
 const DOMAIN = require('./models/domain')
 const APPRAISAL = require('./models/appraisal')
 const mongoose = require('mongoose')
-const parser = require('xml2json')
+const xml2js = require('xml2js')
+const parser = new xml2js.Parser()
 
 const dateOpts = { year: '2-digit', month: '2-digit', day: '2-digit' }
 const VOLATILE_LOOKBACK = 90
@@ -101,14 +102,26 @@ function updateAppraisals(domain){
             res.send(error)
           } else {
             try {
-              const parsed = parser.toJson(body)
-              addAppraisal({
-                name: domain,
-                meta: JSON.stringify(parsed)
-              }, details).then(
-                function( details ) { console.log("Finished Updating Domain: " + domain) },
-                function( error ) { console.log("Error Updating Domain: " + JSON.stringify(error))  }
-              )
+              parser.parseString(body, function (err, parsed) {
+                console.dir(result);
+                console.log('Done');
+                addAppraisal({
+                  name: domain,
+                  meta: JSON.stringify(parsed)
+                }, details).then(
+                  function( details ) { console.log("Finished Updating Domain: " + domain) },
+                  function( error ) { console.log("Error Updating Domain: " + JSON.stringify(error))  }
+                )
+              })
+//
+//              const parsed = parser.toJson(body)
+//              addAppraisal({
+//                name: domain,
+//                meta: JSON.stringify(parsed)
+//              }, details).then(
+//                function( details ) { console.log("Finished Updating Domain: " + domain) },
+//                function( error ) { console.log("Error Updating Domain: " + JSON.stringify(error))  }
+//              )
             } catch(err) {
               console.log("Error parsing appraisal XML!")
             }

@@ -8,7 +8,9 @@ const dn = require('dn')
 const mongoose = require('mongoose')
 const DOMAIN = require('./models/domain')
 const APPRAISAL = require('./models/appraisal')
-const parser = require('xml2json')
+//const parser = require('xml2json')
+const xml2js = require('xml2js')
+const parser = new xml2js.Parser()
 const NodeCache = require( "node-cache" )
 
 const app = express()
@@ -56,7 +58,9 @@ app.get('/sample/appraisals', function(req, res) {
     if (error) {
       res.send(error)
     } else {
-      res.send(JSON.stringify(parser.toJson(body)))
+      parser.parseString(body, function (err, parsed) {
+        res.send(JSON.stringify(parsed))
+      })
     }
   })
 })
@@ -93,13 +97,15 @@ app.get('/sample/appraisals/:domain', function(req, res) {
         findAppraisal(req.params.domain).then(
           function( details ){
             if (details.length < 1) {
-              addAppraisal({
-                name: req.params.domain,
-                meta: JSON.stringify(parser.toJson(body))
-              }).then(
-                function( details ) { res.send(JSON.stringify(details)) },
-                function( error ) { res.send(JSON.stringify(error)) }
-              )
+              parser.parseString(body, function (err, parsed) {
+                addAppraisal({
+                  name: req.params.domain,
+                  meta: JSON.stringify(parsed)
+                }).then(
+                  function( details ) { res.send(JSON.stringify(details)) },
+                  function( error ) { res.send(JSON.stringify(error)) }
+                )
+              })
             } else {
               res.send("Dupe: " + req.params.domain)
             }
