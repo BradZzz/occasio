@@ -1,8 +1,6 @@
 // @flow
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
-//import * as UserActions from "../../../actions/user"
-import * as DomainActions from "../../../actions/domain"
 import { ActionButton, DomainList, DomainSpecific } from "../../../components/molecules/"
 import styles from "./styles.css"
 
@@ -12,12 +10,6 @@ export class DomainPanel extends Component {
     this.state = {
       details: props.details
     }
-  }
-
-  componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(DomainActions.queryDomains({ period : 30 }))
-//    dispatch(DomainActions.queryAppraisals({ period : 30 }))
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,7 +25,7 @@ export class DomainPanel extends Component {
         <div style={{ display: !this.state.details ? 'block' : 'none' }}>
           <DomainList></DomainList>
         </div>
-        <div style={{ display: this.state.details ? 'block' : 'none' }}>
+        <div style={{ display: this.state.details ? 'block' : 'none', 'overflowY' : 'auto' }}>
           <DomainSpecific></DomainSpecific>
         </div>
       </div>
@@ -43,8 +35,7 @@ export class DomainPanel extends Component {
 }
 
 DomainPanel.propTypes = {
-  details: PropTypes.bool.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  details: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state) {
