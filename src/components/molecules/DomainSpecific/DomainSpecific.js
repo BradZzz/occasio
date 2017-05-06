@@ -26,52 +26,6 @@ export class DomainSpecific extends Component {
     }
   }
 
-//
-//  genEmpty = () => {
-//    let pulled = {}
-//    for (var x in appKys) {
-//      pulled[appKys[x]] = ""
-//    }
-//    return pulled
-//  }
-//
-//  formatMeta = (specific, meta) => {
-//    if (meta !== undefined){
-//      const met = meta.filter(( entry ) => {
-//        if ('name' in entry && entry.name === specific){
-//          return true
-//        }
-//        return false
-//      })
-//      if (met.length > 0) {
-//        const meat = JSON.parse(JSON.parse(met[0].meta)).results.appraisal
-//        console.log("Meat")
-//        console.log(meat)
-//        const copy = this.genCopy(meat)
-//        return copy
-//      } else {
-//        return this.genEmpty()
-//      }
-//    } else {
-//      return this.genEmpty()
-//    }
-//  }
-//
-//  genCopy = (met) => {
-//    let pulled = {}
-//    for (var x in appKys){
-//      pulled[appKys[x]] = ""
-//      if (appKys[x] in met) {
-//        let data = met[appKys[x]]
-//        if ( convKys.indexOf(appKys[x]) > -1 ) {
-//          data = JSON.stringify(data)
-//        }
-//        pulled[appKys[x]] = data
-//      }
-//    }
-//    return pulled
-//  }
-
   componentWillReceiveProps(nextProps) {
     if(JSON.stringify(this.state.specObj) !== JSON.stringify(nextProps.specObj))
     {
@@ -93,12 +47,76 @@ export class DomainSpecific extends Component {
            </div>
   }
 
+  genChartData = (keyword) => {
+    const x = []
+    const y = []
+    console.log("keyword")
+    console.log(keyword)
+    const parts = keyword.trends.split(",")
+    for (var pnt in parts) {
+      if (parts[pnt]) {
+        const formatted = parts[pnt].replace("{","").replace("}","").split(":")
+        x.push(formatted[1] + "/" + formatted[0])
+        y.push(parseInt(formatted[2]))
+      }
+    }
+    console.log(y)
+    return {
+      labels: x,
+      datasets: [{
+        label: keyword.type,
+        fillColor: keyword.type === 'exact' ? "rgba(220,220,220,0.2)" : "rgba(151,187,205,0.2)",
+        strokeColor: keyword.type === 'exact' ? "rgba(220,220,220,1)" : "rgba(151,187,205,1)",
+        pointColor: keyword.type === 'exact' ? "rgba(220,220,220,1)" : "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: keyword.type === 'exact' ? "rgba(220,220,220,1)" : "rgba(151,187,205,1)",
+        data: y
+      }],
+    }
+
+//    return {
+//      labels: ["January", "February", "March", "April", "May", "June", "July"],
+//      datasets: [
+//          {
+//              label: "My First dataset",
+//              fillColor: "rgba(220,220,220,0.2)",
+//              strokeColor: "rgba(220,220,220,1)",
+//              pointColor: "rgba(220,220,220,1)",
+//              pointStrokeColor: "#fff",
+//              pointHighlightFill: "#fff",
+//              pointHighlightStroke: "rgba(220,220,220,1)",
+//              data: rand(32, 100, 7)
+//          },
+//          {
+//              label: "My Second dataset",
+//              fillColor: "rgba(151,187,205,0.2)",
+//              strokeColor: "rgba(151,187,205,1)",
+//              pointColor: "rgba(151,187,205,1)",
+//              pointStrokeColor: "#fff",
+//              pointHighlightFill: "#fff",
+//              pointHighlightStroke: "rgba(151,187,205,1)",
+//              data: rand(32, 100, 7)
+//          }
+//      ]
+//    }
+  }
+
   renderKey = (dom, idx) => {
     return (
       <div key={ idx }>
         <span>{ dom }</span>
       </div>
     )
+  }
+
+  renderChart = (dat, idx) => {
+    const data = this.genChartData(dat)
+    console.log("renderChart")
+    console.log(data)
+    return <div key={idx} style={{ "width" : "100%", "display" : "block" }}>
+             <LineChart data={ data } width="600" height="250"/>
+           </div>
   }
 
   render() {
@@ -109,35 +127,6 @@ export class DomainSpecific extends Component {
       console.log(sObj)
       const pulled = sObj.meta
       console.log( pulled )
-
-      const data = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-          {
-            label: "My First dataset",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-            spanGaps: false,
-          }
-        ]
-      }
-
       let sold = []
       if ('sales_history' in pulled && 'sold' in pulled['sales_history'] && pulled.sales_history.sold.length > 0) {
         sold = pulled.sales_history.sold
@@ -147,13 +136,15 @@ export class DomainSpecific extends Component {
         keywords = pulled.keyword_stats.search
       }
       const keyList = ['language','category','search_results_phrase','pagerank','traffic_estimate','overture_term','word_tracker_term','alexa_rank','alexa_link_popularity']
+//      let chart = <div></div>
+//      if ('keyword_stats_ng' in pulled && 'search' in pulled['keyword_stats_ng'] && pulled.keyword_stats_ng.search.length > 0) {
+//        chart = pulled.keyword_stats_ng.search.map(this.renderChart)
+//      }
       return (
         <div className={ styles.root }>
           <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
           <h1>{ sObj.name }</h1>
-          <div style={{ "width" : "100%", "display" : "block" }}>
-            <LineChart data={data} width="600" height="250"/>
-          </div>
+          { pulled.keyword_stats_ng.search.map(this.renderChart) }
           {
             this.info('Appraisal',
             <div>
