@@ -13,7 +13,7 @@
 }
 
 .lHeader {
-  padding: 1em 0 2em 0 !important;
+  padding: 1em 0 30px 0 !important;
   background: #f44336;
   font-weight: bold;
 }
@@ -32,5 +32,5 @@
 .lItemField {
   margin: auto;
   text-align: start;
-  width: 30%;
+  width: 18%;
 }

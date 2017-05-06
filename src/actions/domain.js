@@ -12,6 +12,7 @@ export const RECEIVE_APPRAISALS = 'RECEIVE_APPRAISALS'
 
 //Sorting the domain list
 export const SORT_DOMAIN_NAME = 'SORT_DOMAIN_NAME'
+export const SORT_DOMAIN_APP = 'SORT_DOMAIN_APP'
 export const SORT_DOMAIN_EXP = 'SORT_DOMAIN_EXP'
 
 //Navigating to info page
@@ -65,6 +66,13 @@ export function receiveAppraisals(payload) {
 export function sortDomName(payload) {
   return {
     type: SORT_DOMAIN_NAME,
+    payload
+  }
+}
+
+export function sortDomApp(payload) {
+  return {
+    type: SORT_DOMAIN_APP,
     payload
   }
 }

@@ -20,23 +20,67 @@ export function* requestD(req) {
   if (((new Date) - lastFetched) < HHOUR || meta.length < 1) {
     yield put( D.requestDomains(req) )
     const msg = yield call(fetchDomains, req)
-    yield put( D.receiveDomains(msg) )
+    const msgApp = yield call(fetchAppraisals, req)
+
+    //Zip here
+//    console.log("pulling meta")
+//    console.log(msg)
+    const mapped = msg.map((domain)=>{
+      const met = msgApp.filter(( entry ) => {
+        if ('name' in entry && 'name' in domain && entry.name === domain.name){
+          return true
+        }
+        return false
+      })
+      if (met.length > 0){
+        const meat = JSON.parse(JSON.parse(met[0].meta)).results.appraisal
+        return Object.assign({}, domain, { meta: meat, value: meat['appraised_value'] })
+      } else {
+        return Object.assign({}, domain, { meta: { 'appraised_value' : 0 }, value: 0 })
+      }
+    })
+//    console.log("finished zipping")
+//    console.log(mapped)
+//    console.log("<---------->")
+
+    //Zip Finished
+    yield put( D.receiveDomains(mapped) )
+    yield put( D.receiveAppraisals(msgApp) )
   }
 }
 
-export function* queryAppraisals(req) {
-  yield takeEvery(D.QUERY_APPRAISALS, requestA)
-}
+//export function* queryAppraisals(req) {
+//  yield takeEvery(D.QUERY_APPRAISALS, requestA)
+//}
 
-export function* requestA(req) {
-  const state = yield select()
-  const { meta, lastFetched } = state.domain
-  if (((new Date) - lastFetched) < HHOUR || meta.length < 1) {
-    yield put( D.requestAppraisals(req) )
-    const msg = yield call(fetchAppraisals, req)
-    yield put( D.receiveAppraisals(msg) )
-  }
-}
+//export function* requestA(req) {
+//  const state = yield select()
+//  const { meta, metaApp, lastFetchedApp } = state.domain
+//  if (((new Date) - lastFetchedApp) < HHOUR || metaApp.length < 1) {
+//    yield put( D.requestAppraisals(req) )
+//    const msg = yield call(fetchAppraisals, req)
+//    const mapped = meta.map((domain)=>{
+//      const met = msg.filter(( entry ) => {
+//        if ('name' in entry && entry.name === name){
+//          return true
+//        }
+//        return false
+//      })
+//      if (met.length > 0){
+//        const meat = JSON.parse(JSON.parse(met[0].meta)).results.appraisal
+//        console.log(Object.assign({}, domain, { meta: meat, value: meat['appraised_value'] }))
+//        return Object.assign({}, domain, { meta: meat, value: meat['appraised_value'] })
+//      } else {
+//        return Object.assign({}, domain, { meta: { 'appraised_value' : 0 }, value: 0 })
+//      }
+//    })
+//    console.log("finished zipping")
+//    console.log(mapped)
+//    console.log("<---------->")
+//    yield put( D.receiveAppraisals(msg) )
+//  }
+//}
+//
 
 export function fetchDomains(req) {
   const { period } = req.payload

@@ -20,69 +20,62 @@ export class DomainSpecific extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      specific: props.specific,
-      specObj: props.specObj,
-      metaApp: props.metaApp,
+      specObj: props.specObj
     }
   }
 
-  genEmpty = () => {
-    let pulled = {}
-    for (var x in appKys) {
-      pulled[appKys[x]] = ""
-    }
-    return pulled
-  }
-
-  formatMeta = (specific, meta) => {
-    if (meta !== undefined){
-      const met = meta.filter(( entry ) => {
-        if ('name' in entry && entry.name === specific){
-          return true
-        }
-        return false
-      })
-      if (met.length > 0) {
-        const meat = JSON.parse(JSON.parse(met[0].meta)).results.appraisal
-        console.log("Meat")
-        console.log(meat)
-        const copy = this.genCopy(meat)
-        return copy
-      } else {
-        return this.genEmpty()
-      }
-    } else {
-      return this.genEmpty()
-    }
-  }
-
-  genCopy = (met) => {
-    let pulled = {}
-    for (var x in appKys){
-      pulled[appKys[x]] = ""
-      if (appKys[x] in met) {
-        let data = met[appKys[x]]
-        if ( convKys.indexOf(appKys[x]) > -1 ) {
-          data = JSON.stringify(data)
-        }
-        pulled[appKys[x]] = data
-      }
-    }
-    return pulled
-  }
+//
+//  genEmpty = () => {
+//    let pulled = {}
+//    for (var x in appKys) {
+//      pulled[appKys[x]] = ""
+//    }
+//    return pulled
+//  }
+//
+//  formatMeta = (specific, meta) => {
+//    if (meta !== undefined){
+//      const met = meta.filter(( entry ) => {
+//        if ('name' in entry && entry.name === specific){
+//          return true
+//        }
+//        return false
+//      })
+//      if (met.length > 0) {
+//        const meat = JSON.parse(JSON.parse(met[0].meta)).results.appraisal
+//        console.log("Meat")
+//        console.log(meat)
+//        const copy = this.genCopy(meat)
+//        return copy
+//      } else {
+//        return this.genEmpty()
+//      }
+//    } else {
+//      return this.genEmpty()
+//    }
+//  }
+//
+//  genCopy = (met) => {
+//    let pulled = {}
+//    for (var x in appKys){
+//      pulled[appKys[x]] = ""
+//      if (appKys[x] in met) {
+//        let data = met[appKys[x]]
+//        if ( convKys.indexOf(appKys[x]) > -1 ) {
+//          data = JSON.stringify(data)
+//        }
+//        pulled[appKys[x]] = data
+//      }
+//    }
+//    return pulled
+//  }
 
   componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.state.specific) !== JSON.stringify(nextProps.specific))
-    {
-      this.setState({ specific: nextProps.specific })
-    }
     if(JSON.stringify(this.state.specObj) !== JSON.stringify(nextProps.specObj))
     {
+      console.log("Spec Changed!")
+      console.log(nextProps.specObj)
       this.setState({ specObj: nextProps.specObj })
-    }
-    if(JSON.stringify(this.state.metaApp) !== JSON.stringify(nextProps.metaApp))
-    {
-      this.setState({ metaApp: nextProps.metaApp })
     }
   }
 
@@ -95,38 +88,37 @@ export class DomainSpecific extends Component {
   }
 
   render() {
-    const { specific, specObj, metaApp } = this.state
-    const sObj = JSON.parse(specObj)
-    let pulled = this.formatMeta( specific, metaApp )
-    //{ Object.keys(sObj).map(function(s){ return sObj[s] }).map(this.renderKey) }
-    return (
-      <div className={ styles.root }>
-        <h1>{ specific }</h1>
-        <div style={{ "width": "220px", "border" : "1px solid black", "margin" : "1em", "padding" : "1em" }}>
-          <div style={{ display: pulled['appraised_value'] ? 'block' : 'none' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
-          <div style={{ display: pulled['appraised_wholesale_value'] ? 'block' : 'none' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
+    const { specObj } = this.state
+    console.log(specObj)
+    if (specObj !== undefined && 'name' in JSON.parse(specObj)){
+      const sObj = JSON.parse(specObj)
+      console.log(sObj)
+      const pulled = sObj.meta
+      console.log( pulled )
+      return (
+        <div className={ styles.root }>
+          <h1>{ sObj.name }</h1>
+          <div style={{ "width": "220px", "border" : "1px solid black", "margin" : "1em", "padding" : "1em" }}>
+            <div style={{ display: pulled['appraised_value'] ? 'block' : 'none' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
+            <div style={{ display: pulled['appraised_wholesale_value'] ? 'block' : 'none' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
+          </div>
+          <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
         </div>
-        <div style={{ "overflowY" : "auto", "height" : "300px", "margin" : "1em 0", "overflowWrap" : "break-word" }}>
-          { appKys.map((key,idx) => <span key={ idx } className={ styles.appraisal }>{ key }: { pulled[key] }</span>) }
-        </div>
-        <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
-      </div>
-    )
+      )
+    } else {
+      return <div>error</div>
+    }
   }
 }
 
 DomainSpecific.propTypes = {
-  specific: PropTypes.string.isRequired,
-  metaApp: PropTypes.array.isRequired,
-  specObj: PropTypes.string.isRequired,
+  specObj: PropTypes.string,
 }
 
 function mapStateToProps(state) {
-  const { specific, specObj, metaApp } = state.domain
+  const { specObj } = state.domain
   return {
-    specific,
     specObj,
-    metaApp,
   }
 }
 

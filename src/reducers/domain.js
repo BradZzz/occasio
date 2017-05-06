@@ -24,6 +24,15 @@ const sortArr = (arr, field, asc = true) => {
   })
 }
 
+const sortArrNum = (arr, field, asc = true) => {
+  return arr.sort((a, b) => {
+//    if(a[field] < b[field]) { return asc ? -1 : 1 }
+//    if(a[field] > b[field]) { return asc ? 1 : -1 }
+//    return 0
+    return asc ? a[field] - b[field] : b[field] - a[field]
+  })
+}
+
 export default handleActions({
   [U.REQUEST_DOMAINS]: (state = { }, action) => ({
     ...state,
@@ -51,6 +60,10 @@ export default handleActions({
   [U.SORT_DOMAIN_NAME]: (state = { }, action) => ({
     ...state,
     meta: sortArr(state.meta, 'name', action.payload.asc)
+  }),
+  [U.SORT_DOMAIN_APP]: (state = { }, action) => ({
+    ...state,
+    meta: sortArrNum(state.meta, 'value', action.payload.asc)
   }),
   [U.SORT_DOMAIN_EXP]: (state = { }, action) => ({
     ...state,
