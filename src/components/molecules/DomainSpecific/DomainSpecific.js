@@ -5,7 +5,12 @@ import { BackButton } from "../../../components/molecules/"
 import styles from "./styles.css"
 import * as WhoisActions from "../../../actions/whois"
 import * as Chart from "react-chartjs"
-var LineChart = Chart.Line
+const LineChart = Chart.Line
+const options = {
+  scaleShowGridLines : false,
+  scaleShowLabels: false,
+  scaleFontSize: 0,
+}
 
 const buttonStyle = { }
 const appKys = ['appraised_value','appraised_wholesale_value','overture_sld','language','category','alexa_link_popularity','alexa_rank',
@@ -32,6 +37,7 @@ export class DomainSpecific extends Component {
       console.log("Spec Changed!")
       console.log(nextProps.specObj)
       this.setState({ specObj: nextProps.specObj })
+
     }
   }
 
@@ -73,32 +79,6 @@ export class DomainSpecific extends Component {
         data: y
       }],
     }
-
-//    return {
-//      labels: ["January", "February", "March", "April", "May", "June", "July"],
-//      datasets: [
-//          {
-//              label: "My First dataset",
-//              fillColor: "rgba(220,220,220,0.2)",
-//              strokeColor: "rgba(220,220,220,1)",
-//              pointColor: "rgba(220,220,220,1)",
-//              pointStrokeColor: "#fff",
-//              pointHighlightFill: "#fff",
-//              pointHighlightStroke: "rgba(220,220,220,1)",
-//              data: rand(32, 100, 7)
-//          },
-//          {
-//              label: "My Second dataset",
-//              fillColor: "rgba(151,187,205,0.2)",
-//              strokeColor: "rgba(151,187,205,1)",
-//              pointColor: "rgba(151,187,205,1)",
-//              pointStrokeColor: "#fff",
-//              pointHighlightFill: "#fff",
-//              pointHighlightStroke: "rgba(151,187,205,1)",
-//              data: rand(32, 100, 7)
-//          }
-//      ]
-//    }
   }
 
   renderKey = (dom, idx) => {
@@ -113,15 +93,10 @@ export class DomainSpecific extends Component {
     const data = this.genChartData(dat)
     console.log("renderChart")
     console.log(data)
-    const options = {
-      scaleShowGridLines : false,
-      scaleShowLabels: false,
-      scaleFontSize: 0,
-    }
     return <div key={idx} style={{ "width" : "45%", "display" : "block", "float" : "left" }}>
              <h3>Search Stats ( { dat.type } )</h3>
-             <LineChart data={ data } options={ options } width="450" height="250"
-                style={{ "backgroundColor" : "rgba(0,0,0,.05)", "borderRadius" : "8px" }}/>
+             <LineChart key={idx} data={ data } options={ options } width="450" height="250"
+                style={{ "backgroundColor" : "rgba(0,0,0,.05)", "borderRadius" : "8px" }} redraw />
            </div>
   }
 

@@ -8,6 +8,7 @@ import { CenterBox } from "../../../components/molecules/"
 import { LoginPanel, DomainPanel } from "../../../components/organisms/"
 import TextField from 'material-ui/TextField';
 import type { Dispatch } from "redux"
+import * as DomainActions from "../../../actions/domain"
 
 export class IndexPage extends Component {
   constructor(props) {
@@ -16,6 +17,8 @@ export class IndexPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.signedIn) {
+      const { dispatch } = this.props
+      dispatch(DomainActions.queryDomains({ period : 30 }))
       this.props.router.push('/domains')
     }
   }
@@ -31,6 +34,7 @@ export class IndexPage extends Component {
 
 IndexPage.propTypes = {
   signedIn: PropTypes.bool.isRequired,
+  dispatch: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

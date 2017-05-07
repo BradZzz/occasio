@@ -32,15 +32,32 @@ export class DomainPanel extends Component {
         <div style={{ 'display' : isFetching ? 'block' : 'none' }}>
           <FoldingCube style={{ 'marginTop' : '5em' }}></FoldingCube>
         </div>
-        <div style={{ display: !details && !isFetching ? 'block' : 'none' }}>
+        <div style={{ visibility: !details && !isFetching ? 'visible' : 'hidden' }}>
           <DomainList></DomainList>
         </div>
-        <div style={{ display: details && !isFetching ? 'block' : 'none', 'overflowY' : 'auto' }}>
+        <div style={{ visibility: details && !isFetching ? 'visible' : 'hidden', 'overflowY' : 'auto' }}>
           <DomainSpecific></DomainSpecific>
         </div>
       </div>
     )
   }
+
+//  render() {
+//    const { details, isFetching } = this.state
+//    return (
+//      <div className={styles.root + ' columnFlex'} >
+//        <div style={{ 'display' : isFetching ? 'block' : 'none' }}>
+//          <FoldingCube style={{ 'marginTop' : '5em' }}></FoldingCube>
+//        </div>
+//        <div style={{ display: !details && !isFetching ? 'block' : 'none' }}>
+//          <DomainList></DomainList>
+//        </div>
+//        <div style={{ display: details && !isFetching ? 'block' : 'none', 'overflowY' : 'auto' }}>
+//          <DomainSpecific></DomainSpecific>
+//        </div>
+//      </div>
+//    )
+//  }
 
 }
 

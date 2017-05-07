@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import { DomainPanel } from "../../../components/organisms/"
-import * as DomainActions from "../../../actions/domain"
+//import * as DomainActions from "../../../actions/domain"
 import styles from "./styles.css"
 
 export class DomainPage extends Component {
@@ -10,10 +10,10 @@ export class DomainPage extends Component {
     super(props)
   }
 
-  componentDidMount() {
-    const { dispatch } = this.props
-    dispatch(DomainActions.queryDomains({ period : 30 }))
-  }
+//  componentDidMount() {
+//    const { dispatch } = this.props
+//    dispatch(DomainActions.queryDomains({ period : 30 }))
+//  }
 
   render() {
     return (
