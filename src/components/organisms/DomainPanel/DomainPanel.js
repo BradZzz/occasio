@@ -1,6 +1,7 @@
 // @flow
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
+import { FoldingCube } from "../../../components/atoms/"
 import { ActionButton, DomainList, DomainSpecific } from "../../../components/molecules/"
 import styles from "./styles.css"
 
@@ -8,7 +9,8 @@ export class DomainPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      details: props.details
+      details: props.details,
+      isFetching: props.isFetching
     }
   }
 
@@ -17,15 +19,23 @@ export class DomainPanel extends Component {
     {
       this.setState({ details: nextProps.details })
     }
+    if(JSON.stringify(this.state.isFetching) !== JSON.stringify(nextProps.isFetching))
+    {
+      this.setState({ isFetching: nextProps.isFetching })
+    }
   }
 
   render() {
+    const { details, isFetching } = this.state
     return (
       <div className={styles.root + ' columnFlex'} >
-        <div style={{ display: !this.state.details ? 'block' : 'none' }}>
+        <div style={{ 'display' : isFetching ? 'block' : 'none' }}>
+          <FoldingCube style={{ 'marginTop' : '5em' }}></FoldingCube>
+        </div>
+        <div style={{ display: !details && !isFetching ? 'block' : 'none' }}>
           <DomainList></DomainList>
         </div>
-        <div style={{ display: this.state.details ? 'block' : 'none', 'overflowY' : 'auto' }}>
+        <div style={{ display: details && !isFetching ? 'block' : 'none', 'overflowY' : 'auto' }}>
           <DomainSpecific></DomainSpecific>
         </div>
       </div>
@@ -35,13 +45,15 @@ export class DomainPanel extends Component {
 }
 
 DomainPanel.propTypes = {
-  details: PropTypes.bool.isRequired
+  details: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired
 }
 
 function mapStateToProps(state) {
-  const { details } = state.domain
+  const { details, isFetching } = state.domain
   return {
     details,
+    isFetching,
   }
 }
 
