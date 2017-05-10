@@ -37,10 +37,16 @@ export class AuctionList extends Component {
   renderField = (dom, idx) => {
     const d = new Date(dom.expires)
     const formDate = (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear()
-    let top = { bid : 45, uuid : "testUUID" }
-    if (dom.bids.length > 0) {
-      top = dom.bids[dom.bids.length - 1]
+//    let top = { bid : 45, uuid : "testUUID" }
+//    if (dom.bids.length > 0) {
+//      top = dom.bids[dom.bids.length - 1]
+//    }
+    const { bidmap } = this.props
+    let top = { bid : dom.minimum }
+    if ("_id" in dom && dom._id in bidmap) {
+      top = { bid : Math.max.apply( Math, bidmap[dom._id].map(function(o){ return o.amount }) ) }
     }
+
     return (
       <div className={ styles.lItem + ' rowFlex' } key={ idx }>
         <div className={ styles.lItemField }>{dom.name}</div>
@@ -79,14 +85,17 @@ export class AuctionList extends Component {
 }
 
 AuctionList.propTypes = {
+  bidmap: PropTypes.object.isRequired,
   isFetching: PropTypes.bool.isRequired,
   meta: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
+  const { meta : bidmap } = state.bids
   const { isFetching, meta } = state.auction
   return {
+    bidmap,
     isFetching,
     meta,
   }

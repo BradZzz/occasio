@@ -9,6 +9,7 @@ import { LoginPanel, DomainPanel } from "../../../components/organisms/"
 import TextField from 'material-ui/TextField';
 import type { Dispatch } from "redux"
 import * as DomainActions from "../../../actions/domain"
+import * as BidActions from "../../../actions/bids"
 
 export class IndexPage extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export class IndexPage extends Component {
     if (nextProps.signedIn) {
       const { dispatch } = this.props
       dispatch(DomainActions.queryDomains({ period : 30 }))
+      dispatch(BidActions.queryBids({ }))
       this.props.router.push('/domains')
     }
   }

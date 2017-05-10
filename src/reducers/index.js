@@ -6,6 +6,7 @@ import user from "./user";
 import domain from "./domain";
 import auction from "./auction";
 import whois from "./whois";
+import bids from "./bids";
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   user,
   domain,
   auction,
-  whois
+  whois,
+  bids
 });
 
 export default rootReducer;

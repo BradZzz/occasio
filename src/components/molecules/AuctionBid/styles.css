@@ -4,6 +4,20 @@
   margin: 1em;
 }
 
+.flexR {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexC {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
 .bids {
   border: 1px solid #111;
   margin: 1em;

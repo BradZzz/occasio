@@ -9,6 +9,8 @@ const mongoose = require('mongoose')
 const DOMAIN = require('./models/domain')
 const AUCTION = require('./models/auction')
 const APPRAISAL = require('./models/appraisal')
+const BIDS = require('./models/bids')
+
 const bodyParser = require('body-parser')
 //const parser = require('xml2json')
 const xml2js = require('xml2js')
@@ -225,36 +227,10 @@ app.get('/whois/:domain', function(req, res) {
 
 app.get('/whois/:domain/save', function(req, res) {
   if ('domain' in req.params){
-
     saveDomain(req.params.domain).then(
       function( details ) { res.send(JSON.stringify(details)) },
       function( error ) { res.send(JSON.stringify(error)) }
     )
-//    whois.whois(req.params.domain, function (error, data){
-//      if (error) {
-//        res.send(error)
-//      } else {
-//        findMongo(req.params.domain).then(
-//          function( details ) {
-//            console.log(details)
-//            if ( !details.length ) {
-//              addMongo({
-//                name: req.params.domain,
-//                status: data.Status,
-//                expires: data.Expiry,
-//                meta: JSON.stringify(data),
-//              }).then(
-//                function( details ) { res.send(JSON.stringify(details)) },
-//                function( error ) { res.send(JSON.stringify(error)) }
-//              )
-//            } else {
-//              res.send(JSON.stringify({ error: "dupe" }))
-//            }
-//          },
-//          function( error ) { res.send(JSON.stringify(error)) }
-//        )
-//      }
-//    })
   } else {
     res.send("No domain in request")
   }
@@ -294,43 +270,45 @@ app.get('/appraisals/:domain', function(req, res) {
   }
 })
 
-app.get('/auctions/get', function(req, res) {
-  //For testing purposes, we are setting the exp date 7 days from now
-//  const fakeDomains = [
-//    'fake.io',
-//    'awesome.io',
-//    'disney.io',
-//    'tables.io',
-//    'keyboardcatz.io',
-//    'milkshakes.io',
-//  ]
-//
-//  var d = new Date()
-//  var day = d.getDay()
-//  var diff = d.getDate() - day + (day == 0 ? -6:1)
-//  const diffy = new Date(d.setDate(diff))
-//  console.log(diffy)
-//
-//  var start = new Date(diffy.getFullYear(), diffy.getMonth(), diffy.getDay(), 0, 0, 0, 0)
-//  var placed  = new Date(d.setDate(diff + 1))
-//  var monday  = new Date(diffy.getFullYear(), diffy.getMonth(), diffy.getDay() + 14, 0, 0, 0, 0)
-//
-//  const fakeBids = [
-//    { uuid : 'abc123', bid : 10, placed: placed },
-//    { uuid : 'abc124', bid : 50, placed: placed  },
-//    { uuid : 'abc123', bid : 100, placed: placed },
-//    { uuid : 'abc126', bid : 120, placed: placed },
-//    { uuid : 'abc124', bid : 150, placed: placed },
-//    { uuid : 'abc125', bid : 200, placed: placed },
-//  ]
-//
-//  res.send(JSON.stringify(fakeDomains.map((dom) => { return { name : dom, start: start, expires : monday, bids : fakeBids } })))
+app.get('/bids/get', function(req, res) {
+  BIDS.find({ }, function(error, data){
+    if(error){
+      res.send(JSON.stringify(error))
+    } else {
+      res.send(JSON.stringify(data))
+    }
+  })
+})
 
+app.post('/bids/post', function(req, res) {
+  console.log(req.body)
+  if ('body' in req && 'domID' in req.body && 'usrID' in req.body && 'amount' in req.body) {
+    BIDS.find({domID : req.body.domID}).sort({amount : -1}).limit(1).exec(function(err, top){
+       if (err) {return res.send({ status: "Error", msg: err })}
+       console.log("top bid")
+       console.log(top)
+       if ( top.length == 0 || (top[0].amount < req.body.amount )) {
+         (new BIDS(req.body)).save( function(error, data){
+           if(error){
+             res.send({ status: "Error", msg: error })
+           } else {
+             res.send({ status: "Success", msg: data })
+           }
+         })
+       } else {
+         res.send({ status: "Error", msg: "Error validating bid" })
+       }
+    })
+  } else {
+    res.send({ status: "Error", msg: "Invalid Post Request" })
+  }
+})
+
+app.get('/auctions/get', function(req, res) {
   findAuctionL({ "expires" : { "$gte": new Date() }/*, start : { }*/ }).then(
     function( details ) { res.send(JSON.stringify(details)) },
     function( error ) { res.send(JSON.stringify(error)) }
   )
-
 })
 
 function findAuctionL(query){
@@ -374,16 +352,16 @@ app.post('/auctions/post', function(req, res) {
   }
 })
 
-app.get('/auctions/removeall', function(req, res) {
-  AUCTION.remove({}, function(error){
-    if(error){
-      return res.send(error)
-    }
-    else{
-      return res.send("done")
-    }
-  })
-})
+//app.get('/auctions/removeall', function(req, res) {
+//  AUCTION.remove({}, function(error){
+//    if(error){
+//      return res.send(error)
+//    }
+//    else{
+//      return res.send("done")
+//    }
+//  })
+//})
 
 function addAuction(dom){
   return new Promise(function(resolve, reject) {

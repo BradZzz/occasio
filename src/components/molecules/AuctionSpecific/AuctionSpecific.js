@@ -14,11 +14,6 @@ export class AuctionSpecific extends Component {
 
   render() {
     const { specific } = this.props
-    let top = {}
-    if (specific.bids.length > 0) {
-      top = specific.bids[specific.bids.length - 1]
-    }
-
     return (
       <div className={ styles.root }>
         <div style={{ 'marginBottom': '1em' }}>
@@ -28,11 +23,9 @@ export class AuctionSpecific extends Component {
         <div style={{ width : "30%", float : "left" }} className={ styles.flexR }>
           <AuctionImg></AuctionImg>
         </div>
-        <div style={{ width : "50%", float : "left", height : "250px", position : "relative" }} className={ styles.flexC }>
+        <div style={{ 'border' : '1px solid #000', padding : '10px', width : "50%", float : "left", height : "250px", position : "relative" }} className={ styles.flexC }>
           <Countdown date={ specific.expires } style={{ 'width': '95%' }}></Countdown>
-          <div style={{ 'width': '100%', marginBottom: 1em }}>{ specific.message }</div>
-          <div style={{ 'width': '100%', marginBottom: 1em }}>Current: { specific.minimum }</div>
-          <div style={{ 'width': '100%', marginBottom: 1em }}>Bids: { specific.bids.length }</div>
+          <div style={{ 'width': '100%', marginBottom: ".5em" }}>{ specific.message }</div>
           <div style={{ "position" : "absolute", "bottom" : "1em" }}>
             <AuctionBidButton>Place Bid</AuctionBidButton>
           </div>

@@ -1,7 +1,7 @@
 // @flow
-import React, { Component, PropTypes } from "react";
+import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
-import TextField from 'material-ui/TextField';
+import TextField from 'material-ui/TextField'
 import { CreateAuctionButton } from "../../molecules/"
 import * as AuctionActions from "../../../actions/auction"
 import { Button } from "../../atoms/"

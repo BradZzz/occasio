@@ -8,7 +8,6 @@ var auctionSchema = new mongoose.Schema({
   minimum:  { type: Number, default: 45 },
   start:    { type: Date, required: true },
   expires:  { type: Date, required: true },
-  bids:     [],
   created:  { type: Date, default: Date.now },
   __v:      { type: Number, select: false },
 })
