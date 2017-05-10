@@ -37,13 +37,15 @@ export class AuctionList extends Component {
   renderField = (dom, idx) => {
     const d = new Date(dom.expires)
     const formDate = (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear()
-    const top = dom.bids[dom.bids.length - 1]
-
+    let top = { bid : 45, uuid : "testUUID" }
+    if (dom.bids.length > 0) {
+      top = dom.bids[dom.bids.length - 1]
+    }
     return (
       <div className={ styles.lItem + ' rowFlex' } key={ idx }>
         <div className={ styles.lItemField }>{dom.name}</div>
         <div className={ styles.lItemField }>{formDate}</div>
-        <div className={ styles.lItemField }>{top.bid}</div>
+        <div className={ styles.lItemField }>${top.bid}</div>
         <div className={ styles.lItemField }>
           <ActionButton redirect='auction' domain={ dom } style={ buttonStyle }>info</ActionButton>
           <ActionButton redirect='auction' domain={ dom } style={ buttonStyle }>watch</ActionButton>

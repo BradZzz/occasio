@@ -6,6 +6,11 @@ export const QUERY_AUCTIONS = 'QUERY_AUCTIONS'
 export const REQUEST_AUCTIONS = 'REQUEST_AUCTIONS'
 export const RECEIVE_AUCTIONS = 'RECEIVE_AUCTIONS'
 
+export const QUERY_CREATEAUCTION = 'QUERY_CREATEAUCTION'
+
+export const REQUEST_CREATEAUCTION = 'REQUEST_CREATEAUCTION'
+export const RECEIVE_CREATEAUCTION = 'RECEIVE_CREATEAUCTION'
+
 //Sorting the auction list
 export const SORT_AUCTIONS_NAME = 'SORT_AUCTIONS_NAME'
 export const SORT_AUCTIONS_EXP = 'SORT_AUCTIONS_EXP'
@@ -34,6 +39,28 @@ export function requestAuctions(payload) {
 export function receiveAuctions(payload) {
   return {
     type: RECEIVE_AUCTIONS,
+    payload,
+    receivedAt: Date.now()
+  }
+}
+
+export function queryCreateAuction(payload) {
+  return {
+    type: QUERY_CREATEAUCTION,
+    payload,
+  }
+}
+
+export function requestCreateAuction(payload) {
+  return {
+    type: REQUEST_CREATEAUCTION,
+    payload,
+  }
+}
+
+export function receiveCreateAuction(payload) {
+  return {
+    type: RECEIVE_CREATEAUCTION,
     payload,
     receivedAt: Date.now()
   }

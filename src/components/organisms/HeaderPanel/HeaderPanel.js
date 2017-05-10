@@ -26,7 +26,7 @@ const nameStyle = {
 const buttonStyle = {
   display: 'inline-flex',
   position: 'absolute',
-  margin: '.05em 0 0 1em',
+  margin: '.05em 0 0 0',
 }
 
 export class HeaderPanel extends Component {
@@ -58,8 +58,10 @@ export class HeaderPanel extends Component {
         </div>
         <CenterBox align="right" height="50px">
           <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
-            <UsrImgBox style={ imgStyle }></UsrImgBox>
-            <Name style={ nameStyle }></Name>
+            <div style={{ "cursor": "pointer", "width" : "210px", "display" : "inline-block" }} onClick={ () => browserHistory.push('/profile') }>
+              <UsrImgBox style={ imgStyle }></UsrImgBox>
+              <Name style={ nameStyle }></Name>
+            </div>
             <LogoutButton style={ buttonStyle }></LogoutButton>
           </div>
         </CenterBox>

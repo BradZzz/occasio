@@ -6,8 +6,10 @@ const initialState = {
   meta: [],
   details: false,
   isFetching: false,
+  isFetchingAuctions: false,
   bidding: false,
   specific: { name: '', expires: '', bids: [{ uuid : '', bid : 0, placed: '' }] },
+  auctionMsg: { status: "", msg: "" },
   errorMsg: "",
 }
 
@@ -31,6 +33,15 @@ export default handleActions({
     isFetching: false,
     meta: action.payload,
     errorMsg: ""
+  }),
+  [U.REQUEST_CREATEAUCTION]: (state = { }, action) => ({
+    ...state,
+    isFetchingAuctions: true,
+  }),
+  [U.RECEIVE_CREATEAUCTION]: (state = { }, action) => ({
+    ...state,
+    isFetchingAuctions: false,
+    auctionMsg: action.payload,
   }),
   [U.SORT_AUCTIONS_NAME]: (state = { }, action) => ({
     ...state,

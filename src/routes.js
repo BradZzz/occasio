@@ -6,6 +6,7 @@ import {
   IndexPage,
   DomainPage,
   AuctionPage,
+  ProfilePage,
 } from "./containers/pages/";
 
 import type { Store } from "redux";
@@ -14,10 +15,11 @@ import type { Store } from "redux";
 /* eslint-disable no-unused-vars, arrow-body-style */
 const getRoutes = (store: Store<*, *>) => {
   return (
-    <Route path="/" component={CoreLayout}>
-      <IndexRoute component={IndexPage} />
-      <Route path="/domains" component={DomainPage} />
-      <Route path="/auctions" component={AuctionPage} />
+    <Route path="/" component={ CoreLayout }>
+      <IndexRoute component={ IndexPage } />
+      <Route path="/domains" component={ DomainPage } />
+      <Route path="/auctions" component={ AuctionPage } />
+      <Route path="/profile" component={ ProfilePage } />
     </Route>
   );
 };

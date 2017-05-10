@@ -1,0 +1,7 @@
+@import "variables.css";
+
+.root {
+  margin: 1em;
+  border: 1px solid black;
+  padding: 1em;
+}

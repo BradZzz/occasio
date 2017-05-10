@@ -5,11 +5,14 @@ class Countdown extends Component {
   constructor(props) {
     super(props)
 
+    const exp = new Date(props.date);
+
     this.state = {
       days: 0,
       hours: 0,
       min: 0,
       sec: 0,
+      millisec: 0,
       style: props.style,
     }
   }

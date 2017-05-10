@@ -9,16 +9,26 @@ const buttonStyle = { }
 export class AuctionBid extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      specific : props.specific,
+      disclaimer : "Be careful before clicking the button below. All bids are tied to social accounts and legally binding. " +
+        "For questions/concerns feel free to review our terms and conditions located here."
+    }
   }
 
   render() {
-    const { specific } = this.props
+    const { specific, disclaimer  } = this.state
     const top = specific.bids[specific.bids.length - 1]
 
     return (
       <div className={ styles.root }>
-        <div>Bid</div>
         <BackButton redirect="auction_spec" style={ buttonStyle }>Back</BackButton>
+        <div>Bid</div>
+
+        <div>
+          { disclaimer }
+        </div>
+        <BackButton redirect="auction_spec" style={ buttonStyle }>Place Bid</BackButton>
       </div>
     )
   }
