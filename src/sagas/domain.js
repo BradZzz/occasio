@@ -21,10 +21,6 @@ export function* requestD(req) {
     yield put( D.requestDomains(req) )
     const msg = yield call(fetchDomains, req)
     const msgApp = yield call(fetchAppraisals, req)
-
-    //Zip here
-//    console.log("pulling meta")
-//    console.log(msg)
     const mapped = msg.map((domain)=>{
       const met = msgApp.filter(( entry ) => {
         if ('name' in entry && 'name' in domain && entry.name === domain.name){
@@ -39,11 +35,6 @@ export function* requestD(req) {
         return Object.assign({}, domain, { meta: { 'appraised_value' : 0 }, value: 0 })
       }
     })
-//    console.log("finished zipping")
-//    console.log(mapped)
-//    console.log("<---------->")
-
-    //Zip Finished
     yield put( D.receiveDomains(mapped) )
     yield put( D.receiveAppraisals(msgApp) )
   }
@@ -84,7 +75,7 @@ export function* requestD(req) {
 
 export function fetchDomains(req) {
   const { period } = req.payload
-  return fetch('/list/30').then(function(response) {
+  return fetch('/list/' + period).then(function(response) {
     if (response.status >= 400) {
       console.log("Bad response from server: " + response.status)
       return []

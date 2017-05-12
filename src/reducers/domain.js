@@ -5,7 +5,7 @@ import * as U from "../actions/domain"
 const initialState = {
   meta: [],
   metaApp: [],
-  period: 30,
+  period: 90,
   details: false,
   isFetching: false,
   isFetchingApp: false,
@@ -37,7 +37,7 @@ export default handleActions({
   [U.REQUEST_DOMAINS]: (state = { }, action) => ({
     ...state,
     isFetching: true,
-    period: 30,
+    period: action.payload.period,
     errorMsg: ""
   }),
   [U.RECEIVE_DOMAINS]: (state = { }, action) => ({

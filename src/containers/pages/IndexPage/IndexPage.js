@@ -19,7 +19,7 @@ export class IndexPage extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.signedIn) {
       const { dispatch } = this.props
-      dispatch(DomainActions.queryDomains({ period : 30 }))
+      dispatch(DomainActions.queryDomains({ period : 90 }))
       dispatch(BidActions.queryBids({ }))
       this.props.router.push('/domains')
     }
