@@ -8,7 +8,6 @@ sock.settimeout(60)  # regular timeout
 sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem",
                        server_side=False,
                        cert_reqs=ssl.CERT_REQUIRED,
-                       ca_certs="root.pem",
-                       ciphers='AES256-SHA')
+                       ca_certs="/home/bitnami/occasio/python2713/lib/python2.7/site-packages/certifi/cacert.pem")
 
 sock.connect(('ote.nic.io', 700))
