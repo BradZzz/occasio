@@ -5,7 +5,7 @@ import socket, ssl
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.settimeout(60)  # regular timeout
 
-sock = ssl.wrap_socket(sock, "occasio.key", "cacert.pem",
+sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem",
                        server_side=False,
                        cert_reqs=ssl.CERT_REQUIRED,
                        ca_certs="root.pem",
