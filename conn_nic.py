@@ -29,7 +29,7 @@
 
 from eppy.client import EppClient
 
-client = EppClient(ssl_keyfile='occasio.key', ssl_certfile='cacert.pem')
+client = EppClient(ssl_keyfile='occasio.key', ssl_certfile='cacert.pem', ssl_cacerts='/home/bitnami/occasio/python2713/lib/python2.7/site-packages/certifi/cacert.pem')
 client.connect('ote.nic.io')
 resp = client.login('NIC-1253', ".[<2&q'xKn9NMdD:")
 
