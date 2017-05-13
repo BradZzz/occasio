@@ -58,6 +58,8 @@ try:
   #conn.connect((HOST, PORT))
   sock.connect(('ote.nic.io', 700))
   handle(sock)
+  handle(sock)
+  handle(sock)
 finally:
   sock.close()
 
