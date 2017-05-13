@@ -43,6 +43,8 @@ def login(conn):
               <objURI>urn:ietf:params:xml:ns:domain-1.0</objURI>
               <objURI>urn:ietf:params:xml:ns:contact-1.0</objURI>
               <objURI>urn:ietf:params:xml:ns:secDNS-1.1</objURI>
+              <objURI>http://www.dir.org/xsd/account-1.0</objURI>
+              <objURI>http://www.dir.org/xsd/future-1.0</objURI>
             </svcs>
           </login>
           <clTRID>1xl2gXUrXDbb</clTRID>
@@ -57,12 +59,10 @@ def login(conn):
 try:
   #conn.connect((HOST, PORT))
   sock.connect(('ote.nic.io', 700))
-  print "Greeting!\n"
+  print "\n<===== Greeting =======>\n"
   print sock.recv()
   print "\n<===== Greeting Finished =======>\n"
-  handle(sock)
-  handle(sock)
-  handle(sock)
+  login(sock)
 finally:
   sock.close()
 
