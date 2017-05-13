@@ -48,7 +48,8 @@ def login():
   print sock.recv(1280)
   print "\n"
 
-  
+print sock.recv(1280)
+
 login()
 hello()
 
