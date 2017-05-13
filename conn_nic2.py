@@ -21,6 +21,7 @@ hello = """
 
 sock.send(hello)
 print sock.recv(1280)
+print "\n"
 
 login_com = """ <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
                   <command>
@@ -44,4 +45,5 @@ login_com = """ <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
 
 sock.send(login_com)
 print sock.recv(1280)
+print "\n"
 sock.close()
