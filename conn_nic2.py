@@ -10,9 +10,11 @@ sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem",
                        cert_reqs=ssl.CERT_REQUIRED,
                        ca_certs="/home/bitnami/occasio/python2713/lib/python2.7/site-packages/certifi/cacert.pem")
 
-sock.connect(('ote.nic.io', 700))
+def handle(conn):
+  conn.write(b'GET / HTTP/1.1\n')
+  print conn.recv().decode()
 
-def hello():
+def hello(conn):
   hello = """
             <?xml version="1.0" encoding="UTF-8" standalone="no"?>
             <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -21,11 +23,11 @@ def hello():
           """
 
   print hello
-  sock.send(hello)
-  print sock.recv(1280)
+  conn.send(hello)
+  print conn.recv().decode()
   print "\n"
 
-def login():
+def login(conn):
   login_com = """
      <?xml version="1.0" encoding="UTF-8" standalone="no"?>
      <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -48,11 +50,19 @@ def login():
      </epp>
   """
   print login_com
-  sock.send(login_com)
-  print sock.recv(1280)
+  conn.send(login_com)
+  print conn.recv().decode()
   print "\n"
 
-login()
-hello()
+try:
+  #conn.connect((HOST, PORT))
+  sock.connect(('ote.nic.io', 700))
+  handle(sock)
+finally:
+  sock.close()
 
-sock.close()
+#
+# login()
+# hello()
+#
+# sock.close()
