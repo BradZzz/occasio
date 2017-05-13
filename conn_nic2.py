@@ -1,4 +1,4 @@
-import socket, ssl
+import socket, ssl, struct
 
 #client = EppClient(ssl_keyfile='occasio.key', ssl_certfile='cacert.pem', ssl_cacerts='root.pem')
 
@@ -12,7 +12,8 @@ sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem",
 
 def handle(conn):
   conn.write(b'GET / HTTP/1.1\n')
-  print conn.recv()
+  print receive(conn)
+  print "\n"
 
 def hello(conn):
   hello = """
@@ -24,37 +25,30 @@ def hello(conn):
 
   print hello
   conn.send(hello)
-  print conn.recv()
+  print receive(conn)
   print "\n"
 
 def login(conn):
-  login_com = """
-     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-     <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-        <command>
-          <login>
-            <clID>NIC-1253</clID>
-            <pw>.[&lt;2&amp;q'xKn9NMdD:</pw>
-            <options>
-              <version>1.0</version>
-              <lang>en</lang>
-            </options>
-            <svcs>
-              <objURI>urn:ietf:params:xml:ns:domain-1.0</objURI>
-              <objURI>urn:ietf:params:xml:ns:contact-1.0</objURI>
-              <objURI>urn:ietf:params:xml:ns:secDNS-1.1</objURI>
-              <objURI>http://www.dir.org/xsd/account-1.0</objURI>
-              <objURI>http://www.dir.org/xsd/future-1.0</objURI>
-            </svcs>
-          </login>
-          <clTRID>1xl2gXUrXDbb</clTRID>
-        </command>
-     </epp>
-  """
+  login_com = """<?xml version="1.0" encoding="UTF-8" standalone="no"?><epp xmlns="urn:ietf:params:xml:ns:epp-1.0"><command><login><clID>NIC-1253</clID><pw>.[&lt;2&amp;q'xKn9NMdD:</pw><options><version>1.0</version><lang>en</lang></options><svcs><objURI>urn:ietf:params:xml:ns:domain-1.0</objURI><objURI>urn:ietf:params:xml:ns:contact-1.0</objURI><objURI>urn:ietf:params:xml:ns:secDNS-1.1</objURI><objURI>http://www.dir.org/xsd/account-1.0</objURI><objURI>http://www.dir.org/xsd/future-1.0</objURI></svcs></login><clTRID>1xl2gXUrXDbb</clTRID></command></epp>"""
   print login_com
   conn.send(login_com)
-  print conn.recv()
+  print receive(conn)
   print "\n"
+
+def receive(conn):
+  # Read first four bytes to retreive message length.
+  length = conn.recv(4)
+  if length:
+    # unpack() returns a one-element tuple.
+    msg_length = struct.unpack(">I", length)[0] - 4
+    received = b""
+    while msg_length > len(received):
+      chunk = conn.recv(4096)
+      if chunk == b"":
+        break
+        # raise RuntimeError("socket connection broken")
+      received += chunk
+    return received
 
 try:
   #conn.connect((HOST, PORT))
