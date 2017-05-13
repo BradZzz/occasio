@@ -57,6 +57,9 @@ def login(conn):
 try:
   #conn.connect((HOST, PORT))
   sock.connect(('ote.nic.io', 700))
+  print "Greeting!\n"
+  print sock.recv()
+  print "\n<===== Greeting Finished =======>\n"
   handle(sock)
   handle(sock)
   handle(sock)
