@@ -12,7 +12,7 @@ sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem",
 
 def handle(conn):
   conn.write(b'GET / HTTP/1.1\n')
-  print conn.recv().decode()
+  print conn.recv()
 
 def hello(conn):
   hello = """
@@ -24,7 +24,7 @@ def hello(conn):
 
   print hello
   conn.send(hello)
-  print conn.recv().decode()
+  print conn.recv()
   print "\n"
 
 def login(conn):
@@ -51,7 +51,7 @@ def login(conn):
   """
   print login_com
   conn.send(login_com)
-  print conn.recv().decode()
+  print conn.recv()
   print "\n"
 
 try:
