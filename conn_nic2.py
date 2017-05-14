@@ -3,6 +3,7 @@ import socket, ssl, struct
 #client = EppClient(ssl_keyfile='occasio.key', ssl_certfile='cacert.pem', ssl_cacerts='root.pem')
 
 clID = "NIC-1253"
+clIDBilling = "NIC-1259849"
 clTRID = "abcde12345"
 pw = ".[&lt;2&amp;q'xKn9NMdD:"
 testDomain = "testing-occas.io"
@@ -25,47 +26,9 @@ sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem",
                        server_side=True,
                        cert_reqs=ssl.CERT_REQUIRED,
                        ca_certs="/home/bitnami/occasio/python2713/lib/python2.7/site-packages/certifi/cacert.pem")
-
-def handle(conn):
-  conn.write(b'GET / HTTP/1.1\n')
-  print receive(conn)
-  print "\n"
-
-def hello(conn):
-  hello = """
-            <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-              <hello/>
-            </epp>
-          """
-
-  print hello
-  conn.send(hello)
-  print receive(conn)
-  print "\n"
-
-def info(conn):
-  info = """
-    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-      <command>
-        <info>
-          <domain:info
-           xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
-            <domain:name hosts="all">""" + infoDomain + """</domain:name>
-          </domain:info>
-        </info>
-        <clTRID>""" + clTRID + """</clTRID>
-      </command>
-    </epp>
-    """
-
-  print info
-  send_(info,conn)
-  # conn.send(login_com)
-  print receive(conn)
-  print "\n"
-
+'''
+Logs the server into the EPP service. This must be used before any other commands are used
+'''
 def login(conn):
   login_com = """
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -97,6 +60,49 @@ def login(conn):
   print receive(conn)
   print "\n"
 
+'''
+Standard hello test. Used for confirmation that the server is up and accepting requests.
+
+'''
+def hello(conn):
+  hello = """
+            <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+              <hello/>
+            </epp>
+          """
+
+  print hello
+  conn.send(hello)
+  print receive(conn)
+  print "\n"
+
+'''
+Use info to get the contact, nameserver, and registrar information.
+Ths contact information discovered here is necessary to create domains or submit backorders.
+'''
+def info(conn):
+  info = """
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+      <command>
+        <info>
+          <domain:info
+           xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+            <domain:name hosts="all">""" + infoDomain + """</domain:name>
+          </domain:info>
+        </info>
+        <clTRID>""" + clTRID + """</clTRID>
+      </command>
+    </epp>
+    """
+
+  print info
+  send_(info,conn)
+  # conn.send(login_com)
+  print receive(conn)
+  print "\n"
+
 def create(conn):
   create = """
     <?xml version="1.0" encoding="UTF-8"?>
@@ -110,17 +116,50 @@ def create(conn):
         xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
         domain-1.0.xsd">
           <domain:name>""" + testDomain + """</domain:name>
-            <domain:period unit="y">""" + years + """</domain:period>
-            <domain:registrant>""" + clID + """</domain:registrant>
-            <domain:authInfo>
-              <domain:pw>""" + pw + """</domain:pw>
-            </domain:authInfo>
+          <domain:period unit="y">""" + years + """</domain:period>
+          <domain:registrant>""" + clID + """</domain:registrant>
+          <domain:authInfo>
+            <domain:pw>""" + pw + """</domain:pw>
+          </domain:authInfo>
+          <domain:registrant>""" + clTRID + """</domain:registrant>
+          <domain:contact type="admin">""" + clTRID + """</domain:contact>
+          <domain:contact type="tech">""" + clTRID + """</domain:contact>
+          <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
         </domain:create>
         </create>
         <clTRID>""" + clTRID + """</clTRID>
       </command>
     </epp>
   """
+
+  # response = """
+  #     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+  #     <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+  #     <response>
+  #       <result code="1000">
+  #         <msg>Command completed successfully</msg>
+  #       </result>
+  #       <resData>
+  #       <domain:infData xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+  #         <domain:name>cyborgs.io</domain:name>
+  #         <domain:roid>DOM-156072</domain:roid>
+  #         <domain:status s="ok"/>
+  #         <domain:registrant>NIC-1253</domain:registrant>
+  #         <domain:contact type="admin">NIC-1253</domain:contact>
+  #         <domain:contact type="tech">NIC-1253</domain:contact>
+  #         <domain:contact type="billing">NIC-1259849</domain:contact>
+  #         <domain:clID>NIC-1253</domain:clID>
+  #         <domain:crDate>2017-04-17T20:38:04.0Z</domain:crDate>
+  #         <domain:upDate>2017-04-17T20:38:05.0Z</domain:upDate>
+  #         <domain:exDate>2018-04-17T20:38:04.0Z</domain:exDate>
+  #         </domain:infData>
+  #       </resData>
+  #       <trID>
+  #         <clTRID>abcde12345</clTRID>
+  #         <svTRID>EPP-894.5918B5CE.2</svTRID>
+  #       </trID>
+  #     </response></epp>
+  # """
 
   # create2 = """
   #   <?xml version="1.0" encoding="UTF-8"?>
@@ -186,7 +225,7 @@ try:
   print sock.recv()
   print "\n<===== Greeting Finished =======>\n"
   login(sock)
-  info(sock)
+  create(sock)
 finally:
   sock.close()
 
