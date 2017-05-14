@@ -125,7 +125,7 @@ def create(conn):
           <domain:contact type="owner">""" + clTRID + """</domain:contact>
           <domain:contact type="admin">""" + clTRID + """</domain:contact>
           <domain:contact type="tech">""" + clTRID + """</domain:contact>
-          <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
+          <domain:contact type="billing">""" + clTRID + """</domain:contact>
         </domain:create>
         </create>
         <clTRID>""" + clTRID + """</clTRID>
