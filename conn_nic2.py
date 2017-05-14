@@ -6,7 +6,7 @@ clID = "NIC-1253"
 clTRID = "abcde12345"
 pw = ".[&lt;2&amp;q'xKn9NMdD:"
 testDomain = "testing-occas.io"
-years = 2
+years = "2"
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.settimeout(60)  # regular timeout
