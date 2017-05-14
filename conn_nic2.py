@@ -121,11 +121,11 @@ def create(conn):
           <domain:authInfo>
             <domain:pw>""" + pw + """</domain:pw>
           </domain:authInfo>
-          <domain:registrant>""" + clTRID + """</domain:registrant>
-          <domain:contact type="owner">""" + clTRID + """</domain:contact>
-          <domain:contact type="admin">""" + clTRID + """</domain:contact>
-          <domain:contact type="tech">""" + clTRID + """</domain:contact>
-          <domain:contact type="billing">""" + clTRID + """</domain:contact>
+          <domain:registrant>""" + clID + """</domain:registrant>
+          <domain:contact type="owner">""" + clID + """</domain:contact>
+          <domain:contact type="admin">""" + clID + """</domain:contact>
+          <domain:contact type="tech">""" + clID + """</domain:contact>
+          <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
         </domain:create>
         </create>
         <clTRID>""" + clTRID + """</clTRID>
