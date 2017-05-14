@@ -2,6 +2,12 @@ import socket, ssl, struct
 
 #client = EppClient(ssl_keyfile='occasio.key', ssl_certfile='cacert.pem', ssl_cacerts='root.pem')
 
+clID = "NIC-1253"
+clTRID = "abcde12345"
+pw = ".[&lt;2&amp;q'xKn9NMdD:"
+testDomain = "testing-occas.io"
+years = 2
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.settimeout(60)  # regular timeout
 
@@ -34,8 +40,8 @@ def login(conn):
       <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
         <command>
           <login>
-            <clID>NIC-1253</clID>
-            <pw>.[&lt;2&amp;q'xKn9NMdD:</pw>
+            <clID>""" + clID + """</clID>
+            <pw>""" + pw + """</pw>
             <options>
               <version>1.0</version>
               <lang>en</lang>
@@ -48,12 +54,73 @@ def login(conn):
               <objURI>http://www.dir.org/xsd/future-1.0</objURI>
             </svcs>
           </login>
-        <clTRID>1xl2gXUrXDbb</clTRID>
+        <clTRID>""" + clTRID + """</clTRID>
         </command>
       </epp>
     """
+
   print login_com
   send_(login_com,conn)
+  # conn.send(login_com)
+  print receive(conn)
+  print "\n"
+
+def create(conn):
+  create = """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+    epp-1.0.xsd">
+      <command>
+        <create>
+        <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+        xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+        domain-1.0.xsd">
+          <domain:name>""" + testDomain + """</domain:name>
+            <domain:period unit="y">""" + years + """</domain:period>
+            <domain:registrant>""" + clID + """</domain:registrant>
+            <domain:authInfo>
+              <domain:pw>""" + pw + """</domain:pw>
+            </domain:authInfo>
+        </domain:create>
+        </create>
+        <clTRID>""" + clTRID + """</clTRID>
+      </command>
+    </epp>
+  """
+
+  # create2 = """
+  #   <?xml version="1.0" encoding="UTF-8"?>
+  #   <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+  #   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  #   xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+  #   epp-1.0.xsd">
+  #     <command>
+  #       <create>
+  #       <domain:create
+  #       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+  #       xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+  #       domain-1.0.xsd">
+  #         <domain:name>nominet-test100.co.uk</domain:name>
+  #           <domain:period unit="y">2</domain:period>
+  #           <domain:ns>
+  #             <domain:hostObj>ns1.nominet.org.uk</domain:hostObj>
+  #             <domain:hostObj>ns2.nominet.org.uk</domain:hostObj>
+  #           </domain:ns>
+  #           <domain:registrant>ab-c123456</domain:registrant>
+  #           <domain:authInfo>
+  #           <domain:pw>**********</domain:pw>
+  #         </domain:authInfo>
+  #       </domain:create>
+  #       </create>
+  #       <clTRID>""" + clTRID + """</clTRID>
+  #     </command>
+  #   </epp>
+  # """
+
+  print create
+  send_(create,conn)
   # conn.send(login_com)
   print receive(conn)
   print "\n"
@@ -87,6 +154,7 @@ try:
   print sock.recv()
   print "\n<===== Greeting Finished =======>\n"
   login(sock)
+  create(sock)
 finally:
   sock.close()
 
