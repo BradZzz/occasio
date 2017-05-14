@@ -6,7 +6,17 @@ clID = "NIC-1253"
 clTRID = "abcde12345"
 pw = ".[&lt;2&amp;q'xKn9NMdD:"
 testDomain = "testing-occas.io"
+infoDomain = "cyborgs.io"
 years = "2"
+
+# User ID : 	NIC-1253
+# Contact Name : 	Giant Steps
+# Organization Name : 	Giant Steps
+# Street : 	PO Box 23170
+# City : 	Saint Louis
+# State : 	Missouri
+# Postal Code : 	63156
+# Country: 	USA
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.settimeout(60)  # regular timeout
@@ -31,6 +41,28 @@ def hello(conn):
 
   print hello
   conn.send(hello)
+  print receive(conn)
+  print "\n"
+
+def info(conn):
+  info = """
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+      <command>
+        <info>
+          <domain:info
+           xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+            <domain:name hosts="all">""" + infoDomain + """</domain:name>
+          </domain:info>
+        </info>
+        <clTRID>""" + clTRID + """</clTRID>
+      </command>
+    </epp>
+    """
+
+  print info
+  send_(info,conn)
+  # conn.send(login_com)
   print receive(conn)
   print "\n"
 
@@ -154,7 +186,7 @@ try:
   print sock.recv()
   print "\n<===== Greeting Finished =======>\n"
   login(sock)
-  create(sock)
+  info(sock)
 finally:
   sock.close()
 
