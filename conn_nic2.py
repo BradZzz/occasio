@@ -116,24 +116,27 @@ def create(conn):
     epp-1.0.xsd">
       <command>
         <create>
-        <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
-        xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
-        domain-1.0.xsd">
-          <domain:name>""" + testDomain + """</domain:name>
-          <domain:period unit="y">""" + years + """</domain:period>
-          <domain:ns>
-            <domain:hostObj>""" + ns1 + """</domain:hostObj>
-            <domain:hostObj>""" + ns2 + """</domain:hostObj>
-          </domain:ns>
-          <domain:registrant>""" + clID + """</domain:registrant>
-          <domain:authInfo>
-            <domain:pw>""" + pw + """</domain:pw>
-          </domain:authInfo>
-          <domain:registrant>""" + clID + """</domain:registrant>
-          <domain:contact type="admin">""" + clID + """</domain:contact>
-          <domain:contact type="tech">""" + clID + """</domain:contact>
-          <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
-        </domain:create>
+          <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+          xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+          domain-1.0.xsd">
+
+            <domain:name>""" + testDomain + """</domain:name>
+            <domain:period unit="y">""" + years + """</domain:period>
+            <domain:ns>
+              <domain:hostAttr>
+                <domain:hostName>""" + ns1 + """</domain:hostName>
+              </domain:hostAttr>
+              <domain:hostAttr>
+                <domain:hostName>""" + ns2 + """</domain:hostName>
+              </domain:hostAttr>
+            </domain:ns>
+            <domain:registrant>""" + clID + """</domain:registrant>
+            <domain:contact type="owner">""" + clID + """</domain:contact>
+            <domain:contact type="admin">""" + clID + """</domain:contact>
+            <domain:contact type="technical">""" + clID + """</domain:contact>
+            <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
+
+          </domain:create>
         </create>
         <clTRID>""" + clTRID + """</clTRID>
       </command>
