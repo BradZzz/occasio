@@ -11,6 +11,8 @@ ns2 = "rita.ns.cloudflare.com"
 
 pw = ".[&lt;2&amp;q'xKn9NMdD:"
 testDomain = "testing-occas.io"
+#Domain will never expire lol
+testBackorder = "sex.io"
 infoDomain = "cyborgs.io"
 years = "2"
 
@@ -142,66 +144,34 @@ def create(conn):
     </epp>
   """
 
-  # response = """
-  #     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-  #     <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-  #     <response>
-  #       <result code="1000">
-  #         <msg>Command completed successfully</msg>
-  #       </result>
-  #       <resData>
-  #       <domain:infData xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
-  #         <domain:name>cyborgs.io</domain:name>
-  #         <domain:roid>DOM-156072</domain:roid>
-  #         <domain:status s="ok"/>
-  #         <domain:registrant>NIC-1253</domain:registrant>
-  #         <domain:contact type="admin">NIC-1253</domain:contact>
-  #         <domain:contact type="tech">NIC-1253</domain:contact>
-  #         <domain:contact type="billing">NIC-1259849</domain:contact>
-  #         <domain:clID>NIC-1253</domain:clID>
-  #         <domain:crDate>2017-04-17T20:38:04.0Z</domain:crDate>
-  #         <domain:upDate>2017-04-17T20:38:05.0Z</domain:upDate>
-  #         <domain:exDate>2018-04-17T20:38:04.0Z</domain:exDate>
-  #         </domain:infData>
-  #       </resData>
-  #       <trID>
-  #         <clTRID>abcde12345</clTRID>
-  #         <svTRID>EPP-894.5918B5CE.2</svTRID>
-  #       </trID>
-  #     </response></epp>
-  # """
-
-  # create2 = """
-  #   <?xml version="1.0" encoding="UTF-8"?>
-  #   <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
-  #   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  #   xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
-  #   epp-1.0.xsd">
-  #     <command>
-  #       <create>
-  #       <domain:create
-  #       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
-  #       xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
-  #       domain-1.0.xsd">
-  #         <domain:name>nominet-test100.co.uk</domain:name>
-  #           <domain:period unit="y">2</domain:period>
-  #           <domain:ns>
-  #             <domain:hostObj>ns1.nominet.org.uk</domain:hostObj>
-  #             <domain:hostObj>ns2.nominet.org.uk</domain:hostObj>
-  #           </domain:ns>
-  #           <domain:registrant>ab-c123456</domain:registrant>
-  #           <domain:authInfo>
-  #           <domain:pw>**********</domain:pw>
-  #         </domain:authInfo>
-  #       </domain:create>
-  #       </create>
-  #       <clTRID>""" + clTRID + """</clTRID>
-  #     </command>
-  #   </epp>
-  # """
-
   print create
   send_(create,conn)
+  # conn.send(login_com)
+  print receive(conn)
+  print "\n"
+
+def backorder(conn):
+  order = """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+    epp-1.0.xsd">
+      <command>
+        <create>
+          <future:create xmlns:future="http://www.dir.org/xsd/future1.0”>
+            <future:name>""" + testBackorder + """</future:name>
+            <future:period unit="y">""" + years + """</future:period>
+            <future:registrant>""" + clID + """</future:registrant>
+          </future:create>
+        </create>
+        <clTRID>""" + clTRID + """</clTRID>
+      </command>
+    </epp>
+  """
+
+  print order
+  send_(order,conn)
   # conn.send(login_com)
   print receive(conn)
   print "\n"
@@ -235,7 +205,8 @@ try:
   print sock.recv()
   print "\n<===== Greeting Finished =======>\n"
   login(sock)
-  create(sock)
+  # create(sock)
+  backorder(sock)
 finally:
   sock.close()
 
