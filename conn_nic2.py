@@ -72,11 +72,11 @@ Standard hello test. Used for confirmation that the server is up and accepting r
 '''
 def hello(conn):
   hello = """
-            <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-            <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-              <hello/>
-            </epp>
-          """
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
+      <hello/>
+    </epp>
+  """
 
   print hello
   conn.send(hello)
@@ -151,6 +151,41 @@ def create(conn):
   print "\n"
 
 def backorder(conn):
+
+  # order = """
+  #   <?xml version="1.0" encoding="UTF-8"?>
+  #   <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+  #   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  #   xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+  #   epp-1.0.xsd">
+  #     <command>
+  #       <create>
+  #         <future:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
+  #         xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
+  #         domain-1.0.xsd">
+  #
+  #           <domain:name>""" + testDomain + """</domain:name>
+  #           <domain:period unit="y">""" + years + """</domain:period>
+  #           <domain:ns>
+  #             <domain:hostAttr>
+  #               <domain:hostName>""" + ns1 + """</domain:hostName>
+  #             </domain:hostAttr>
+  #             <domain:hostAttr>
+  #               <domain:hostName>""" + ns2 + """</domain:hostName>
+  #             </domain:hostAttr>
+  #           </domain:ns>
+  #           <domain:registrant>""" + clID + """</domain:registrant>
+  #           <domain:contact type="admin">""" + clID + """</domain:contact>
+  #           <domain:contact type="tech">""" + clID + """</domain:contact>
+  #           <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
+  #
+  #         </domain:create>
+  #       </create>
+  #       <clTRID>""" + clTRID + """</clTRID>
+  #     </command>
+  #   </epp>
+  # """
+
   order = """
     <?xml version="1.0" encoding="UTF-8"?>
     <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
@@ -159,7 +194,7 @@ def backorder(conn):
     epp-1.0.xsd">
       <command>
         <create>
-          <future:create xmlns:future="http://www.dir.org/xsd/future1.0”>
+          <future:create xmlns:future="http://www.dir.org/xsd/future1.0">
             <future:name>""" + testBackorder + """</future:name>
             <future:period unit="y">""" + years + """</future:period>
             <future:registrant>""" + clID + """</future:registrant>
