@@ -5,6 +5,10 @@ import socket, ssl, struct
 clID = "NIC-1253"
 clIDBilling = "NIC-1259849"
 clTRID = "abcde12345"
+
+ns1 = "oswald.ns.cloudflare.com"
+ns2 = "rita.ns.cloudflare.com"
+
 pw = ".[&lt;2&amp;q'xKn9NMdD:"
 testDomain = "testing-occas.io"
 infoDomain = "cyborgs.io"
@@ -117,6 +121,10 @@ def create(conn):
         domain-1.0.xsd">
           <domain:name>""" + testDomain + """</domain:name>
           <domain:period unit="y">""" + years + """</domain:period>
+          <domain:ns>
+            <domain:hostObj>""" + ns1 + """</domain:hostObj>
+            <domain:hostObj>""" + ns2 + """</domain:hostObj>
+          </domain:ns>
           <domain:registrant>""" + clID + """</domain:registrant>
           <domain:authInfo>
             <domain:pw>""" + pw + """</domain:pw>
