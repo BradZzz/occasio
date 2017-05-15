@@ -13,6 +13,8 @@ pw = ".[&lt;2&amp;q'xKn9NMdD:"
 testDomain = "testing-occas.io"
 #Domain will never expire lol
 testBackorder = "sex.io"
+testCheck01 = "biscuits.io"
+testCheck02 = "ninja.io"
 infoDomain = "cyborgs.io"
 years = "2"
 
@@ -68,7 +70,6 @@ def login(conn):
 
 '''
 Standard hello test. Used for confirmation that the server is up and accepting requests.
-
 '''
 def hello(conn):
   hello = """
@@ -109,6 +110,9 @@ def info(conn):
   print receive(conn)
   print "\n"
 
+"""
+Creates an order for a new domain.
+"""
 def create(conn):
   create = """
     <?xml version="1.0" encoding="UTF-8"?>
@@ -150,41 +154,11 @@ def create(conn):
   print receive(conn)
   print "\n"
 
+"""
+This creates a backorder for a domain.
+Make sure to use check to check if the domain is available for backorder first.
+"""
 def backorder(conn):
-
-  # order = """
-  #   <?xml version="1.0" encoding="UTF-8"?>
-  #   <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
-  #   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  #   xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
-  #   epp-1.0.xsd">
-  #     <command>
-  #       <create>
-  #         <future:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
-  #         xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
-  #         domain-1.0.xsd">
-  #
-  #           <domain:name>""" + testDomain + """</domain:name>
-  #           <domain:period unit="y">""" + years + """</domain:period>
-  #           <domain:ns>
-  #             <domain:hostAttr>
-  #               <domain:hostName>""" + ns1 + """</domain:hostName>
-  #             </domain:hostAttr>
-  #             <domain:hostAttr>
-  #               <domain:hostName>""" + ns2 + """</domain:hostName>
-  #             </domain:hostAttr>
-  #           </domain:ns>
-  #           <domain:registrant>""" + clID + """</domain:registrant>
-  #           <domain:contact type="admin">""" + clID + """</domain:contact>
-  #           <domain:contact type="tech">""" + clID + """</domain:contact>
-  #           <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
-  #
-  #         </domain:create>
-  #       </create>
-  #       <clTRID>""" + clTRID + """</clTRID>
-  #     </command>
-  #   </epp>
-  # """
 
   order = """
     <?xml version="1.0" encoding="UTF-8"?>
@@ -211,8 +185,39 @@ def backorder(conn):
   print receive(conn)
   print "\n"
 
+"""
+This checks to make sure that the domain is available for backorder.
+Use this before backordering anything.
+"""
+def check(conn):
+
+  order = """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+      epp-1.0.xsd">
+     <command>
+       <check>
+         <future:check xmlns:future="http://www.dir.org/xsd/future1.0">
+           <future:name>""" + testBackorder + """</future:name>
+           <future:name>""" + testCheck01 + """</future:name>
+           <future:name>""" + testCheck02 + """</future:name>
+         </future:check>
+       </check>
+       <clTRID>""" + clTRID + """</clTRID>
+     </command>
+    </epp>
+  """
+
+  print order
+  send_(order,conn)
+  # conn.send(login_com)
+  print receive(conn)
+  print "\n"
+
 def receive(conn):
-  # Read first four bytes to retreive message length.
+  # Read first four bytes to retrieve message length.
   length = conn.recv(4)
   if length:
     # unpack() returns a one-element tuple.
@@ -240,7 +245,7 @@ try:
   print sock.recv()
   print "\n<===== Greeting Finished =======>\n"
   login(sock)
-  # create(sock)
+  check(sock)
   backorder(sock)
 finally:
   sock.close()
