@@ -131,9 +131,8 @@ def create(conn):
               </domain:hostAttr>
             </domain:ns>
             <domain:registrant>""" + clID + """</domain:registrant>
-            <domain:contact type="owner">""" + clID + """</domain:contact>
             <domain:contact type="admin">""" + clID + """</domain:contact>
-            <domain:contact type="technical">""" + clID + """</domain:contact>
+            <domain:contact type="tech">""" + clID + """</domain:contact>
             <domain:contact type="billing">""" + clIDBilling + """</domain:contact>
 
           </domain:create>
