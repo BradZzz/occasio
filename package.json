@@ -80,6 +80,7 @@
     "postcss-reporter": "^3.0.0",
     "postcss-url": "^5.1.2",
     "power-assert": "^1.4.2",
+    "python-shell": "^0.4.0",
     "react": "^15.5.4",
     "react-addons-test-utils": "^15.4.1",
     "react-chartjs": "^0.8.0",
