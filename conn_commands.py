@@ -74,10 +74,10 @@ class Command:
         <info>
           <domain:info
            xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
-            <domain:name hosts="all">""" + self.info.infoDomain + """</domain:name>
+            <domain:name hosts="all">""" + self.info['infoDomain'] + """</domain:name>
           </domain:info>
         </info>
-        <clTRID>""" + self.info.clTRID + """</clTRID>
+        <clTRID>""" + self.info['clTRID'] + """</clTRID>
       </command>
     </epp>
     """
@@ -99,23 +99,23 @@ class Command:
           <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
           xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
           domain-1.0.xsd">
-            <domain:name>""" + self.info.testDomain + """</domain:name>
-            <domain:period unit="y">""" + self.info.years + """</domain:period>
+            <domain:name>""" + self.info['testDomain'] + """</domain:name>
+            <domain:period unit="y">""" + self.info['years'] + """</domain:period>
             <domain:ns>
               <domain:hostAttr>
-                <domain:hostName>""" + self.info.ns1 + """</domain:hostName>
+                <domain:hostName>""" + self.info['ns1'] + """</domain:hostName>
               </domain:hostAttr>
               <domain:hostAttr>
-                <domain:hostName>""" + self.info.ns2 + """</domain:hostName>
+                <domain:hostName>""" + self.info['ns2'] + """</domain:hostName>
               </domain:hostAttr>
             </domain:ns>
-            <domain:registrant>""" + self.info.clID + """</domain:registrant>
-            <domain:contact type="admin">""" + self.info.clID + """</domain:contact>
-            <domain:contact type="tech">""" + self.info.clID + """</domain:contact>
-            <domain:contact type="billing">""" + self.info.clIDBilling + """</domain:contact>
+            <domain:registrant>""" + self.info['clID'] + """</domain:registrant>
+            <domain:contact type="admin">""" + self.info['clID'] + """</domain:contact>
+            <domain:contact type="tech">""" + self.info['clID'] + """</domain:contact>
+            <domain:contact type="billing">""" + self.info['clIDBilling'] + """</domain:contact>
           </domain:create>
         </create>
-        <clTRID>""" + self.info.clTRID + """</clTRID>
+        <clTRID>""" + self.info['clTRID'] + """</clTRID>
       </command>
     </epp>
     """
@@ -137,23 +137,23 @@ class Command:
           <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
           xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
           domain-1.0.xsd">
-            <domain:name>""" + self.info.testDomain + """</domain:name>
-            <domain:period unit="y">""" + self.info.years + """</domain:period>
+            <domain:name>""" + self.info['testDomain'] + """</domain:name>
+            <domain:period unit="y">""" + self.info['years'] + """</domain:period>
             <domain:ns>
               <domain:hostAttr>
-                <domain:hostName>""" + self.info.ns1 + """</domain:hostName>
+                <domain:hostName>""" + self.info['ns1'] + """</domain:hostName>
               </domain:hostAttr>
               <domain:hostAttr>
-                <domain:hostName>""" + self.info.ns2 + """</domain:hostName>
+                <domain:hostName>""" + self.info['ns2'] + """</domain:hostName>
               </domain:hostAttr>
             </domain:ns>
-            <domain:registrant>""" + self.info.clID + """</domain:registrant>
-            <domain:contact type="admin">""" + self.info.clID + """</domain:contact>
-            <domain:contact type="tech">""" + self.info.clID + """</domain:contact>
-            <domain:contact type="billing">""" + self.info.clIDBilling + """</domain:contact>
+            <domain:registrant>""" + self.info['clID'] + """</domain:registrant>
+            <domain:contact type="admin">""" + self.info['clID'] + """</domain:contact>
+            <domain:contact type="tech">""" + self.info['clID'] + """</domain:contact>
+            <domain:contact type="billing">""" + self.info['clIDBilling'] + """</domain:contact>
           </domain:create>
         </create>
-        <clTRID>""" + self.info.clTRID + """</clTRID>
+        <clTRID>""" + self.info['clTRID'] + """</clTRID>
       </command>
     </epp>
     """
@@ -173,12 +173,12 @@ class Command:
        <command>
          <check>
            <future:check xmlns:future="http://www.dir.org/xsd/future1.0">
-             <future:name>""" + self.info.testBackorder + """</future:name>
-             <future:name>""" + self.info.testCheck01 + """</future:name>
-             <future:name>""" + self.info.testCheck02 + """</future:name>
+             <future:name>""" + self.info['testBackorder'] + """</future:name>
+             <future:name>""" + self.info['testCheck01'] + """</future:name>
+             <future:name>""" + self.info['testCheck02'] + """</future:name>
            </future:check>
          </check>
-         <clTRID>""" + self.info.clTRID + """</clTRID>
+         <clTRID>""" + self.info['clTRID'] + """</clTRID>
        </command>
       </epp>
     """
