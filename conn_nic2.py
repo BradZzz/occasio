@@ -16,7 +16,8 @@ sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem", serve
 
 try:
   sock.connect(('ote.nic.io', 700))
-  print json.dumps({ 'greeting' : sock.recv().decode("latin1") })
+  # print json.dumps({ 'greeting' : sock.recv().decode("latin1") })
+  print json.dumps({ 'greeting' : "Greeting" })
   # command = Command(args.domain, args.action, sock)
   # command.login()
   #
