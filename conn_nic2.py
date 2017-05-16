@@ -8,26 +8,26 @@ args = parser.parse_args()
 
 print json.dumps({ 'action' : args.action })
 print json.dumps({ 'domain' : args.domain })
-
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.settimeout(60)
-sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem", server_side=True, cert_reqs=ssl.CERT_REQUIRED,
-                       ca_certs="/home/bitnami/occasio/python2713/lib/python2.7/site-packages/certifi/cacert.pem")
-
-try:
-  sock.connect(('ote.nic.io', 700))
-  # print json.dumps({ 'greeting' : sock.recv().decode("latin1") })
-  print json.dumps({ 'greeting' : "Greeting" })
-  # command = Command(args.domain, args.action, sock)
-  # command.login()
-  #
-  # actions = {
-  #   'create' : command.createDomain,
-  #   'backorder' : command.backorder,
-  # }
-  #
-  # if args.a in actions:
-  #   actions[args.a]()
-
-finally:
-  sock.close()
+#
+# sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# sock.settimeout(60)
+# sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem", server_side=True, cert_reqs=ssl.CERT_REQUIRED,
+#                        ca_certs="/home/bitnami/occasio/python2713/lib/python2.7/site-packages/certifi/cacert.pem")
+# 
+# try:
+#   sock.connect(('ote.nic.io', 700))
+#   # print json.dumps({ 'greeting' : sock.recv().decode("latin1") })
+#   print json.dumps({ 'greeting' : "Greeting" })
+#   # command = Command(args.domain, args.action, sock)
+#   # command.login()
+#   #
+#   # actions = {
+#   #   'create' : command.createDomain,
+#   #   'backorder' : command.backorder,
+#   # }
+#   #
+#   # if args.a in actions:
+#   #   actions[args.a]()
+#
+# finally:
+#   sock.close()
