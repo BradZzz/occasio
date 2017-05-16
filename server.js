@@ -45,6 +45,8 @@ genopts = (arg, dom) => {{ args: [arg, dom] }}
 app.post('/create', function(req, res) {
   console.log(req.body)
   if ('body' in req && 'domain' in req.body) {
+    console.log("found: " + req.body.domain)
+    console.log("sending:create")
     PShell.run('conn_nic2.py', genopts('--a create', '--d ' + req.body.domain), function (err, results) {
       res.send({ status:'Success', msg: results})
     })
@@ -56,6 +58,8 @@ app.post('/create', function(req, res) {
 app.post('/backorder', function(req, res) {
   console.log(req.body)
   if ('body' in req && 'domain' in req.body) {
+    console.log("found: " + req.body.domain)
+    console.log("sending:backorder")
     PShell.run('conn_nic2.py', genopts('--a backorder', '--d ' + req.body.domain), function (err, results) {
       res.send({ status:'Success', msg: results})
     })

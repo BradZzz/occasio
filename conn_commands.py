@@ -50,8 +50,7 @@ class Command:
 
     print login_com
     self.send_(login_com)
-    print self.receive()
-    print "\n"
+    return self.receive()
 
   def hello(self):
     hello = """
@@ -63,8 +62,7 @@ class Command:
 
     print hello
     self.send_(hello)
-    print self.receive()
-    print "\n"
+    return self.receive()
 
   def info(self):
     info = """
@@ -84,8 +82,7 @@ class Command:
 
     print info
     self.send_(info)
-    print self.receive()
-    print "\n"
+    return self.receive()
 
   def createDomain(self):
     create = """
@@ -122,8 +119,7 @@ class Command:
 
     print create
     self.send_(create)
-    print self.receive()
-    print "\n"
+    return self.receive()
 
   def backorder(self):
     create = """
@@ -160,8 +156,7 @@ class Command:
 
     print create
     self.send_(create)
-    print self.receive()
-    print "\n"
+    return self.receive()
 
   def check(self):
     order = """
@@ -185,8 +180,7 @@ class Command:
 
     print order
     self.send_(order)
-    print self.receive()
-    print "\n"
+    return self.receive()
 
   def receive(self):
     # Read first four bytes to retrieve message length.
