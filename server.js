@@ -42,6 +42,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 genopts = (arg, dom) => {{ args: [arg, dom] }}
 
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/dist/index.html')
+})
+
 app.post('/create', function(req, res) {
   console.log(req.body)
   if ('body' in req && 'domain' in req.body) {
