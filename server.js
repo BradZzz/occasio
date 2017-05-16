@@ -40,7 +40,9 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-genopts = (arg, dom) => {{ args: [arg, dom] }}
+genopts = (arg, dom) => {
+  return { mode : 'json', args: [arg, dom] }
+}
 
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/dist/index.html')
@@ -51,7 +53,7 @@ app.post('/create', function(req, res) {
   if ('body' in req && 'domain' in req.body) {
     console.log("found: " + req.body.domain)
     console.log("sending:create")
-    PShell.run('conn_nic2.py', genopts('--a create', '--d ' + req.body.domain), function (err, results) {
+    PShell.run('conn_nic2.py', genopts('create', req.body.domain), function (err, results) {
       res.send({ status:'Success', msg: results})
     })
   } else {
@@ -64,12 +66,19 @@ app.post('/backorder', function(req, res) {
   if ('body' in req && 'domain' in req.body) {
     console.log("found: " + req.body.domain)
     console.log("sending:backorder")
-    PShell.run('conn_nic2.py', genopts('--a backorder', '--d ' + req.body.domain), function (err, results) {
+    PShell.run('conn_nic2.py', genopts('backorder', req.body.domain), function (err, results) {
       res.send({ status:'Success', msg: results})
     })
   } else {
     res.send({ status: "Error", msg: "Invalid Post Request" })
   }
+})
+
+app.get('/test', function(req, res) {
+  PShell.run('shell_test.py', genopts('backorder', 'google.io'), function (err, results) {
+    console.log(results)
+    res.send({ status:'Success', msg: results})
+  })
 })
 
 app.listen(PORT, function(error) {

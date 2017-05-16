@@ -1,12 +1,8 @@
-import struct
+import struct, json
 
 class Command:
 
   def __init__(self, domain, action, conn):
-
-    print domain
-    print action
-
     self.conn = conn
     self.info = {
       "clID":"NIC-1253",
@@ -48,9 +44,9 @@ class Command:
       </epp>
     """
 
-    print login_com
+    print json.dumps({ "sent" : login_com })
     self.send_(login_com)
-    return self.receive()
+    print json.dumps({ "received" : self.receive() })
 
   def hello(self):
     hello = """
@@ -60,9 +56,9 @@ class Command:
     </epp>
     """
 
-    print hello
+    print json.dumps({ "sent" : hello })
     self.send_(hello)
-    return self.receive()
+    print json.dumps({ "received" : self.receive() })
 
   def info(self):
     info = """
@@ -80,9 +76,9 @@ class Command:
     </epp>
     """
 
-    print info
+    print json.dumps({ "sent" : info })
     self.send_(info)
-    return self.receive()
+    print json.dumps({ "received" : self.receive() })
 
   def createDomain(self):
     create = """
@@ -117,49 +113,36 @@ class Command:
     </epp>
     """
 
-    print create
+    print json.dumps({ "sent" : create })
     self.send_(create)
-    return self.receive()
+    print json.dumps({ "received" : self.receive() })
 
   def backorder(self):
-    create = """
-    <?xml version="1.0" encoding="UTF-8"?>
-    <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
-    epp-1.0.xsd">
-      <command>
-        <create>
-          <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
-          xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
-          domain-1.0.xsd">
-            <domain:name>""" + self.info['testDomain'] + """</domain:name>
-            <domain:period unit="y">""" + self.info['years'] + """</domain:period>
-            <domain:ns>
-              <domain:hostAttr>
-                <domain:hostName>""" + self.info['ns1'] + """</domain:hostName>
-              </domain:hostAttr>
-              <domain:hostAttr>
-                <domain:hostName>""" + self.info['ns2'] + """</domain:hostName>
-              </domain:hostAttr>
-            </domain:ns>
-            <domain:registrant>""" + self.info['clID'] + """</domain:registrant>
-            <domain:contact type="admin">""" + self.info['clID'] + """</domain:contact>
-            <domain:contact type="tech">""" + self.info['clID'] + """</domain:contact>
-            <domain:contact type="billing">""" + self.info['clIDBilling'] + """</domain:contact>
-          </domain:create>
-        </create>
-        <clTRID>""" + self.info['clTRID'] + """</clTRID>
-      </command>
-    </epp>
+    order = """
+      <?xml version="1.0" encoding="UTF-8"?>
+      <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="urn:ietf:params:xml:ns:epp-1.0
+      epp-1.0.xsd">
+        <command>
+          <create>
+            <future:create xmlns:future="http://www.dir.org/xsd/future1.0">
+              <future:name>""" + self.info['testBackorder'] + """</future:name>
+              <future:period unit="y">""" + self.info['years'] + """</future:period>
+              <future:registrant>""" + self.info['clID'] + """</future:registrant>
+            </future:create>
+          </create>
+          <clTRID>""" + self.info['clTRID'] + """</clTRID>
+        </command>
+      </epp>
     """
 
-    print create
-    self.send_(create)
-    return self.receive()
+    print json.dumps({ "sent" : order })
+    self.send_(order)
+    print json.dumps({ "received" : self.receive() })
 
   def check(self):
-    order = """
+    check = """
       <?xml version="1.0" encoding="UTF-8"?>
       <epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -178,9 +161,9 @@ class Command:
       </epp>
     """
 
-    print order
-    self.send_(order)
-    return self.receive()
+    print json.dumps({ "sent" : check })
+    self.send_(check)
+    print json.dumps({ "received" : self.receive() })
 
   def receive(self):
     # Read first four bytes to retrieve message length.

@@ -1,16 +1,13 @@
-import socket, ssl, struct, argparse
+import socket, ssl, struct, argparse,json
 from conn_commands import Command
 
-#client = EppClient(ssl_keyfile='occasio.key', ssl_certfile='cacert.pem', ssl_cacerts='root.pem')
-
 parser = argparse.ArgumentParser(description='Proprietary EPP Server')
-
-parser.add_argument('--d', '--domain', help='domain to run the action against')
-parser.add_argument('--a', '--action', help='the action defined for the EPP request')
+parser.add_argument('action')
+parser.add_argument('domain')
 args = parser.parse_args()
 
-print args.a
-print args.d
+print json.dumps({ 'action' : args.action })
+print json.dumps({ 'domain' : args.domain })
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.settimeout(60)
@@ -19,14 +16,9 @@ sock = ssl.wrap_socket(sock, keyfile="occasio.key", certfile="cacert.pem", serve
 
 try:
   sock.connect(('ote.nic.io', 700))
-  print "\n<===== Greeting =======>\n"
-  print sock.recv()
-  print "\n<===== Greeting Finished =======>\n"
+  print json.dumps({ 'greeting' : sock.recv()})
   command = Command(args.d, args.a, sock)
   command.login()
-
-  # command.check()
-  # command.backorder()
 
   actions = {
     'create' : command.createDomain,
