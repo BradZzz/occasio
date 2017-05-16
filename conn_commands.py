@@ -1,6 +1,6 @@
 import struct
 
-class command:
+class Command:
 
   def __init__(self, domain, action, conn):
 
@@ -15,8 +15,8 @@ class command:
       "ns1":"oswald.ns.cloudflare.com",
       "ns2":"rita.ns.cloudflare.com",
       "pw":".[&lt;2&amp;q'xKn9NMdD:",
-      "testDomain":"testing-occas.io",
-      "testBackorder":"sex.io",
+      "testDomain":domain,
+      "testBackorder":domain,
       "testCheck01":"biscuits.io",
       "testCheck02":"ninja.io",
       "infoDomain":"cyborgs.io",
@@ -99,7 +99,6 @@ class command:
           <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
           xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
           domain-1.0.xsd">
-
             <domain:name>""" + self.testDomain + """</domain:name>
             <domain:period unit="y">""" + self.years + """</domain:period>
             <domain:ns>
@@ -114,7 +113,6 @@ class command:
             <domain:contact type="admin">""" + self.clID + """</domain:contact>
             <domain:contact type="tech">""" + self.clID + """</domain:contact>
             <domain:contact type="billing">""" + self.clIDBilling + """</domain:contact>
-
           </domain:create>
         </create>
         <clTRID>""" + self.clTRID + """</clTRID>
@@ -139,7 +137,6 @@ class command:
           <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0"
           xsi:schemaLocation="urn:ietf:params:xml:ns:domain-1.0
           domain-1.0.xsd">
-
             <domain:name>""" + self.testDomain + """</domain:name>
             <domain:period unit="y">""" + self.years + """</domain:period>
             <domain:ns>
@@ -154,7 +151,6 @@ class command:
             <domain:contact type="admin">""" + self.clID + """</domain:contact>
             <domain:contact type="tech">""" + self.clID + """</domain:contact>
             <domain:contact type="billing">""" + self.clIDBilling + """</domain:contact>
-
           </domain:create>
         </create>
         <clTRID>""" + self.clTRID + """</clTRID>
