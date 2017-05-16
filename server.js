@@ -54,6 +54,7 @@ app.post('/create', function(req, res) {
     console.log("found: " + req.body.domain)
     console.log("sending:create")
     PShell.run('conn_nic2.py', genopts('create', req.body.domain), function (err, results) {
+      console.log(results)
       res.send({ status:'Success', msg: results})
     })
   } else {
@@ -67,6 +68,7 @@ app.post('/backorder', function(req, res) {
     console.log("found: " + req.body.domain)
     console.log("sending:backorder")
     PShell.run('conn_nic2.py', genopts('backorder', req.body.domain), function (err, results) {
+      console.log(results)
       res.send({ status:'Success', msg: results})
     })
   } else {
