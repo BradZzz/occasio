@@ -29,8 +29,8 @@ class Command:
       <epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
         <command>
           <login>
-            <clID>""" + self.info.clID + """</clID>
-            <pw>""" +self.info.pw + """</pw>
+            <clID>""" + self.info['clID'] + """</clID>
+            <pw>""" +self.info['pw'] + """</pw>
             <options>
               <version>1.0</version>
               <lang>en</lang>
@@ -43,7 +43,7 @@ class Command:
               <objURI>http://www.dir.org/xsd/future-1.0</objURI>
             </svcs>
           </login>
-        <clTRID>""" + self.info.clTRID + """</clTRID>
+        <clTRID>""" + self.info['clTRID'] + """</clTRID>
         </command>
       </epp>
     """
