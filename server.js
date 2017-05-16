@@ -41,7 +41,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 genopts = (arg, dom) => {
-  return { mode : 'json', args: [arg, dom] }
+  return { mode : 'text', args: [arg, dom] }
 }
 
 app.get('/', function(request, response) {
