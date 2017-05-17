@@ -113,15 +113,6 @@ function updateAppraisals(domain){
                   function( error ) { console.log("Error Updating Domain: " + JSON.stringify(error))  }
                 )
               })
-//
-//              const parsed = parser.toJson(body)
-//              addAppraisal({
-//                name: domain,
-//                meta: JSON.stringify(parsed)
-//              }, details).then(
-//                function( details ) { console.log("Finished Updating Domain: " + domain) },
-//                function( error ) { console.log("Error Updating Domain: " + JSON.stringify(error))  }
-//              )
             } catch(err) {
               console.log("Error parsing appraisal XML!")
             }
@@ -210,17 +201,6 @@ function addMongo(dom, prev){
     if (typeof prev[0] != 'undefined') {
       domOb = Object.assign(prev[0], { expires: dom.expires })
     }
-
-    // Here is where the domains need to be appraised if they are within the time period
-//    request('https://wwws.io/api/full/962/' + process.env.DOM_USR + '/' + process.env.DOM_PASS + '/', function (error, response, body) {
-//      console.log("return")
-//      if (error) {
-//        console.log(error)
-//      } else {
-//        saveBatches(body.split(/\r\n|\r|\n/).filter(notWildcard))
-//      }
-//    })
-
     domOb.save( function(error, data){
       if(error){
         reject(error)
@@ -231,5 +211,4 @@ function addMongo(dom, prev){
   })
 }
 
-//updateAppraisals("myelin.io")
 start()

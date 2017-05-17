@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import { BackButton } from "../../../components/molecules/"
 import styles from "./styles.css"
-import * as WhoisActions from "../../../actions/whois"
 import * as Chart from "react-chartjs"
 const LineChart = Chart.Line
 const options = {
