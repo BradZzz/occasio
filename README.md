@@ -16,13 +16,7 @@ React, Nodejs, MongoDB
 
 Create a .env with the following variables defined:
 
-NODE_ENV
-DOM_USR
-DOM_PASS
-MONGODB
-DOM_INDEX
-ESTIBOT_USR
-ESTIBOT_PASS
+NODE_ENV,DOM_USR,DOM_PASS,MONGODB,DOM_INDEX,ESTIBOT_USR,ESTIBOT_PASS
 
 Then start the server like so:
 
@@ -30,7 +24,7 @@ Then start the server like so:
   npm start
 ```
 
-This should kick off the installation process right away, but if there is a problem, you can just use:
+This should kick off the installation process right away, but if there is a problem, you can use the following command to install again:
 
 ```
   npm install
@@ -42,6 +36,9 @@ This should kick off the installation process right away, but if there is a prob
   npm run build
 ```
 
+## Partner Repos
+
+This repo is a direct partner with the flask-epp for dedicated server requests from a specified IP address. Without it, this website would be unable to buy/sell domains.
 
 ## License
 
