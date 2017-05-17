@@ -3,71 +3,44 @@ Occas.io
 
 Website for domain experts
 
-## Overview
+## Screens
 
-* Atomic design
-* Adopted Webpack for module bundler
+![Screen01](screens/screen_01.png "Screen01")
+![Screen02](screens/screen_02.png "Screen02")
 
-## Main Libraries
+## Technology
 
-* react
-* react-helmet
-* react-router
-* react-redux
-* react-redux-router
-* redux-saga
-* nodejs
+React, Nodejs, MongoDB
 
-## Tasks
+## Installation
 
-You can perform some original utility tasks.
+Create a .env with the following variables defined:
 
-| Command                                                | Description                                             |
-|:-------------------------------------------------------|:--------------------------------------------------------|
-| `$ ./tasks/make-component-skeleton <type> <component>` | Make dumb component. (detail: `--help`)                 |
-| `$ ./tasks/make-container-skeleton <type> <component>` | Make smart component. (detail: `--help`)                |
-| `$ ./tasks/update-component-exports`                   | Create an index corresponding to the current component. |
+NODE_ENV
+DOM_USR
+DOM_PASS
+MONGODB
+DOM_INDEX
+ESTIBOT_USR
+ESTIBOT_PASS
 
+Then start the server like so:
 
-
-## Boilerplate structure
-
-```bash
-$ tree -I node_modules -L 2
-.
-├── flow-typed              # Flowtyped definition files (third party)
-├── package.json            # Dependencies definition
-├── server.js               # HMR Server
-├── src                     # Sources
-│   ├── actions            # Redux actions
-│   ├── clients            # API management (axios, fetch, ...)
-│   ├── components         # React presentational components (atoms, molecules, organisms, template, pages)
-│   ├── constants          # Application config
-│   ├── containers         # Redux container component
-│   ├── declares           # Third party type definition files
-│   ├── entry.js           # Entrypoint
-│   ├── layouts            # Core layout component
-│   ├── reducers           # Redux reducers
-│   ├── routes.js          # Routing config
-│   ├── sagas              # redux-saga
-│   ├── store              # Redux store
-│   ├── styles             # Core styles (`.css`)
-│   └── types              # Original type definition files
-├── static                  # Static files. It will be copied to dist`
-├── styleguide              # Styleguide config & template files
-├── styleguide.config.js    # Styleguidist configure
-├── tasks                   # Some tasks
-│   ├── constants          # Task config
-│   ├── skeletons          # Skeleton templates
-├── test
-│   ├── fixtures
-│   ├── reducers
-│   ├── sagas
-│   └── services
-├── webpack.config.js
-└── yarn.lock
+```
+  npm start
 ```
 
+This should kick off the installation process right away, but if there is a problem, you can just use:
+
+```
+  npm install
+```
+
+## Building
+
+```
+  npm run build
+```
 
 
 ## License
