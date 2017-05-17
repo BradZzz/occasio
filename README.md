@@ -38,7 +38,7 @@ This should kick off the installation process right away, but if there is a prob
 
 ## Partner Repos
 
-This repo is a direct partner with the flask-epp for dedicated server requests from a specified IP address. Without it, this website would be unable to buy/sell domains.
+This repo is a direct partner with the flask-epp repository for dedicated server requests from a specified IP address. Without it, this website would be unable to buy/sell domains. This will be added as a submodule in future releases.
 
 ## License
 
