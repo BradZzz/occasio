@@ -6,6 +6,7 @@ import user from "./user";
 import domain from "./domain";
 import auction from "./auction";
 import bids from "./bids";
+import namespace from "./namespace";
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   user,
   domain,
   auction,
-  bids
+  bids,
+  namespace
 });
 
 export default rootReducer;

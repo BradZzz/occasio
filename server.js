@@ -46,86 +46,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/dist/index.html')
 })
-//
-//app.get('/data/io', function(req, res) {
-//  request('https://wwws.io/api/full/962/' + process.env.DOM_USR + '/' + process.env.DOM_PASS + '/', function (error, response, body) {
-//    if (error) {
-//      res.send(error)
-//    } else {
-//      console.log(body.split(/\r\n|\r|\n/).length)
-//      res.send(body.split(/\r\n|\r|\n/))
-//    }
-//  })
-//})
-
-//app.get('/sample/appraisals', function(req, res) {
-//  request('http://www.estibot.com/api.php?a=get&email=' + process.env.ESTIBOT_USR + '&password=' + process.env.ESTIBOT_PASS + '&c=appraise&t=websitestud.io>>femto.io', function (error, response, body) {
-//    if (error) {
-//      res.send(error)
-//    } else {
-//      parser.parseString(body, function (err, parsed) {
-//        res.send(JSON.stringify(parsed))
-//      })
-//    }
-//  })
-//})
-//
-//app.get('/sample/appraisals/find', function(req, res) {
-//  APPRAISAL.find({ }, function(error, data){
-//    if(error){
-//      res.send(error)
-//    } else {
-//      res.send(data)
-//    }
-//  })
-//})
-//
-//app.get('/sample/appraisals/remove', function(req, res) {
-//  APPRAISAL.remove({ }, function(error, data){
-//    if(error){
-//      res.send(error)
-//    } else {
-//      res.send(data)
-//    }
-//  })
-//})
-
-
-//app.get('/sample/appraisals/:domain', function(req, res) {
-//  if ('domain' in req.params){
-//    const url = 'http://www.estibot.com/api.php?a=get&email=' + process.env.ESTIBOT_USR + '&password=' +
-//      process.env.ESTIBOT_PASS + '&c=appraise&t=' + req.params.domain
-//    request(url, function (error, response, body) {
-//      if (error) {
-//        res.send(error)
-//      } else {
-//        findAppraisal(req.params.domain).then(
-//          function( details ){
-//            if (details.length < 1) {
-//              parser.parseString(body, function (err, parsed) {
-//                addAppraisal({
-//                  name: req.params.domain,
-//                  meta: JSON.stringify(parsed)
-//                }).then(
-//                  function( details ) { res.send(JSON.stringify(details)) },
-//                  function( error ) { res.send(JSON.stringify(error)) }
-//                )
-//              })
-//            } else {
-//              res.send("Dupe: " + req.params.domain)
-//            }
-//          },
-//          function( error ){
-//            console.log(error)
-//            res.send(error)
-//          }
-//        )
-//      }
-//    })
-//  } else {
-//   res.send("No domain in request")
-//  }
-//})
 
 app.get('/appraisals/:period', function(req, res) {
   if ('period' in req.params && pIncrements.indexOf(parseInt(req.params.period)) > -1){
@@ -189,85 +109,6 @@ function addAppraisal(dom){
     })
   })
 }
-
-//This queries the domain for info
-//app.get('/whois/:domain', function(req, res) {
-//  if ('domain' in req.params){
-//    getDig(req.params.domain).then(
-//      function(data){
-//        res.send(data)
-//      },
-//      function(err){
-//        res.send(err)
-//      }
-//    )
-//  } else {
-//    res.send("No domain in request")
-//  }
-//})
-//
-//app.get('/whois/:domain', function(req, res) {
-//  if ('domain' in req.params){
-//    whois.whois(req.params.domain, function (error, data){
-//      console.log(data)
-//      if (error) {
-//        res.send(error)
-//      } else {
-//        console.log("whois fetched")
-//        console.log(error)
-//        console.log(data)
-//        return res.send(JSON.stringify(data))
-//      }
-//    })
-//  } else {
-//    res.send("No domain in request")
-//  }
-//})
-//
-//app.get('/whois/:domain/save', function(req, res) {
-//  if ('domain' in req.params){
-//    saveDomain(req.params.domain).then(
-//      function( details ) { res.send(JSON.stringify(details)) },
-//      function( error ) { res.send(JSON.stringify(error)) }
-//    )
-//  } else {
-//    res.send("No domain in request")
-//  }
-//})
-//
-//app.get('/whois/:domain/find', function(req, res) {
-//  if ('domain' in req.params){
-//    findMongo(req.params.domain).then(
-//      function( details ) { res.send(JSON.stringify(details)) },
-//      function( error ) { res.send(JSON.stringify(error)) }
-//    )
-//  } else {
-//    res.send("No domain in request")
-//  }
-//})
-
-/*
-http://domainindex.com/api.php?action=appraise&domain=example.com&key=7b59b0c6-2017-0425-0640-05594cd56368&mode=json
-process.env.DOM_INDEX
-*/
-
-//app.get('/appraisals/:domain', function(req, res) {
-//  if ('domain' in req.params){
-//  // Here is where the domains need to be appraised if they are within the time period
-//  console.log(req.params)
-//  console.log('http://domainindex.com/api.php?action=appraise&domain=' + req.params.domain + '&mode=json&key=' + process.env.DOM_INDEX)
-//  request('http://domainindex.com/api.php?action=appraise&domain=' + req.params.domain + '&mode=json&key=' + process.env.DOM_INDEX, function (error, response, body) {
-//    console.log("return")
-//    if (error) {
-//      res.send(error)
-//    } else {
-//      res.send(body)
-//    }
-//  })
-//  } else {
-//    res.send("No domain in request")
-//  }
-//})
 
 app.get('/bids/get', function(req, res) {
   BIDS.find({ }, function(error, data){
@@ -341,27 +182,6 @@ function findAuctionL(query){
   })
 }
 
-//app.get('/sample/auctions/find', function(req, res) {
-//  AUCTION.find({ }, function(error, data){
-//    if(error){
-//      res.send(error)
-//    } else {
-//      res.send(data)
-//    }
-//  })
-//})
-
-//app.get('/auctions/removeall', function(req, res) {
-//  AUCTION.remove({}, function(error){
-//    if(error){
-//      return res.send(error)
-//    }
-//    else{
-//      return res.send("done")
-//    }
-//  })
-//})
-
 function addAuction(dom){
   return new Promise(function(resolve, reject) {
     (new AUCTION(dom)).save( function(error, data){
@@ -432,29 +252,15 @@ app.get('/list/:period', function(req, res) {
   }
 })
 
-//app.get('/saveall', function(req, res) {
-//  request('https://wwws.io/api/full/962/' + process.env.DOM_USR + '/' + process.env.DOM_PASS + '/', function (error, response, body) {
-//    if (error) {
-//      res.send(error)
-//    } else {
-//      saveBatches(body.split(/\r\n|\r|\n/).splice(0,10)).then(
-//        function( details ) { res.send("Process started successfully") },
-//        function( error ) { res.send("Error starting process") }
-//      )
-//    }
-//  })
-//})
-//
-//app.get('/removeall', function(req, res) {
-//  DOMAIN.remove({}, function(error){
-//    if(error){
-//      return res.send(error)
-//    }
-//    else{
-//      return res.send("done")
-//    }
-//  })
-//})
+app.post('/namespace/action/', function(req, res) {
+  console.log(req.body)
+  if ('body' in req && 'domName' in req.body && 'usrID' in req.body && 'action' in req.body) {
+    console.log(req.body)
+    res.send({ status: "Valid", msg: req.body })
+  } else {
+    res.send({ status: "Error", msg: "Invalid Post Request" })
+  }
+})
 
 function getDig(domain){
   return new Promise(function(resolve, reject) {
@@ -480,75 +286,6 @@ function getDig(domain){
   })
 }
 
-//function saveDomain(domain){
-//  return new Promise(function(resolve, reject) {
-//    findMongo(domain).then(
-//      function( details ) {
-//        console.log("return from find")
-//        console.log(domain)
-//        console.log(details)
-//        if (!details.length){
-//          getDig(domain).then(
-//            function(data){
-//              addMongo(data).then(function(dat){ resolve(dat) },function(err){ reject(err) })
-//            },
-//            function(err){ reject(err) }
-//          )
-//        } else {
-//          console.log("Dupe")
-//          resolve({ name: domain, error: "dupe" })
-//        }
-//      }, function( error ) {
-//        reject({ name: domain, error: error })
-//      }
-//    )
-//  })
-//}
-
-/*
-
-Count the current number of threads and cut off after a certain threshold
-
-*/
-
-//var count = 0
-//
-//function iterate(domains){
-//  return new Promise(function(resolve, reject) {
-//    domains.shift()
-//    if (domains.length) {
-//      console.log("Left: " + domains.length)
-//      return saveBatches(domains)
-//    } else {
-//      console.log("Fin")
-//      return resolve("fin")
-//    }
-//  })
-//}
-
-//function saveBatches(domains){
-//  return new Promise(function(resolve, reject) {
-//    saveDomain(domains[0]).then(function(dat){
-//      console.log("Done")
-//      domains.shift()
-//      if (domains.length) {
-//        console.log("Left: " + domains.length)
-//        return saveBatches(domains)
-//      } else {
-//        console.log("Fin")
-//        resolve("fin")
-//      }
-//    },function(err){
-//      console.log(err)
-//      resolve(err)
-//    })
-//  })
-//}
-
-//function saveAll(domains){
-//  return Promise.all(domains.map(saveDomain))
-//}
-
 function findMongoL(query){
   return new Promise(function(resolve, reject) {
     DOMAIN.find(query, function(error, data){
@@ -566,7 +303,7 @@ function findMongo(domain){
     DOMAIN.find({ name: domain }, function(error, data){
       if(error){
         reject(error)
-      } else {
+      } else {d
         resolve(data)
       }
     })

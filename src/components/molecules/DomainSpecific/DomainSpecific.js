@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
-import { BackButton } from "../../../components/molecules/"
+import { BackButton, BackOrderButton } from "../../../components/molecules/"
 import styles from "./styles.css"
 import * as Chart from "react-chartjs"
 const LineChart = Chart.Line
@@ -99,51 +99,70 @@ export class DomainSpecific extends Component {
            </div>
   }
 
+  renderMeta = (name, pulled) => {
+    let sold = []
+    if ('sales_history' in pulled && 'sold' in pulled['sales_history'] && pulled.sales_history.sold.length > 0) {
+      sold = pulled.sales_history.sold
+    }
+    let keywords = []
+    if ('keyword_stats' in pulled && 'search' in pulled['keyword_stats'] && pulled.keyword_stats.search.length > 0) {
+      keywords = pulled.keyword_stats.search
+    }
+    const keyList = ['language','category','search_results_phrase','pagerank','traffic_estimate','overture_term','word_tracker_term','alexa_rank','alexa_link_popularity']
+
+    return (<div className={ styles.root }>
+      <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
+      <BackOrderButton name={ name } style={ buttonStyle }>BackOrder</BackOrderButton>
+      <div style={{ "display" : "flex" }}>
+        <h1 style={{ "float" : "left", "marginRight" : "2em" }}>{ name }</h1>
+        <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
+          <div style={{ "display" : 'block' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
+          <div style={{ "display" : 'block' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
+        </div>
+      </div>
+      <div style={{ "display" : "block", "padding" : "1em", "marginBottom" : ".5em" }}>
+        { pulled.keyword_stats_ng.search.map(this.renderChart) }
+      </div>
+      { this.info('Related Sales',sold.map((sale, idx) => <div key={ idx }>{ sale.source + " : " + sale.domain + " : " + sale.price + " : " + sale.date }</div>),
+        ['source','domain','price','date'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
+      { this.info('Keywords',keywords.map((keyword, idx) => <div key={ idx }>{ keyword.keyword + " : " + keyword.avg_search_volume +
+        " : " + keyword.local_search_volume + " : " + keyword.type + " : " + keyword.avg_competition }</div>),
+        ['keyword','avg_search_volume','local_search_volume','type','avg_competition'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
+      { this.info('Misc',keyList.map((key, idx) => <div key={ idx }>{ key + " : " + pulled[key] }</div>),
+        keyList.map((key, idx) => <div key={ idx }>{ key }</div>)) }
+    </div>)
+  }
+
+  renderEmpty = (name) => {
+    return (<div className={ styles.root }>
+       <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
+       <BackOrderButton name={ name } style={ buttonStyle }>BackOrder</BackOrderButton>
+       <div style={{ "display" : "flex" }}>
+         <h1 style={{ "float" : "left", "marginRight" : "2em" }}>{ name }</h1>
+         <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
+           <div style={{ "display" : 'block' }}>No information available</div>
+         </div>
+       </div>
+     </div>)
+  }
+
   render() {
     const { specObj } = this.state
-    console.log(specObj)
     if (specObj !== undefined && 'name' in JSON.parse(specObj)){
       const sObj = JSON.parse(specObj)
       console.log(sObj)
       const pulled = sObj.meta
-      console.log( pulled )
-      let sold = []
-      if ('sales_history' in pulled && 'sold' in pulled['sales_history'] && pulled.sales_history.sold.length > 0) {
-        sold = pulled.sales_history.sold
+      console.log(pulled)
+      console.log('sales_history' in pulled)
+      console.log('keyword_stats' in pulled)
+      console.log('sales_history' in pulled && 'keyword_stats' in pulled)
+      if ('sales_history' in pulled || 'keyword_stats' in pulled) {
+        return this.renderMeta(sObj.name, pulled)
+      } else {
+        return this.renderEmpty(sObj.name)
       }
-      let keywords = []
-      if ('keyword_stats' in pulled && 'search' in pulled['keyword_stats'] && pulled.keyword_stats.search.length > 0) {
-        keywords = pulled.keyword_stats.search
-      }
-      const keyList = ['language','category','search_results_phrase','pagerank','traffic_estimate','overture_term','word_tracker_term','alexa_rank','alexa_link_popularity']
-//      let chart = <div></div>
-//      if ('keyword_stats_ng' in pulled && 'search' in pulled['keyword_stats_ng'] && pulled.keyword_stats_ng.search.length > 0) {
-//        chart = pulled.keyword_stats_ng.search.map(this.renderChart)
-//      }
-      return (
-        <div className={ styles.root }>
-          <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
-          <div style={{ "display" : "flex" }}>
-            <h1 style={{ "float" : "left", "marginRight" : "2em" }}>{ sObj.name }</h1>
-            <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
-              <div style={{ "display" : 'block' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
-              <div style={{ "display" : 'block' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
-            </div>
-          </div>
-          <div style={{ "display" : "block", "padding" : "1em", "marginBottom" : ".5em" }}>
-            { pulled.keyword_stats_ng.search.map(this.renderChart) }
-          </div>
-          { this.info('Related Sales',sold.map((sale, idx) => <div key={ idx }>{ sale.source + " : " + sale.domain + " : " + sale.price + " : " + sale.date }</div>),
-            ['source','domain','price','date'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
-          { this.info('Keywords',keywords.map((keyword, idx) => <div key={ idx }>{ keyword.keyword + " : " + keyword.avg_search_volume +
-            " : " + keyword.local_search_volume + " : " + keyword.type + " : " + keyword.avg_competition }</div>),
-            ['keyword','avg_search_volume','local_search_volume','type','avg_competition'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
-          { this.info('Misc',keyList.map((key, idx) => <div key={ idx }>{ key + " : " + pulled[key] }</div>),
-            keyList.map((key, idx) => <div key={ idx }>{ key }</div>)) }
-        </div>
-      )
     } else {
-      return <div>error</div>
+      return this.renderEmpty()
     }
   }
 }

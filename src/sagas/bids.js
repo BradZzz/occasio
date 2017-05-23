@@ -44,6 +44,11 @@ export function fetchBids(req) {
   })
 }
 
+/*
+
+POST must contain: domID, amount, usrID
+
+*/
 export function submitCreateBid(req) {
   const { payload } = req
   console.log(payload)

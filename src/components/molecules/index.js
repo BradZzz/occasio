@@ -10,6 +10,8 @@ export { default as BidAuctionBox } from "./BidAuctionBox/BidAuctionBox";
 export { default as CreateAuctionBox } from "./CreateAuctionBox/CreateAuctionBox";
 export { default as CreateAuctionButton } from "./CreateAuctionButton/CreateAuctionButton";
 
+export { default as BackOrderButton } from "./BackOrderButton/BackOrderButton";
+
 export { default as DomainList } from "./DomainList/DomainList";
 export { default as DomainSpecific } from "./DomainSpecific/DomainSpecific";
 
