@@ -37,21 +37,17 @@ export class TitlePanel extends Component {
   render() {
     const { signedIn, details, isFetching, name } = this.state
     const alt = details && !isFetching
+    const marquee = alt ? name : 'occas.io'
     return (
       <div className={styles.root} style={{
         padding: signedIn ? '1.8em 0' : '5em 0',
-        height: signedIn ? '100px' : '200px',
+        height: signedIn ? '110px' : '200px',
       }}>
         <header>
-          <div style={{ visibility: alt ? 'visible' : 'hidden' }}>
-            <h1 className={styles.title}>{ name }</h1>
-          </div>
-          <div style={{ visibility: !alt ? 'visible' : 'hidden', 'display': 'none' }}>
-            <h1 className={styles.title}>occas.io</h1>
-          </div>
+          <h1 className={styles.title}>{ marquee }</h1>
           <div className={styles.bPanel} style={{ visibility: alt ? 'visible' : 'hidden' }}>
-            <BackButton redirect="domain" style={{ 'width' : 150, 'display' : 'flex' }}>Back</BackButton>
-            <BackOrderButton name={ name } style={{ 'width' : 150, 'display' : 'flex' }}>BackOrder</BackOrderButton>
+            <BackButton redirect="domain" style={{ 'width' : 150, 'display' : 'flex', 'padding' : '0 10px' }}>Back</BackButton>
+            <BackOrderButton name={ name } style={{ 'width' : 150, 'display' : 'flex', 'padding' : '0 10px' }}>BackOrder</BackOrderButton>
           </div>
         </header>
       </div>

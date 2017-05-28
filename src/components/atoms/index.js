@@ -1,5 +1,6 @@
 // @flow
 export { default as Button } from "./Button/Button";
+export { default as ButtonFlat } from "./ButtonFlat/ButtonFlat";
 export { default as FoldingCube } from "./FoldingCube/FoldingCube";
 export { default as Login } from "./Login/Login";
 export { default as Name } from "./Name/Name";

@@ -1,26 +1,13 @@
 @import "variables.css";
 
 .root {
-  padding: 10px 20px;
-  background: var(--accent-color);
-  border: none;
-  border-radius: 3px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 16px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   cursor: pointer;
-
+  width: 150px;
   &:focus {
     outline: none;
-  }
-
-  &:hover {
-    background-color: color(var(--accent-color) blackness(40%));
-  }
-
-  &:active {
-    background-color: color(var(--accent-color) blackness(50%));
-    box-shadow: 0 2px 6px rgba(0, 0, 0, .2) inset;
   }
 }

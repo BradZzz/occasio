@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import styles from "./styles.css";
-
+import FlatButton from 'material-ui/FlatButton';
 
 type Props = {
   children: React$Element<any>;
@@ -16,12 +16,12 @@ export default class Button extends Component {
 
   render() {
     return (
-      <button
+      <FlatButton
         {...this.props}
         className={styles.root}
       >
         {this.props.children}
-      </button>
+      </FlatButton>
     );
   }
 }

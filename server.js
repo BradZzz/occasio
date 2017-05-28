@@ -275,7 +275,7 @@ app.post('/namespace/action/', function(req, res) {
             const response = {
               code : prsjson.epp.response[0].result[0]['$']['code'],
               msg : prsjson.epp.response[0].result[0]['msg'],
-              reason : prsjson.epp.response[0].result[0]['extValue'][0]['reason']
+              reason : prsjson.epp.response[0].result[0]
             }
             console.log(response)
             res.send({ status: "Success", msg: response })
