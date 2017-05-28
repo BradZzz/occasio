@@ -113,10 +113,7 @@ export class DomainSpecific extends Component {
 
     return (<div className={ styles.root }>
       <NSNotifier/>
-      <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
-      <BackOrderButton name={ name } style={ buttonStyle }>BackOrder</BackOrderButton>
       <div style={{ "display" : "flex" }}>
-        <h1 style={{ "float" : "left", "marginRight" : "2em" }}>{ name }</h1>
         <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
           <div style={{ "display" : 'block' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
           <div style={{ "display" : 'block' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
@@ -138,10 +135,7 @@ export class DomainSpecific extends Component {
   renderEmpty = (name) => {
     return (<div className={ styles.root }>
        <NSNotifier/>
-       <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
-       <BackOrderButton name={ name } style={ buttonStyle }>BackOrder</BackOrderButton>
        <div style={{ "display" : "flex" }}>
-         <h1 style={{ "float" : "left", "marginRight" : "2em" }}>{ name }</h1>
          <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
            <div style={{ "display" : 'block' }}>No information available</div>
          </div>

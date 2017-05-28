@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
-import { Button } from "../../atoms/"
+import { ButtonFlat } from "../../atoms/"
 import * as DomainActions from "../../../actions/domain"
 import * as AuctionActions from "../../../actions/auction"
 
@@ -29,9 +29,9 @@ export class BackButton extends Component {
   render() {
     return (
       <div style={ this.state.style }>
-        <Button onClick={ this.action }>
+        <ButtonFlat onClick={ this.action }>
           {this.props.children}
-        </Button>
+        </ButtonFlat>
       </div>
     )
   }

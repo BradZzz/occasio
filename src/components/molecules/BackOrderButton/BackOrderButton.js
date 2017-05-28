@@ -1,7 +1,7 @@
 // @flow
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
-import { Button } from "../../atoms/"
+import { ButtonFlat } from "../../atoms/"
 import * as NamespaceActions from "../../../actions/namespace"
 
 export class BackOrderButton extends Component {
@@ -32,9 +32,9 @@ export class BackOrderButton extends Component {
     const { style, name } = this.props
     return (
       <div style={ style }>
-        <Button onClick={ this.action }>
+        <ButtonFlat onClick={ this.action }>
           {this.props.children}
-        </Button>
+        </ButtonFlat>
       </div>
     )
   }
