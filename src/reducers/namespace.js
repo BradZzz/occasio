@@ -3,7 +3,9 @@ import { handleActions } from "redux-actions";
 import * as N from "../actions/namespace"
 
 const initialState = {
+  boName: "",
   metaBackorder: {},
+  oName: "",
   metaOrder: {},
   isFetchingBackorder: false,
   isFetchingOrder: false,
@@ -13,6 +15,7 @@ const initialState = {
 export default handleActions({
   [N.REQUEST_BACKORDERS]: (state = { }, action) => ({
     ...state,
+    boName: action.payload.domName,
     isFetchingBackorder: true,
   }),
   [N.RECEIVE_BACKORDERS]: (state = { }, action) => ({
@@ -23,6 +26,7 @@ export default handleActions({
   }),
   [N.REQUEST_ORDERS]: (state = { }, action) => ({
     ...state,
+    oName: action.payload.domName,
     isFetchingOrder: true,
   }),
   [N.RECEIVE_ORDERS]: (state = { }, action) => ({

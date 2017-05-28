@@ -13,7 +13,8 @@ export function* queryBackorder(req) {
 }
 
 export function* postCreateBackorder(req) {
-  yield put( N.requestBackorder(req) )
+  console.log(req.payload.domName)
+  yield put( N.requestBackorder(req.payload) )
   const msg = yield call(submitCreateBackorder, req)
   console.log(msg)
   yield put( N.receiveBackorder(msg) )
@@ -26,7 +27,7 @@ POST must contain: domName, usrID
 export function submitCreateBackorder(req) {
   console.log(req)
   console.log(req.payload)
-
+  console.log(req.payload.domName)
   const payload = Object.assign({}, req.payload, { action : 'backorder' })
   console.log(payload)
 

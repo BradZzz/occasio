@@ -41,24 +41,6 @@ export class DomainPanel extends Component {
       </div>
     )
   }
-
-//  render() {
-//    const { details, isFetching } = this.state
-//    return (
-//      <div className={styles.root + ' columnFlex'} >
-//        <div style={{ 'display' : isFetching ? 'block' : 'none' }}>
-//          <FoldingCube style={{ 'marginTop' : '5em' }}></FoldingCube>
-//        </div>
-//        <div style={{ display: !details && !isFetching ? 'block' : 'none' }}>
-//          <DomainList></DomainList>
-//        </div>
-//        <div style={{ display: details && !isFetching ? 'block' : 'none', 'overflowY' : 'auto' }}>
-//          <DomainSpecific></DomainSpecific>
-//        </div>
-//      </div>
-//    )
-//  }
-
 }
 
 DomainPanel.propTypes = {

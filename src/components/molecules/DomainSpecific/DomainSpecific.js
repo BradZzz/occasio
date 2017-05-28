@@ -1,6 +1,7 @@
 // @flow
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
+import { NSNotifier } from "../../../components/atoms/"
 import { BackButton, BackOrderButton } from "../../../components/molecules/"
 import styles from "./styles.css"
 import * as Chart from "react-chartjs"
@@ -111,6 +112,7 @@ export class DomainSpecific extends Component {
     const keyList = ['language','category','search_results_phrase','pagerank','traffic_estimate','overture_term','word_tracker_term','alexa_rank','alexa_link_popularity']
 
     return (<div className={ styles.root }>
+      <NSNotifier/>
       <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
       <BackOrderButton name={ name } style={ buttonStyle }>BackOrder</BackOrderButton>
       <div style={{ "display" : "flex" }}>
@@ -135,6 +137,7 @@ export class DomainSpecific extends Component {
 
   renderEmpty = (name) => {
     return (<div className={ styles.root }>
+       <NSNotifier/>
        <BackButton redirect="domain" style={ buttonStyle }>Back</BackButton>
        <BackOrderButton name={ name } style={ buttonStyle }>BackOrder</BackOrderButton>
        <div style={{ "display" : "flex" }}>

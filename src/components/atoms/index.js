@@ -7,3 +7,4 @@ export { default as Profile } from "./Profile/Profile";
 export { default as UserImg } from "./UserImg/UserImg";
 export { default as Countdown } from "./Countdown/Countdown";
 export { default as AuctionImg } from "./AuctionImg/AuctionImg";
+export { default as NSNotifier } from "./NSNotifier/NSNotifier";

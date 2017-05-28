@@ -10,9 +10,7 @@ const DOMAIN = require('./models/domain')
 const AUCTION = require('./models/auction')
 const APPRAISAL = require('./models/appraisal')
 const BIDS = require('./models/bids')
-
 const bodyParser = require('body-parser')
-//const parser = require('xml2json')
 const xml2js = require('xml2js')
 const parser = new xml2js.Parser()
 const NodeCache = require( "node-cache" )
@@ -21,6 +19,7 @@ const app = express()
 const PORT = process.env.PORT || 3000
 const dateOpts = { year: '2-digit', month: '2-digit', day: '2-digit' }
 const pIncrements = [ 30 , 60 , 90 ]
+const acceptableActions = ['create','backorder']
 
 //The appraisal service only gets updated once a day, so we can set the cache ttl to that amount
 const cache = new NodeCache({ stdTTL: 86400 })
@@ -43,8 +42,8 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/dist/index.html')
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/dist/index.html')
 })
 
 app.get('/appraisals/:period', function(req, res) {
@@ -254,9 +253,36 @@ app.get('/list/:period', function(req, res) {
 
 app.post('/namespace/action/', function(req, res) {
   console.log(req.body)
-  if ('body' in req && 'domName' in req.body && 'usrID' in req.body && 'action' in req.body) {
-    console.log(req.body)
-    res.send({ status: "Valid", msg: req.body })
+  if ('body' in req && 'domName' in req.body && 'usrID' in req.body && 'action' in req.body && acceptableActions.indexOf(req.body.action) > -1) {
+    request.post({
+      headers: {'content-type':'application/json'},
+      url: 'http://ec2-52-86-145-64.compute-1.amazonaws.com:5000/' + req.body.action,
+      form: { domain: req.body.domName },
+    }, function (error, response, body) {
+      if (error){
+        console.log(error)
+        res.send({ status: "Error", msg: "Error parsing body" })
+      } else {
+        console.log(body)
+        const xml = JSON.parse(JSON.parse(body))
+        console.log(xml)
+        parser.parseString(xml['received'], function (err, prsjson) {
+          if (err) {
+            console.log(err)
+            res.send({ status: "Error", msg: "Error parsing body" })
+          } else {
+            console.log(prsjson)
+            const response = {
+              code : prsjson.epp.response[0].result[0]['$']['code'],
+              msg : prsjson.epp.response[0].result[0]['msg'],
+              reason : prsjson.epp.response[0].result[0]['extValue'][0]['reason']
+            }
+            console.log(response)
+            res.send({ status: "Success", msg: response })
+          }
+        })
+      }
+    })
   } else {
     res.send({ status: "Error", msg: "Invalid Post Request" })
   }
