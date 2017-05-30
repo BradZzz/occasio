@@ -2,7 +2,6 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import { NSNotifier } from "../../../components/atoms/"
-import { BackButton, BackOrderButton } from "../../../components/molecules/"
 import styles from "./styles.css"
 import * as Chart from "react-chartjs"
 const LineChart = Chart.Line
@@ -112,34 +111,38 @@ export class DomainSpecific extends Component {
     const keyList = ['language','category','search_results_phrase','pagerank','traffic_estimate','overture_term','word_tracker_term','alexa_rank','alexa_link_popularity']
 
     return (<div className={ styles.root }>
-      <NSNotifier/>
-      <div style={{ "display" : "flex" }}>
-        <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
-          <div style={{ "display" : 'block' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
-          <div style={{ "display" : 'block' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
+      <div className={styles.container}>
+        <NSNotifier/>
+        <div style={{ "display" : "flex" }}>
+          <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
+            <div style={{ "display" : 'block' }}>Appraised Value: ${ pulled['appraised_value'] }.00</div>
+            <div style={{ "display" : 'block' }}>Wholesale Value: ${ pulled['appraised_wholesale_value'] }.00</div>
+          </div>
         </div>
-      </div>
-      <div style={{ "display" : "block", "padding" : "1em", "marginBottom" : ".5em" }}>
-        { pulled.keyword_stats_ng.search.map(this.renderChart) }
-      </div>
-      { this.info('Related Sales',sold.map((sale, idx) => <div key={ idx }>{ sale.source + " : " + sale.domain + " : " + sale.price + " : " + sale.date }</div>),
-        ['source','domain','price','date'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
-      { this.info('Keywords',keywords.map((keyword, idx) => <div key={ idx }>{ keyword.keyword + " : " + keyword.avg_search_volume +
-        " : " + keyword.local_search_volume + " : " + keyword.type + " : " + keyword.avg_competition }</div>),
-        ['keyword','avg_search_volume','local_search_volume','type','avg_competition'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
-      { this.info('Misc',keyList.map((key, idx) => <div key={ idx }>{ key + " : " + pulled[key] }</div>),
-        keyList.map((key, idx) => <div key={ idx }>{ key }</div>)) }
+        <div style={{ "display" : "block", "padding" : "1em", "marginBottom" : ".5em" }}>
+          { pulled.keyword_stats_ng.search.map(this.renderChart) }
+        </div>
+        { this.info('Related Sales',sold.map((sale, idx) => <div key={ idx }>{ sale.source + " : " + sale.domain + " : " + sale.price + " : " + sale.date }</div>),
+          ['source','domain','price','date'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
+        { this.info('Keywords',keywords.map((keyword, idx) => <div key={ idx }>{ keyword.keyword + " : " + keyword.avg_search_volume +
+          " : " + keyword.local_search_volume + " : " + keyword.type + " : " + keyword.avg_competition }</div>),
+          ['keyword','avg_search_volume','local_search_volume','type','avg_competition'].map((key, idx) => <div key={ idx }>{ key }</div>)) }
+        { this.info('Misc',keyList.map((key, idx) => <div key={ idx }>{ key + " : " + pulled[key] }</div>),
+          keyList.map((key, idx) => <div key={ idx }>{ key }</div>)) }
+       </div>
     </div>)
   }
 
   renderEmpty = (name) => {
     return (<div className={ styles.root }>
-       <NSNotifier/>
-       <div style={{ "display" : "flex" }}>
-         <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
-           <div style={{ "display" : 'block' }}>No information available</div>
-         </div>
-       </div>
+      <div className={styles.container}>
+        <NSNotifier/>
+        <div style={{ "display" : "flex" }}>
+          <div style={{ "float" : "left", "marginTop" : "1.3em" }}>
+            <div style={{ "display" : 'block' }}>No information available</div>
+          </div>
+        </div>
+      </div>
      </div>)
   }
 

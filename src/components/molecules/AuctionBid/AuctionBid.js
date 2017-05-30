@@ -84,9 +84,6 @@ export class AuctionBid extends Component {
     const { specific, disclaimer } = this.state
     return (
       <div className={ styles.root }>
-        <div style={{ 'marginBottom': '1em' }}>
-          <BackButton redirect="auction_spec" style={ buttonStyle }>Back</BackButton>
-        </div>
         <h1>{ specific.name }</h1>
         <div style={{ width : "30%", float : "left" }} className={ styles.flexR }>
           <AuctionImg></AuctionImg>

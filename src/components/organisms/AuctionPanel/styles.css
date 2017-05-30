@@ -7,6 +7,23 @@
   bottom: 0;
 }
 
+.specific {
+  z-index: 0;
+}
+
+.bPanel {
+  background: var(--primary-color);
+  border-bottom: 1px solid #000;
+  padding: .5em;
+  font-weight: bold;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
 .scrollable {
   overflow-y: auto;
   display: inline-grid;

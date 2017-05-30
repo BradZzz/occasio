@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import * as AuctionActions from "../../../actions/auction"
-import { AuctionList, AuctionSpecific, AuctionBid } from "../../../components/molecules/"
+import { AuctionList, AuctionSpecific, AuctionBid, BackButton } from "../../../components/molecules/"
 import styles from "./styles.css"
 
 export class AuctionPanel extends Component {
@@ -38,11 +38,16 @@ export class AuctionPanel extends Component {
         <div style={{ display: (!this.state.details && !this.state.bidding) ? 'block' : 'none' }}>
           <AuctionList></AuctionList>
         </div>
-        <div style={{ display: (this.state.details && !this.state.bidding) ? 'block' : 'none' }}>
-          <AuctionSpecific></AuctionSpecific>
-        </div>
-        <div style={{ display: (this.state.bidding && !this.state.details) ? 'block' : 'none' }}>
-          <AuctionBid></AuctionBid>
+        <div style={{ display: this.state.details || this.state.bidding ? 'block' : 'none' }}>
+          <div className={styles.bPanel}>
+            <BackButton redirect={ this.state.details ? "auction" : "auction_spec" }  style={{ 'width' : 150, 'display' : 'flex', 'padding' : '0 10px' }}>Back</BackButton>
+          </div>
+          <div style={{ display: this.state.details ? 'block' : 'none', 'overflowY' : 'auto', 'max-height': '76vh' }}>
+            <AuctionSpecific></AuctionSpecific>
+          </div>
+          <div style={{ display: this.state.bidding ? 'block' : 'none', 'overflowY' : 'auto', 'max-height': '76vh' }}>
+            <AuctionBid></AuctionBid>
+          </div>
         </div>
       </div>
     )

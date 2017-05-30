@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import { FoldingCube } from "../../../components/atoms/"
-import { ActionButton, DomainList, DomainSpecific } from "../../../components/molecules/"
+import { ActionButton, DomainList, DomainSpecific, BackButton, BackOrderButton } from "../../../components/molecules/"
 import styles from "./styles.css"
 
 export class DomainPanel extends Component {
@@ -10,7 +10,8 @@ export class DomainPanel extends Component {
     super(props)
     this.state = {
       details: props.details,
-      isFetching: props.isFetching
+      isFetching: props.isFetching,
+      name: props.name,
     }
   }
 
@@ -23,10 +24,14 @@ export class DomainPanel extends Component {
     {
       this.setState({ isFetching: nextProps.isFetching })
     }
+    if(JSON.stringify(this.state.name) !== JSON.stringify(nextProps.name))
+    {
+      this.setState({ name: nextProps.name })
+    }
   }
 
   render() {
-    const { details, isFetching } = this.state
+    const { details, isFetching, name } = this.state
     return (
       <div className={styles.root + ' columnFlex'} >
         <div style={{ 'display' : isFetching ? 'block' : 'none' }}>
@@ -35,8 +40,14 @@ export class DomainPanel extends Component {
         <div style={{ visibility: !details && !isFetching ? 'visible' : 'hidden' }}>
           <DomainList></DomainList>
         </div>
-        <div style={{ visibility: details && !isFetching ? 'visible' : 'hidden', 'overflowY' : 'auto' }}>
-          <DomainSpecific></DomainSpecific>
+        <div className={styles.specific} style={{ visibility: details && !isFetching ? 'visible' : 'hidden' }}>
+          <div className={styles.bPanel}>
+            <BackButton redirect="domain" style={{ 'width' : 150, 'display' : 'flex', 'padding' : '0 10px' }}>Back</BackButton>
+            <BackOrderButton name={ name } style={{ 'width' : 150, 'display' : 'flex', 'padding' : '0 10px' }}>BackOrder</BackOrderButton>
+          </div>
+          <div style={{ 'overflowY' : 'auto', 'max-height': '76vh' }}>
+            <DomainSpecific></DomainSpecific>
+          </div>
         </div>
       </div>
     )
@@ -45,14 +56,16 @@ export class DomainPanel extends Component {
 
 DomainPanel.propTypes = {
   details: PropTypes.bool.isRequired,
-  isFetching: PropTypes.bool.isRequired
+  isFetching: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired
 }
 
 function mapStateToProps(state) {
-  const { details, isFetching } = state.domain
+  const { details, isFetching, specific : name } = state.domain
   return {
     details,
     isFetching,
+    name,
   }
 }
 

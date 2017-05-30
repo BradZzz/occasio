@@ -1,7 +1,11 @@
 @import "variables.css";
 
 .root {
-  margin: 1em;
+  min-height: 1000px;
+}
+
+.container {
+  margin:  1em;
 }
 
 .back {
@@ -10,4 +14,15 @@
 
 .appraisal {
   margin: 1em;
+}
+
+.bPanel {
+  background: var(--primary-color);
+  border-bottom: 1px solid #000;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
 }

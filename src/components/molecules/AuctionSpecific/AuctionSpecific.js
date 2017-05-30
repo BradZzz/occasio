@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import { AuctionImg, Countdown } from "../../../components/atoms/"
-import { BackButton, AuctionBidButton } from "../../../components/molecules/"
+import { AuctionBidButton } from "../../../components/molecules/"
 import styles from "./styles.css"
 
 const buttonStyle = { }
@@ -16,9 +16,6 @@ export class AuctionSpecific extends Component {
     const { specific } = this.props
     return (
       <div className={ styles.root }>
-        <div style={{ 'marginBottom': '1em' }}>
-          <BackButton redirect="auction" style={ buttonStyle }>Back</BackButton>
-        </div>
         <h1>{ specific.name }</h1>
         <div style={{ width : "30%", float : "left" }} className={ styles.flexR }>
           <AuctionImg></AuctionImg>

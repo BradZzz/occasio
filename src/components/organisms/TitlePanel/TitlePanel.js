@@ -2,7 +2,6 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import styles from "./styles.css"
-import { BackButton, BackOrderButton } from "../../../components/molecules/"
 
 export class TitlePanel extends Component {
   constructor(props) {
@@ -41,14 +40,10 @@ export class TitlePanel extends Component {
     return (
       <div className={styles.root} style={{
         padding: signedIn ? '1.8em 0' : '5em 0',
-        height: signedIn ? '110px' : '200px',
+        height: signedIn ? '100px' : '200px',
       }}>
         <header>
           <h1 className={styles.title}>{ marquee }</h1>
-          <div className={styles.bPanel} style={{ visibility: alt ? 'visible' : 'hidden' }}>
-            <BackButton redirect="domain" style={{ 'width' : 150, 'display' : 'flex', 'padding' : '0 10px' }}>Back</BackButton>
-            <BackOrderButton name={ name } style={{ 'width' : 150, 'display' : 'flex', 'padding' : '0 10px' }}>BackOrder</BackOrderButton>
-          </div>
         </header>
       </div>
     )
