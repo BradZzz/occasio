@@ -8,13 +8,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta name="format-detection" content="telephone=no,address=no,email=no">
-  <title>Occas.io</title>
+  <title>EpiAnalytics</title>
   <!-- <link rel="stylesheet" href="./css/style.css"> -->
   <link rel="stylesheet" href="https://raw.githubusercontent.com/billjohnston/react-material-layout/master/dist/react-material-class-layout.min.css">
   <!-- This is so we can have our custom loading bar. Not compiled at build-time -->
   <style>
-    #firebaseui-auth-container { background: #ffcdd2; }
-    .firebaseui-id-page-callback { display: none !important; }
     .center {
       position: fixed;
       left: 50%;
@@ -41,21 +39,7 @@
   </style>
 </head>
 <body>
-  <div id="react-root"></div>
-  <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script>
-  <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyDs_UalXlf6uzpPcPX0IBVF0SD61fgb1U8",
-    authDomain: "xdomio-1fdcc.firebaseapp.com",
-    databaseURL: "https://xdomio-1fdcc.firebaseio.com",
-    storageBucket: "xdomio-1fdcc.appspot.com",
-    messagingSenderId: "1002071359895"
-  };
-  firebase.initializeApp(config);
-  </script>
-  <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
-  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
-  <script src="./js/bundle.js"></script>
+<div id="react-root"></div>
+<script src="./js/bundle.js"></script>
 </body>
 </html>

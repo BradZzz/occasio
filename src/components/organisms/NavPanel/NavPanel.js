@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import styles from "./styles.css"
 
-export class TitlePanel extends Component {
+export class NavPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -19,22 +19,17 @@ export class TitlePanel extends Component {
   }
 
   render() {
-    const { signedIn } = this.state
-    const marquee = 'episource'
     return (
-      <div className={styles.root} style={{
-        padding: signedIn ? '1.8em 0' : '5em 0',
-        height: signedIn ? '100px' : '200px',
-      }}>
-        <header>
-          <h1 className={styles.title}>{ marquee }</h1>
-        </header>
+      <div className={styles.root}>
+        <div className={styles.navLogo}>
+            <img src='./images/logo_nav.png'/>
+        </div>
       </div>
     )
   }
 }
 
-TitlePanel.propTypes = {
+NavPanel.propTypes = {
   signedIn: PropTypes.bool.isRequired,
 }
 
@@ -45,4 +40,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(TitlePanel)
+export default connect(mapStateToProps)(NavPanel)

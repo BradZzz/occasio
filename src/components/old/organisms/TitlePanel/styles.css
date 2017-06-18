@@ -1,0 +1,13 @@
+@import "variables.css";
+
+.root {
+  background: var(--primary-color);
+  color: #fff;
+  transition: all 0.5s ease;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  text-align: center;
+}

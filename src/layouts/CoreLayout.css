@@ -30,3 +30,14 @@
 .frame {
   height: calc(100vh - 150px);
 }
+
+.left {
+    float: left;
+    width : 15%;
+    height: 100vh;
+}
+
+.right {
+    float: left;
+    width : 85%;
+}

@@ -1,14 +1,14 @@
 // @flow
 import React, { Component, PropTypes } from "react"
 import { Name, Button } from "../../../components/atoms/"
-import { CenterBox, LogoutButton, UsrImgBox } from "../../../components/atoms/"
+import { CenterBox, LogoutButton, UsrImgBox } from "../../../components/molecules/"
 import { connect } from "react-redux"
 import { browserHistory } from 'react-router'
 import styles from "./styles.css"
 
 const imgStyle = {
   display: 'inline-flex',
-  border: '1px solid #000',
+  border: '1px solid #ffffff',
 }
 
 const nameStyle = {
@@ -19,6 +19,7 @@ const nameStyle = {
   margin: "0 0 0 1em",
   bottom: "5px",
   "font-weight": "bold",
+  color: "white",
   width: "150px",
 }
 
@@ -47,6 +48,14 @@ export class HeaderPanel extends Component {
     const { meta } = this.props
     return (
       <div className={styles.root} style={{ display: this.state.signedIn ? 'block' : 'none' }}>
+        <div className={styles.navWrap} style={{ zIndex: '1' }}>
+          <span className={styles.nav} onClick={ () => browserHistory.push('/domains') }>
+            Domains
+          </span>
+          <span className={styles.nav} onClick={ () => browserHistory.push('/auctions') }>
+            Auctions
+          </span>
+        </div>
         <CenterBox align="right" height="50px">
           <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
             <div style={{ "cursor": "pointer", "width" : "210px", "display" : "inline-block" }} onClick={ () => browserHistory.push('/profile') }>

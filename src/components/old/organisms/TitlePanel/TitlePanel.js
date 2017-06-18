@@ -8,6 +8,9 @@ export class TitlePanel extends Component {
     super(props)
     this.state = {
       signedin: props.signedIn,
+      details: props.details,
+      isFetching: props.isFetching,
+      name: props.name,
     }
   }
 
@@ -16,11 +19,24 @@ export class TitlePanel extends Component {
     {
       this.setState({ signedIn: nextProps.signedIn })
     }
+    if(JSON.stringify(this.state.details) !== JSON.stringify(nextProps.details))
+    {
+      this.setState({ details: nextProps.details })
+    }
+    if(JSON.stringify(this.state.isFetching) !== JSON.stringify(nextProps.isFetching))
+    {
+      this.setState({ isFetching: nextProps.isFetching })
+    }
+    if(JSON.stringify(this.state.name) !== JSON.stringify(nextProps.name))
+    {
+      this.setState({ name: nextProps.name })
+    }
   }
 
   render() {
-    const { signedIn } = this.state
-    const marquee = 'episource'
+    const { signedIn, details, isFetching, name } = this.state
+    const alt = details && !isFetching
+    const marquee = alt ? name : 'occas.io'
     return (
       <div className={styles.root} style={{
         padding: signedIn ? '1.8em 0' : '5em 0',
@@ -36,12 +52,19 @@ export class TitlePanel extends Component {
 
 TitlePanel.propTypes = {
   signedIn: PropTypes.bool.isRequired,
+  details: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  name: PropTypes.string.isRequired,
 }
 
 function mapStateToProps(state) {
   const { signedIn } = state.user
+  const { details, isFetching, specific : name } = state.domain
   return {
     signedIn,
+    details,
+    isFetching,
+    name,
   }
 }
 

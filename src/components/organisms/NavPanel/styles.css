@@ -1,0 +1,17 @@
+@import "variables.css";
+
+.root {
+  background: var(--primary-color-dark);
+  color: #fff;
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s ease;
+}
+
+.navLogo {
+  width : 100%;
+  padding : 1em;
+  & > img {
+    width : 100%;
+  }
+}
