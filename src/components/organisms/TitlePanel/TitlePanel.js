@@ -22,10 +22,7 @@ export class TitlePanel extends Component {
     const { signedIn } = this.state
     const marquee = 'episource'
     return (
-      <div className={styles.root} style={{
-        padding: signedIn ? '1.8em 0' : '5em 0',
-        height: signedIn ? '100px' : '200px',
-      }}>
+      <div className={styles.root} style={{ display: signedIn ? 'none' : 'block' }}>
         <header>
           <h1 className={styles.title}>{ marquee }</h1>
         </header>

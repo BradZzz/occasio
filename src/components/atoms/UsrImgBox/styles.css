@@ -2,3 +2,9 @@
   width: 40px;
   height: 40px;
 }
+
+.profileWrap {
+  cursor: pointer;
+  width : 210px;
+  display : inline-block;
+}

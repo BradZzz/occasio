@@ -2,14 +2,28 @@
 
 .root {
   min-width: 100%;
-  min-height: 50px;
-  padding-top: 2px;
+  min-height: 60px;
+  padding-top: 6px;
   position: relative;
   background: var(--main-white);
+  border-bottom: 1px solid var(--primary-color-dark);
 }
 
 .navWrap {
   position: absolute;
+}
+
+.profileWrap {
+  cursor: pointer;
+  width: 210px;
+  display: inline-block;
+}
+
+.headImg {
+  display: block;
+  height: 100%;
+  margin: 0 auto;
+  padding: .5em;
 }
 
 .nav {

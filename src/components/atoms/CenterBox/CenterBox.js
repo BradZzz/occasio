@@ -10,7 +10,7 @@ export default class CenterBox extends Component {
     super(props)
     this.state = {
       height: props.height,
-      align: props.align
+      align: props.align || "center"
     }
   }
 

@@ -1,0 +1,16 @@
+.root {
+  display : flex;
+  justify-content: flex-start;
+  height : 60px;
+  padding: 0.6em;
+}
+
+.icon {
+  margin: 0 1em 0 1.5em;
+}
+
+.text {
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}

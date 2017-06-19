@@ -1,3 +1,15 @@
 .root {
 
 }
+
+.card {
+  width: 50%;
+  position: relative;
+  margin-top: 2em;
+}
+
+.buttons {
+  margin: 2em auto 1em auto;
+  display: flex;
+  justify-content: space-between;
+}

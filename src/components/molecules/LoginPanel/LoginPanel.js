@@ -1,6 +1,8 @@
 // @flow
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
+import { Card } from 'material-ui/Card';
+import TextField from 'material-ui/TextField';
 import styles from "./styles.css"
 
 import { Button } from "../../quarks/"
@@ -29,8 +31,15 @@ export class LoginPanel extends Component {
 
   render() {
     return (
-      <div className={ "center" }>
-        <Button onClick={ this.action }> Login </Button>
+      <div className={ "center " + styles.card }>
+        <Card style={{ "padding" : "1em" }}>
+          <TextField fullWidth={true} hintText="Email"/>
+          <TextField fullWidth={true} hintText="Password" floatingLabelText="Password" type="password"/>
+          <div className={ styles.buttons }>
+            <Button style={{ "justify-content": "space-around" }} className={ styles.button } onClick={ this.action }> Login </Button>
+            <Button style={{ "justify-content": "space-around" }} className={ styles.button }> Forgot Password </Button>
+          </div>
+        </Card>
       </div>
     );
   }

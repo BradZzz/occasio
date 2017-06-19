@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router";
 import styles from "./CoreLayout.css";
-import { HeaderPanel, TitlePanel, NavPanel } from "../components/organisms/"
+import { HeaderPanel, NavPanel } from "../components/organisms/"
 
 
 type Props = {
@@ -19,7 +19,6 @@ const CoreLayout = (props: Props) => {
       </div>
       <div className={styles.right}>
         <HeaderPanel></HeaderPanel>
-        <TitlePanel></TitlePanel>
         <div className={styles.frame}>
           {children}
         </div>

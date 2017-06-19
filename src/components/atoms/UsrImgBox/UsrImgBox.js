@@ -9,13 +9,18 @@ export default class UsrImgBox extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      style: props.style
+      style: props.style || 0,
+      pstyles: [{
+        display: 'inline-flex',
+        border: '1px solid #000',
+      }]
     }
   }
 
   render() {
+    const { pstyles, style } = this.state
     return (
-      <div className={styles.root} style={ this.state.style }>
+      <div className={styles.root} style={ pstyles[style] }>
         <UserImg></UserImg>
       </div>
     )

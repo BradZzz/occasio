@@ -9,7 +9,12 @@ export class LogoutButton extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      style: props.style
+      style: props.style,
+      pstyles: [{
+        display: 'inline-flex',
+        position: 'absolute',
+        margin: '.05em 0 0 0',
+      }]
     }
   }
 
@@ -21,8 +26,9 @@ export class LogoutButton extends Component {
   }
 
   render() {
+    const { pstyles, style } = this.state
     return (
-      <div style={ this.state.style }>
+      <div style={ pstyles[style] }>
         <Button onClick={ this.logout }>Log Out</Button>
       </div>
     )

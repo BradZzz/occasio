@@ -6,28 +6,6 @@ import { connect } from "react-redux"
 import { browserHistory } from 'react-router'
 import styles from "./styles.css"
 
-const imgStyle = {
-  display: 'inline-flex',
-  border: '1px solid #000',
-}
-
-const nameStyle = {
-  display: 'inline-flex',
-  height: "100%",
-  position: "relative",
-  "vertical-align": "super",
-  margin: "0 0 0 1em",
-  bottom: "5px",
-  "font-weight": "bold",
-  width: "150px",
-}
-
-const buttonStyle = {
-  display: 'inline-flex',
-  position: 'absolute',
-  margin: '.05em 0 0 0',
-}
-
 export class HeaderPanel extends Component {
   constructor(props) {
     super(props)
@@ -45,19 +23,28 @@ export class HeaderPanel extends Component {
 
   render() {
     const { meta } = this.props
-    return (
-      <div className={styles.root} style={{ display: this.state.signedIn ? 'block' : 'none' }}>
-        <CenterBox align="right" height="50px">
-          <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
-            <div style={{ "cursor": "pointer", "width" : "210px", "display" : "inline-block" }} onClick={ () => browserHistory.push('/profile') }>
-              <UsrImgBox style={ imgStyle }></UsrImgBox>
-              <Name style={ nameStyle }></Name>
+    const { signedIn } = this.state
+    if (!signedIn) {
+      return (
+        <div className={styles.root} style={{ height: "60px" }}>
+          <img className={ styles.headImg } src='./images/logo_header.png'/>
+        </div>
+      )
+    } else {
+      return (
+        <div className={styles.root}>
+          <CenterBox align="right" height="50px">
+            <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
+              <div className={ styles.profileWrap } onClick={ () => browserHistory.push('/profile') }>
+                <UsrImgBox style={ 0 }></UsrImgBox>
+                <Name style={ 0 }></Name>
+              </div>
+              <LogoutButton style={ 0 }></LogoutButton>
             </div>
-            <LogoutButton style={ buttonStyle }></LogoutButton>
-          </div>
-        </CenterBox>
-      </div>
-    )
+          </CenterBox>
+        </div>
+      )
+    }
   }
 }
 

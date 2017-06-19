@@ -8,15 +8,26 @@ export class Name extends Component {
     super(props)
     this.state = {
       style: props.style,
-      max: 15
+      pstyles:[{
+        display: 'inline-flex',
+        height: "100%",
+        position: "relative",
+        "vertical-align": "super",
+        margin: "0 0 0 1em",
+        bottom: "5px",
+        "font-weight": "bold",
+        width: "150px",
+      }],
+      max: 15,
     }
   }
 
   render() {
     const { meta } = this.props
+    const { style, pstyles } = this.state
     const len = meta.name.length > this.state.max ? this.state.max : meta.name.length
     return (
-      <div style={ this.state.style }>
+      <div style={ pstyles[style] }>
         { meta.name.substring(0,len) }
       </div>
     )
