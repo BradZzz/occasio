@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import * as UserActions from "../../../actions/user"
 import styles from "./styles.css"
 
-import { FoldingCube } from "../../../components/quarks/"
+import { FoldingCubeLogin } from "../../../components/atoms/"
 import { LoginPanel } from "../../../components/molecules/"
 
 export class IndexPage extends Component {
@@ -24,7 +24,7 @@ export class IndexPage extends Component {
   render() {
     return (
       <div className={styles.root}>
-        <FoldingCube/>
+        <FoldingCubeLogin/>
         <LoginPanel/>
       </div>
     )

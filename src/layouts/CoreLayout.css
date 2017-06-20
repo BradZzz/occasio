@@ -28,7 +28,8 @@
 }
 
 .frame {
-  height: calc(100vh - 150px);
+  height: 100%;
+  overflow-y: auto;
 }
 
 .left {

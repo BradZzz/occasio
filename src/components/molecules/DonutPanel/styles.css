@@ -1,0 +1,9 @@
+.root {
+  & p {
+    text-align: center;
+    padding-top: 1em;
+    font-weight: bold;
+    font-size: 18px;
+    display: block;
+  }
+}

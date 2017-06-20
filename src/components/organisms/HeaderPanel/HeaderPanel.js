@@ -51,8 +51,7 @@ export class HeaderPanel extends Component {
 HeaderPanel.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  meta: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired
+  meta: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {

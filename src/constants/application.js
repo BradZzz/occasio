@@ -8,3 +8,5 @@ export const BLANK_USR = {
   accessToken: '',
   providerData: ''
 }
+
+export const COLORS = [ "#787878", "#444444", "#7EBA4C" ]

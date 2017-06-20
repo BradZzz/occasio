@@ -12,7 +12,7 @@ import SocialLocationCity from 'material-ui/svg-icons/social/location-city'
 import ContentArchive from 'material-ui/svg-icons/content/archive'
 import { white } from 'material-ui/styles/colors';
 
-import { HomePartial } from '../containers/pages/partials'
+import { HomePartial, MemberPartial } from '../containers/pages/partials'
 
 const initialState = {
   meta: BLANK_USR,
@@ -22,7 +22,7 @@ const initialState = {
     { icon: (<ActionHome color={white} />), text: 'Home', nav: '/home', content: (<HomePartial/>) },
     { icon: (<SocialPoll color={white} />), text: 'Dashboard', nav: '/dash', content: (<div>Dashboard</div>) },
     { icon: (<ActionWork color={white} />), text: 'Campaigns', nav: '/camp', content: (<div>Campaigns</div>) },
-    { icon: (<SocialPeople color={white} />), text: 'Member Index', nav: '/membi', content: (<div>Member Index</div>) },
+    { icon: (<SocialPeople color={white} />), text: 'Member Index', nav: '/membi', content: (<MemberPartial/>) },
     { icon: (<SocialLocationCity color={white} />), text: 'Provider Index', nav: '/provi', content: (<div>Provider Index</div>) },
     { icon: (<ContentArchive color={white} />), text: 'Downloads', nav: '/downlds', content: (<div>Downloads</div>) }
   ],
