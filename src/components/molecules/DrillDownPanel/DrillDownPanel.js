@@ -13,8 +13,8 @@ export class DrillDownPanel extends Component {
 
   render() {
     const { data } = this.props
-    const width = 700
-    const height = 400
+    const width = 500
+    const height = 300
     return (
       <div className={ styles.root }>
         <Card style={{ width : width }}>

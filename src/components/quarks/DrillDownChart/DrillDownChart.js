@@ -53,6 +53,9 @@ export class DrillDownChart extends Component {
                dataLabels: {
                  enabled: false
                }
+             },
+             candlestick: {
+               lineColor: '#404048'
              }
            },
            tooltip: {
