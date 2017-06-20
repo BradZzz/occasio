@@ -114,16 +114,20 @@ export class DrillDownChart extends Component {
   }
 
   componentDidMount () {
+    const { config } = this.state
+    const { data, width, height, title, sub } = this.props
+    config.series[0].name = sub
+
     HighchartsDrilldown(Highcharts)
     HighchartsMore(ReactHighcharts.Highcharts)
   }
 
   render() {
     const { config } = this.state
-    const { data, width, height, title, sub } = this.props
+    const { title, width, height } = this.props
     config.chart.height = height
     config.chart.width = width
-    config.series[0].name = sub
+
     return (
       <div>
         <p>{ title }</p>
