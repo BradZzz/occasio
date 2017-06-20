@@ -27,6 +27,6 @@ export function fetchFeed(req) {
         { type: FEED_TYPES[0], msg: "Fixed problems with forgotten passwords", created: new Date() },
         { type: FEED_TYPES[1], msg: "Added new feature feeds", created: new Date() }
       ])
-    }, 5000)
+    }, 2000)
   })
 }
