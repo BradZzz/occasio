@@ -8,7 +8,6 @@ import { Button } from "../../quarks/"
 import * as NavActions from "../../../actions/nav"
 
 const bStyle = {
-  color:"#fff",
   textAlign: 'left',
   float:"left",
 }
@@ -17,6 +16,7 @@ export class NavTab extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      idx: props.idx,
       pos: props.pos,
       text: props.text,
       icon: props.icon,
@@ -24,20 +24,40 @@ export class NavTab extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(this.state.pos) !== JSON.stringify(nextProps.pos)) // Check if it's a new user, you can also use some unique, like the ID
+    {
+      this.setState({ pos: nextProps.pos })
+    }
+  }
+
   action = (nav) => {
     const { dispatch } = this.props
-    const { pos } = this.state
+    const { idx } = this.state
     console.log(nav)
-    dispatch(NavActions.navReq({ pos: pos }))
+    dispatch(NavActions.navReq({ pos: idx }))
+  }
+
+  active = () => {
+    const { pos, idx } = this.state
+    return pos === idx
+  }
+
+  findColor = () => {
+    return this.active() ? '#7EBA4C' : '#fff'
+  }
+
+  findClass = () => {
+    return this.active() ? styles.active : styles.inactive
   }
 
   render() {
     const { text, icon, nav } = this.state
     return (
-      <div className={ styles.root }>
+      <div className={ styles.root + " " + this.findClass() }>
         <FlatButton
           label={ text }
-          icon={ icon }
+          icon={ React.cloneElement(icon, { color: this.findColor() }) }
           fullWidth={ true }
           style={ bStyle }
           onClick={() => this.action(nav)}
@@ -48,6 +68,7 @@ export class NavTab extends Component {
 }
 
 NavTab.propTypes = {
+  idx: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   text: PropTypes.string.isRequired,
   icon: PropTypes.object.isRequired,
@@ -56,7 +77,10 @@ NavTab.propTypes = {
 }
 
 function mapStateToProps(state) {
-  return { }
+  const { pos } = state.nav
+  return {
+    pos
+  }
 }
 
 export default connect(mapStateToProps)(NavTab)

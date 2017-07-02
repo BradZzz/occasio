@@ -18,8 +18,7 @@ export default class Button extends Component {
     return (
       <FlatButton
         {...this.props}
-        className={styles.root}
-      >
+        className={styles.root}>
         {this.props.children}
       </FlatButton>
     );

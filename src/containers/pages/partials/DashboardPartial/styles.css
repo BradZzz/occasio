@@ -1,0 +1,9 @@
+@import "variables.css";
+
+.root {
+  min-height: 1000px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  margin-bottom: 4em;
+}

@@ -10,7 +10,8 @@ export class HeaderPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      signedin: props.signedIn
+      info: props.tabs[props.pos],
+      signedin: props.signedIn,
     }
   }
 
@@ -23,7 +24,7 @@ export class HeaderPanel extends Component {
 
   render() {
     const { meta } = this.props
-    const { signedIn } = this.state
+    const { signedIn, info } = this.state
     if (!signedIn) {
       return (
         <div className={styles.root} style={{ height: "60px" }}>
@@ -33,6 +34,9 @@ export class HeaderPanel extends Component {
     } else {
       return (
         <div className={styles.root}>
+          <div className={ styles.navWrap }>
+            <span>{ info.text }</span>
+          </div>
           <CenterBox align="right" height="50px">
             <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
               <div className={ styles.profileWrap } onClick={ () => browserHistory.push('/profile') }>
@@ -51,15 +55,20 @@ export class HeaderPanel extends Component {
 HeaderPanel.propTypes = {
   signedIn: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  meta: PropTypes.object.isRequired
+  meta: PropTypes.object.isRequired,
+  pos: PropTypes.number.isRequired,
+  tabs: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state) {
   const { signedIn, isFetching, meta } = state.user
+  const { pos, tabs } = state.nav
   return {
     signedIn,
     isFetching,
     meta,
+    pos,
+    tabs,
   }
 }
 

@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import styles from "./styles.css"
 
 import { NavTab } from "../../../components/molecules/"
+import { Collapse } from "../../../components/atoms/"
 
 // Home
 import ActionHome from 'material-ui/svg-icons/action/home'
@@ -46,9 +47,12 @@ export class NavPanel extends Component {
   tabs = () => {
     const { signedIn, tabs } = this.state
     if (signedIn) {
-        return tabs.map( (tab, idx) => <NavTab key={ idx } pos={ idx } icon={ tab.icon } nav={ tab.nav } text={ tab.text }/>)
+      return tabs.map( (tab, idx) => {
+        return <NavTab key={ idx } idx={ idx } icon={ tab.icon }
+            nav={ tab.nav } text={ tab.text }/>
+      })
     } else {
-        return (<div></div>)
+      return ( <div></div> )
     }
   }
 
@@ -56,7 +60,7 @@ export class NavPanel extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.navLogo}>
-            <img src='./images/logo_nav.png'/>
+          <img src='./images/logo_nav.png'/>
         </div>
         { this.tabs() }
       </div>

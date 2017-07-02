@@ -27,8 +27,6 @@ export class IndexPage extends Component {
     const { info } = this.state
     return (
       <div className={styles.root}>
-        <h3>{ info.text }</h3>
-        <Divider />
         { info.content }
       </div>
     )
