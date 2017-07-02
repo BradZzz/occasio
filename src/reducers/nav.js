@@ -16,7 +16,6 @@ import { DashboardPartial, HomePartial, MemberPartial } from '../containers/page
 
 const initialState = {
   meta: BLANK_USR,
-  isFetching: false,
   pos: 0,
   tabs: [
     { icon: <ActionHome/>, text: 'Home', nav: '/home', content: (<HomePartial/>),
@@ -43,11 +42,6 @@ const initialState = {
 export default handleActions({
   [N.NAV_REQ]: (state = { }, action) => ({
     ...state,
-    isFetching: true,
     pos: action.payload.pos
-  }),
-  [N.NAV_IMP]: (state = { }, action) => ({
-    ...state,
-    isFetching: false,
-  }),
+  })
 }, initialState);

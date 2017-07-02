@@ -24,7 +24,7 @@ export class Collapse extends Component {
 
 Collapse.propTypes = {
     trigger: PropTypes.string.isRequired,
-    open: PropTypes.boolean,
+    open: PropTypes.bool,
 }
 function mapStateToProps(state) { return { } }
 export default connect(mapStateToProps)(Collapse)

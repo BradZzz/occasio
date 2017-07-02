@@ -1,9 +1,13 @@
 @import "variables.css";
 
 .root {
-  min-height: 1000px;
+  min-height: 700px;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
   margin-bottom: 6em;
+}
+
+.root > div {
+  width: 100%;
 }
