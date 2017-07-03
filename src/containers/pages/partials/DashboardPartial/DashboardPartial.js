@@ -8,9 +8,6 @@ import { CardPanel, CardExpPanel } from "../../../../components/organisms"
 export class DashboardPartial extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      exp: props.exp,
-    }
   }
 
   //Summary / Demographic
@@ -19,15 +16,16 @@ export class DashboardPartial extends Component {
   //HCC
   //Churn
 
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.state.exp) !== JSON.stringify(nextProps.exp)) // Check if it's a new user, you can also use some unique, like the ID
-    {
-      this.setState({ exp: nextProps.exp })
-    }
-  }
+//  componentWillReceiveProps(nextProps) {
+//    if(JSON.stringify(this.state.exp) !== JSON.stringify(nextProps.exp)) // Check if it's a new user, you can also use some unique, like the ID
+//    {
+//      this.setState({ exp: nextProps.exp })
+//    }
+//  }
 
   mkCard = (card, idx) => {
     return <CardPanel
+      key={ idx }
       idx={ idx }
       title={ card.title }
       sub={ card.sub }
@@ -36,34 +34,31 @@ export class DashboardPartial extends Component {
   }
 
   render() {
-    const { exp } = this.state
     const { cards } = this.props
-    if (!exp) {
+//    if (!exp) {
       return (
-        <div>
+        <div className={ styles.root }>
           { cards.map(this.mkCard) }
         </div>
       )
-    } else {
-      return (
-        <div>
-          <CardExpPanel/>
-        </div>
-      )
-    }
+//    } else {
+//      return (
+//        <div>
+//          <CardExpPanel/>
+//        </div>
+//      )
+//    }
   }
 }
 
 DashboardPartial.propTypes = {
-  exp: PropTypes.bool.isRequired,
-  cards: PropTypes.array.isRequired,
+  cards: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
-  const { exp, cards } = state.p_dash
+  const { cards } = state.p_dash
   return {
-    exp,
-    cards,
+    cards
   }
 }
 

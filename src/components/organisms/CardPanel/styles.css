@@ -1,11 +1,22 @@
 @import "variables.css";
 
 .root {
-  min-height: 700px;
+  min-height: 430px;
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
-  margin-bottom: 6em;
+  margin: 1em;
+  transition: all 0.5s ease;
+  width: 500px;
+}
+
+.root.active {
+  min-height: 800px;
+  width: 100%;
+}
+
+.root.inactive {
+  display: none;
 }
 
 .root > div {
