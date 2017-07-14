@@ -20,7 +20,6 @@ export class LogoutButton extends Component {
 
   logout = () => {
     const { dispatch, router } = this.props
-
     dispatch(UserActions.logout())
     browserHistory.push('/');
   }

@@ -31,8 +31,6 @@ export class CardPanel extends Component {
   open = () => {
     const { idx } = this.state
     const { dispatch } = this.props
-    console.log('pos')
-    console.log(idx)
     dispatch(DashboardPActions.dashReq({ pos:idx, exp:true }))
   }
 
@@ -43,17 +41,20 @@ export class CardPanel extends Component {
 
   render() {
     const { idx, pos, exp } = this.state
-    const { img, title, sub, txt } = this.props
+    const { img, title, sub, txt, cont, color } = this.props
     const button = exp ? (<FlatButton label="Close" onClick={() => this.close()}/>) : (<FlatButton label="Expand" onClick={() => this.open()}/>)
+    const content = exp ? cont : <span/>
     const dynClass = (exp && pos === idx) ? " " + styles.active : ( !exp ? "" : " " + styles.inactive)
+    const imgPanel = <img style={{ "height": "300px", "background" : color }} />
     return (
       <div className={ styles.root + dynClass }>
         <Card>
           <CardMedia overlay={<CardTitle title={ title } subtitle={ sub } />} >
-            <img src={ img } style={{ "height": "300px" }} alt="" />
+            { imgPanel }
           </CardMedia>
           <CardText>
             { txt }
+            { content }
           </CardText>
           <CardActions>
             { button }
@@ -67,11 +68,13 @@ export class CardPanel extends Component {
 CardPanel.propTypes = {
   idx: PropTypes.number.isRequired,
   img: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   sub: PropTypes.string.isRequired,
   txt: PropTypes.string.isRequired,
   exp: PropTypes.bool.isRequired,
   pos: PropTypes.number.isRequired,
+  cont: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 }
 

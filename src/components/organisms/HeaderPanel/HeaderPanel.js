@@ -32,22 +32,6 @@ export class HeaderPanel extends Component {
         </div>
       )
     } else {
-//      return (
-//        <div className={styles.root}>
-//          <div className={ styles.navWrap }>
-//            <span>{ info.text }</span>
-//          </div>
-//          <CenterBox align="right" height="50px">
-//            <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
-//              <div className={ styles.profileWrap } onClick={ () => browserHistory.push('/profile') }>
-//                <UsrImgBox style={ 0 }></UsrImgBox>
-//                <Name style={ 0 }></Name>
-//              </div>
-//              <LogoutButton style={ 0 }></LogoutButton>
-//            </div>
-//          </CenterBox>
-//        </div>
-//      )
       return (
         <div className={styles.root}>
           <CenterBox align="right" height="50px">

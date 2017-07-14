@@ -7,38 +7,18 @@ import { FoldingCubeHome } from "../../../../components/atoms"
 import { DrillDownPanel, DonutPanel } from "../../../../components/molecules"
 import Divider from 'material-ui/Divider'
 import ReactHighcharts from 'react-highcharts'
+import { DRILL_BAR_TEST, DONUT_CHART_TEST } from "../../../../constants/application"
 
 export class MemberPartial extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      data: [["Captured",67],["Missed",33]],
-      dataP: [[["Captured",67],["Missed",33]],[["Captured",54],["Missed",46]],[["Captured",21],["Missed",79]]]
-    }
   }
 
-//  componentDidMount() {
-//    const self = this;
-//    setTimeout(function () {
-//      self.setState({
-//        config:{
-//          xAxis: {
-//            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
-//          },
-//          series: [{
-//            data: [29.9, 71.5, 106.4, 129.2, 144.0]
-//          }]
-//        },
-//      })
-//    },3000)
-//  }
-
   render() {
-    const { data, dataP } = this.state
     return (
       <div className={ styles.root }>
-        <DrillDownPanel data={ [] }/>
-        <DonutPanel data = { dataP } />
+        <DrillDownPanel title="Captured vs. Projected RAF by Year" sub="RAF by Year" data={ DRILL_BAR_TEST } width={ 500 } height={ 300 } />
+        <DonutPanel title="Some Chart" sub="some sub" data={ DONUT_CHART_TEST } width={ 300 } height={ 400 } />
       </div>
     )
   }

@@ -12,13 +12,12 @@ export class DrillDownPanel extends Component {
   }
 
   render() {
-    const { data } = this.props
-    const width = 500
-    const height = 300
+    const { title, sub, width, height, data } = this.props
     return (
       <div className={ styles.root }>
         <Card style={{ width : width }}>
-          <DrillDownChart title={ "Captured vs. Projected RAF by Year" } sub={ "RAF by Year" } height={ height } width={ width } data={ [] }/>
+          <p>{ title }</p>
+          <DrillDownChart sub={ sub } height={ height } width={ width } data={ data }/>
         </Card>
       </div>
     );
@@ -26,7 +25,11 @@ export class DrillDownPanel extends Component {
 }
 
 DrillDownPanel.propTypes = {
-  data: PropTypes.array.isRequired,
+  title: PropTypes.string.isRequired,
+  sub: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  data: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {

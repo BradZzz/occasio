@@ -10,19 +10,6 @@ export class DashboardPartial extends Component {
     super(props)
   }
 
-  //Summary / Demographic
-  //Segmentation
-  //Recapture => goes to the provider panel
-  //HCC
-  //Churn
-
-//  componentWillReceiveProps(nextProps) {
-//    if(JSON.stringify(this.state.exp) !== JSON.stringify(nextProps.exp)) // Check if it's a new user, you can also use some unique, like the ID
-//    {
-//      this.setState({ exp: nextProps.exp })
-//    }
-//  }
-
   mkCard = (card, idx) => {
     return <CardPanel
       key={ idx }
@@ -30,24 +17,18 @@ export class DashboardPartial extends Component {
       title={ card.title }
       sub={ card.sub }
       txt={ card.txt }
-      img={ card.img } />
+      img={ card.img }
+      color={ card.color }
+      cont={ card.cont }/>
   }
 
   render() {
     const { cards } = this.props
-//    if (!exp) {
-      return (
-        <div className={ styles.root }>
-          { cards.map(this.mkCard) }
-        </div>
-      )
-//    } else {
-//      return (
-//        <div>
-//          <CardExpPanel/>
-//        </div>
-//      )
-//    }
+    return (
+      <div className={ styles.root }>
+        { cards.map(this.mkCard) }
+      </div>
+    )
   }
 }
 

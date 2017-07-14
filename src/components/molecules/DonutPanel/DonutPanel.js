@@ -31,6 +31,10 @@ export class DonutPanel extends Component {
 }
 
 DonutPanel.propTypes = {
+  title: PropTypes.string.isRequired,
+  sub: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,
 }
 

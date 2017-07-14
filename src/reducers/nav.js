@@ -12,17 +12,17 @@ import SocialLocationCity from 'material-ui/svg-icons/social/location-city'
 import ContentArchive from 'material-ui/svg-icons/content/archive'
 import { white } from 'material-ui/styles/colors';
 
-import { DashboardPartial, HomePartial, MemberPartial } from '../containers/pages/partials'
+import { DashboardPartial, HomePartial, MemberPartial, ProviderPartial } from '../containers/pages/partials'
 
 const initialState = {
   meta: BLANK_USR,
   pos: 0,
   tabs: [
     { icon: <ActionHome/>, text: 'Home', nav: '/home', content: (<HomePartial/>),
-        sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
     },
     { icon: <SocialPoll/>, text: 'Dashboard', nav: '/dash', content: (<DashboardPartial/>),
-     sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
     },
     { icon: <ActionWork/>, text: 'Campaigns', nav: '/camp', content: (<div>Campaigns</div>),
       sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
@@ -30,7 +30,7 @@ const initialState = {
     { icon: <SocialPeople/>, text: 'Member Index', nav: '/membi', content: (<MemberPartial/>),
       sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
     },
-    { icon: <SocialLocationCity/>, text: 'Provider Index', nav: '/provi', content: (<div>Provider Index</div>),
+    { icon: <SocialLocationCity/>, text: 'Provider Index', nav: '/provi', content: (<ProviderPartial/>),
       sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
     },
     { icon: <ContentArchive/>, text: 'Downloads', nav: '/downlds', content: (<div>Downloads</div>),

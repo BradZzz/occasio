@@ -1,35 +1,59 @@
 // @flow
 import { handleActions } from "redux-actions";
-import * as D from "../../actions/partials/dashboard"
 import React from "react"
+import * as D from "../../actions/partials/dashboard"
+
+import { SECTION_COLORS, INFO_CHART_TEST, DRILL_BAR_TEST, LINE_CHART_TEST } from "../../constants/application"
+import { DrillDownPanel, DonutPanel, InfoPanel, LinePanel } from "../../components/molecules"
+
+const sampleBar = DRILL_BAR_TEST
+const sampleInfo = INFO_CHART_TEST
+const sampleLine = LINE_CHART_TEST
 
 const initialState = {
   pos: 0,
   exp: false,
   cards: [
     {
-      title:"Summary",
-      sub:"General Information",
-      txt:"Click here to see summary statistics for your client providers",
-      img:"https://previews.123rf.com/images/stockbroker/stockbroker0910/stockbroker091000014/5632070-Stock-Traders-At-Work-Stock-Photo-trader-broker.jpg"
+      title: "Summary",
+      sub: "General Information",
+      txt: "Click here to see summary statistics for your client providers",
+      img: "",
+      color: SECTION_COLORS[3],
+      cont: (
+        <div>
+          <DrillDownPanel title="Captured vs. Projected RAF by Year" sub="RAF by Year" data={ sampleBar } width={ 500 } height={ 300 } />
+          <InfoPanel width={ 300 } title="Eligible Members" sub="" data={ sampleInfo }/>
+        </div>)
     },
     {
-      title:"Segmentation",
-      sub:"Breakdown by Score",
-      txt:"Members broken down by RAF, HCC, Demo, and Recapture scores",
-      img:"http://www.tradingacademy.com/assets/images/fec/how-stock-market-works.jpg"
+      title: "Segmentation",
+      sub: "Breakdown by Score",
+      txt: "Members broken down by RAF, HCC, Demo, and Recapture scores",
+      img: "",
+      color: SECTION_COLORS[0],
+      cont: (
+        <div>
+          <DrillDownPanel title="Captured vs. Projected RAF by Year" sub="RAF by Year" data={ sampleBar } width={ 500 } height={ 300 } />
+          <LinePanel title="Line Chart" sub="Lines in lines" data={ sampleLine } width={ 600 } height={ 300 }/>
+        </div>
+        )
     },
     {
-      title:"HCC",
-      sub:"Breakdown by HCC",
-      txt:"Members broken down by RAF, HCC, Demo, and Recapture scores",
-      img:"https://thumbs.dreamstime.com/z/old-doctor-standing-mri-room-hospital-front-holding-tablet-smiling-35113023.jpg"
+      title: "HCC",
+      sub: "Breakdown by HCC",
+      txt: "Members broken down by RAF, HCC, Demo, and Recapture scores",
+      img: "",
+      color: SECTION_COLORS[5],
+      cont: (<DrillDownPanel title="Captured vs. Projected RAF by Year" sub="RAF by Year" data={ sampleBar } width={ 500 } height={ 300 } />)
     },
     {
-      title:"Churn",
-      sub:"Breakdown by Churn",
-      txt:"Member churn broken down by year and month",
-      img:"https://previews.123rf.com/images/alexraths/alexraths1102/alexraths110200008/8800806-doctor-or-nurse-talking-to-patient-lying-in-bed-in-hospital-Stock-Photo.jpg"
+      title: "Churn",
+      sub: "Breakdown by Churn",
+      txt: "Member churn broken down by year and month",
+      img: "",
+      color: SECTION_COLORS[8],
+      cont: (<DrillDownPanel title="Captured vs. Projected RAF by Year" sub="RAF by Year" data={ sampleBar } width={ 500 } height={ 300 } />)
     },
   ]
 }

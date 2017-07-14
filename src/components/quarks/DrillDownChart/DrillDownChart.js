@@ -13,124 +13,58 @@ export class DrillDownChart extends Component {
      super(props)
      console.log(COLORS)
      this.state = {
-        config : {
-           colors: COLORS,
-           chart: {
-             type: 'column'
-           },
-           title: {
-             text: ''
-           },
-           subtitle: {
-             text: ''
-           },
+        config : { colors: COLORS,
+           chart: { type: 'column' },
+           title: { text: '' },
+           subtitle: { text: '' },
            xAxis: {
              type: 'category',
              lineColor: 'transparent',
              lineWidth: 0,
              minorGridLineWidth: 0,
-             labels: {
-                enabled: true
-             },
+             labels: { enabled: true },
              minorTickLength: 0,
              tickLength: 0
            },
            yAxis: {
-              title: {
-                text: ''
-              },
+              title: { text: '' },
               gridLineWidth:0,
-              labels: {
-                 enabled: false
-              },
+              labels: { enabled: false },
            },
-           legend: {
-             enabled: false
-           },
+           legend: { enabled: false },
            plotOptions: {
              series: {
                borderWidth: 0,
-               dataLabels: {
-                 enabled: false
-               }
+               dataLabels: { enabled: false }
              },
-             candlestick: {
-               lineColor: '#404048'
-             }
+             candlestick: { lineColor: '#404048' }
            },
            tooltip: {
              headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
              pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b><br/>'
            },
-
-           series: [{
-               colorByPoint: true,
-               data: [{
-                   name: '2015',
-                   y: 33860,
-                   drilldown: '2015'
-               }, {
-                   name: '2016',
-                   y: 33290,
-                   drilldown: '2016'
-               }, {
-                   name: '2017',
-                   y: 34023,
-                   drilldown: '2017'
-               }]
-           }],
-           drilldown: {
-               series: [{
-                   id: '2015',
-                   name: 'RAF 2015',
-                   data: [
-                       ['RAF', 1.187],
-                       ['Opportunity', 0.251],
-                       ['Projected RAF', 1.437],
-                   ]
-               }, {
-                   id: '2016',
-                   name: 'RAF 2016',
-                   data: [
-                       ['RAF', 1.243],
-                       ['Opportunity', 0.241],
-                       ['Projected RAF', 1.484],
-                   ]
-               }, {
-                   id: '2017',
-                   name: 'RAF 2017',
-                   data: [
-                       ['RAF', 0.937],
-                       ['Opportunity', 0.381],
-                       ['Projected RAF', 1.318],
-                   ]
-               }]
-           },
-           credits: {
-             enabled: false
-           }
+           series: props.data.series,
+           drilldown: props.data.drilldown,
+           credits: { enabled: false }
         }
      }
   }
 
   componentDidMount () {
-    const { config } = this.state
-    const { data, width, height, title, sub } = this.props
-    config.series[0].name = sub
-
     HighchartsDrilldown(Highcharts)
     HighchartsMore(ReactHighcharts.Highcharts)
   }
 
   render() {
     const { config } = this.state
-    const { title, width, height } = this.props
+    const { title, sub, width, height } = this.props
+
     config.chart.height = height
     config.chart.width = width
+    config.series[0].name = sub
 
     return (
       <div>
-        <p>{ title }</p>
         <ReactHighcharts config = { config } ref="chart"/>
       </div>
     )
@@ -138,11 +72,10 @@ export class DrillDownChart extends Component {
 }
 
 DrillDownChart.propTypes = {
-  title: PropTypes.string.isRequired,
   sub: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
 }
 
 function mapStateToProps(state) {

@@ -51,6 +51,7 @@ export class DonutChart extends Component {
     config.chart.height = height
     config.chart.width = width
     config.series[0].data = data
+
     return (
       <ReactHighcharts config = { config } ref="chart"/>
     )
