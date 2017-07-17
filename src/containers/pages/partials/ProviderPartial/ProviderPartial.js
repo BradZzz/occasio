@@ -2,12 +2,11 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import styles from "./styles.css"
-
 import { TablePanel } from "../../../../components/molecules"
 
-import * as MembersActions from "../../../../actions/models/members"
+import * as ProviderActions from "../../../../actions/models/providers"
 
-export class MemberPartial extends Component {
+export class ProviderPartial extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,7 +19,7 @@ export class MemberPartial extends Component {
     const { dispatch } = this.props
     const { data } = this.state
     if (data.length < 1) {
-      dispatch(MembersActions.queryMembers({ }))
+      dispatch(ProviderActions.queryProviders({ }))
     }
   }
 
@@ -37,19 +36,16 @@ export class MemberPartial extends Component {
 
   render() {
     const { data } = this.state
-    const columns = [{
-       Header: 'Provider ID',
-       accessor: 'provider_dbid'
-    },{
-       Header: 'First',
-       accessor: 'first_name'
-    },{
-       Header: 'Last',
-       accessor: 'last_name'
-    },{
-       Header: 'Provider Name',
-       accessor: 'pcp_name'
-    }]
+    const columns = [
+    { Header: 'Provider ID', accessor: 'provider_id' },
+    { Header: 'First', accessor: 'first_name' },
+    { Header: 'Last', accessor: 'last_name' },
+    { Header: 'Specialty', accessor: 'provider_type' },
+    { Header: 'Address', accessor: 'address_1' },
+    { Header: 'City', accessor: 'city' },
+    { Header: 'State', accessor: 'state' },
+    { Header: 'Zip', accessor: 'zip' },
+    ]
 
     return (
       <div className={ styles.root }>
@@ -59,15 +55,15 @@ export class MemberPartial extends Component {
   }
 }
 
-MemberPartial.propTypes = {
+ProviderPartial.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   data: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { isFetching, data } = state.m_members
+  const { isFetching, data } = state.m_providers
   return { isFetching, data }
 }
 
-export default connect(mapStateToProps)(MemberPartial)
+export default connect(mapStateToProps)(ProviderPartial)

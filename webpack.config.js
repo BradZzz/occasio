@@ -6,19 +6,19 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 module.exports = {
   debug: true,
   devtool: "#eval-source-map",
-
   entry: [
     "webpack/hot/dev-server",
     "webpack-hot-middleware/client",
     "./src/entry.js"
   ],
-
+  node: {
+    fs: 'empty'
+  },
   output: {
     path: path.join(__dirname, "dist"),
     publicPath: "/",
     filename: "js/bundle.js"
   },
-
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
@@ -27,7 +27,6 @@ module.exports = {
       { from: "./static/" }
     ])
   ],
-
   module: {
     loaders: [
       {
@@ -45,7 +44,6 @@ module.exports = {
       }
     ]
   },
-
   postcss: [
     require("postcss-import")({
       path: [

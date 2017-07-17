@@ -9,6 +9,7 @@ const bodyParser = require('body-parser')
 const xml2js = require('xml2js')
 const parser = new xml2js.Parser()
 const NodeCache = require( "node-cache" )
+const models  = require('./models')
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -39,6 +40,18 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/dist/index.html')
+})
+
+app.get('/members', function(req, res) {
+  models.vw_provider_members.findAll({ limit: 50 }).then(function(members) {
+    res.send({ status: "done", data: members.map(function(member,idx){ return member.toJSON() }) })
+  })
+})
+
+app.get('/providers', function(req, res) {
+  models.vw_provider_index.findAll({ limit: 50 }).then(function(providers) {
+    res.send({ status: "done", data: providers.map(function(provider,idx){ return provider.toJSON() }) })
+  })
 })
 
 app.listen(PORT, function(error) {

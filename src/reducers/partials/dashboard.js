@@ -3,12 +3,13 @@ import { handleActions } from "redux-actions";
 import React from "react"
 import * as D from "../../actions/partials/dashboard"
 
-import { SECTION_COLORS, INFO_CHART_TEST, DRILL_BAR_TEST, LINE_CHART_TEST } from "../../constants/application"
+import { SECTION_COLORS, INFO_CHART_TEST, DRILL_BAR_TEST, LINE_CHART_TEST, DONUT_CHART_TEST } from "../../constants/application"
 import { DrillDownPanel, DonutPanel, InfoPanel, LinePanel } from "../../components/molecules"
 
 const sampleBar = DRILL_BAR_TEST
 const sampleInfo = INFO_CHART_TEST
 const sampleLine = LINE_CHART_TEST
+const sampleDonut = DONUT_CHART_TEST
 
 const initialState = {
   pos: 0,
@@ -53,7 +54,12 @@ const initialState = {
       txt: "Member churn broken down by year and month",
       img: "",
       color: SECTION_COLORS[8],
-      cont: (<DrillDownPanel title="Captured vs. Projected RAF by Year" sub="RAF by Year" data={ sampleBar } width={ 500 } height={ 300 } />)
+      cont: (
+        <div>
+          <DrillDownPanel title="Captured vs. Projected RAF by Year" sub="RAF by Year" data={ sampleBar } width={ 500 } height={ 300 } />
+          <DonutPanel title="Some Chart" sub="some sub" data={ sampleDonut } width={ 300 } height={ 400 } />
+        </div>
+      )
     },
   ]
 }

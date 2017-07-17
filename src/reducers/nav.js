@@ -12,7 +12,7 @@ import SocialLocationCity from 'material-ui/svg-icons/social/location-city'
 import ContentArchive from 'material-ui/svg-icons/content/archive'
 import { white } from 'material-ui/styles/colors';
 
-import { DashboardPartial, HomePartial, MemberPartial, ProviderPartial } from '../containers/pages/partials'
+import { DashboardPartial, HomePartial, MemberPartial, ProviderPartial, CampaignPartial } from '../containers/pages/partials'
 
 const initialState = {
   meta: BLANK_USR,
@@ -24,7 +24,7 @@ const initialState = {
     { icon: <SocialPoll/>, text: 'Dashboard', nav: '/dash', content: (<DashboardPartial/>),
       sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
     },
-    { icon: <ActionWork/>, text: 'Campaigns', nav: '/camp', content: (<div>Campaigns</div>),
+    { icon: <ActionWork/>, text: 'Campaigns', nav: '/camp', content: (<CampaignPartial/>),
       sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>]
     },
     { icon: <SocialPeople/>, text: 'Member Index', nav: '/membi', content: (<MemberPartial/>),
