@@ -12,6 +12,7 @@ export class ProviderPartial extends Component {
     this.state = {
       data : props.data,
       isFetching : props.isFetching,
+      currYr : new Date().getFullYear(),
     }
   }
 
@@ -35,21 +36,27 @@ export class ProviderPartial extends Component {
   }
 
   render() {
-    const { data } = this.state
+    const { data, currYr } = this.state
+
     const columns = [
-    { Header: 'Provider ID', accessor: 'provider_id' },
-    { Header: 'First', accessor: 'first_name' },
-    { Header: 'Last', accessor: 'last_name' },
-    { Header: 'Specialty', accessor: 'provider_type' },
-    { Header: 'Address', accessor: 'address_1' },
-    { Header: 'City', accessor: 'city' },
-    { Header: 'State', accessor: 'state' },
-    { Header: 'Zip', accessor: 'zip' },
+      { Header: 'Name', accessor: 'full_name' },
+      { Header: currYr + ' Eligible Members', accessor: 'current_num_eligible_members' },
+      { Header: currYr + ' Avg RAF', accessor: 'current_avg_raf_captured' },
+      { Header: currYr + ' Avg Opportunity', accessor: 'current_avg_opportunity' },
+      { Header: 'Opportunity Score', accessor: 'opportunity_score' },
+      { Header: currYr + ' Recapture Rate', accessor: 'current_recapture_rate' },
+    ]
+
+    const inner = [
+      { Header: (currYr - 1) + ' AVG RAF', accessor: 'prior_avg_raf_captured' },
+      { Header: (currYr - 1) + ' AVG Opportunity', accessor: 'prior_avg_opportunity' },
+      { Header: (currYr - 1) + ' Recapture Rate', accessor: 'prior_recapture_rate' },
+      { Header: 'NPI', accessor: 'npi' },
     ]
 
     return (
       <div className={ styles.root }>
-        <TablePanel ttype="collapse" data={ data } columns={ columns }/>
+        <TablePanel ttype="collapse" data={ data } columns={ columns } inner={ inner }/>
       </div>
     )
   }

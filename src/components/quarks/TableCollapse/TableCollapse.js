@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux"
 import words from 'random-words'
 import ReactTable from 'react-table'
+import styles from "./styles.css"
 
 import { COLORS } from "../../../constants/application"
 
@@ -25,6 +26,7 @@ export class TableCollapse extends Component {
        },
        columns: props.columns,
        data: props.data,
+       inner: props.inner,
        sData: Array(5553).fill().map((_, i) => {
          return {
            firstName: words(),
@@ -54,27 +56,29 @@ export class TableCollapse extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.state.data) !== JSON.stringify(nextProps.data)) // Check if it's a new user, you can also use some unique, like the ID
+    if(JSON.stringify(this.state.data) !== JSON.stringify(nextProps.data))
     {
       this.setState({ data: nextProps.data })
     }
-    if(JSON.stringify(this.state.columns) !== JSON.stringify(nextProps.columns)) // Check if it's a new user, you can also use some unique, like the ID
+    if(JSON.stringify(this.state.columns) !== JSON.stringify(nextProps.columns))
     {
       this.setState({ columns: nextProps.columns })
     }
   }
 
    render () {
-     const { data, columns, sData, sColumns } = this.state
+     const { data, columns, sData, sColumns, inner } = this.state
      let tdata = data || []
      let tcolumns = columns || []
+     let tinner = inner || []
 
      console.log(tdata)
      console.log(tcolumns)
+     console.log(tinner)
 
      return (
        <div>
-         <div className='table-wrap'>
+         <div className='table-wrap' className={ styles.trans }>
            <ReactTable
              className='-striped -highlight'
              data={ tdata }
@@ -82,9 +86,19 @@ export class TableCollapse extends Component {
              defaultPageSize={15}
              {...this.state.tableOptions}
              SubComponent={(row) => {
+                //transition: "all 0.5s ease"
                return (
-                 <div style={{padding: '20px'}}>
-                   <em>Some Patient Information Will Go Here!</em>
+                 <div style={{ padding: '20px',  border: "1px solid #000", margin: "1em", "borderRadius": "5px" }}>
+                   {
+                     tinner.map(function(inn, idx){
+                       return (
+                         <div key={ idx } style={{ "width":"40%" }}>
+                           <strong>{ inn.Header }: </strong>
+                           <span style={{ 'float':'right' }}>{ row.original[inn.accessor] } </span>
+                         </div>
+                       )
+                     })
+                   }
                  </div>
                )
              }}
@@ -110,6 +124,7 @@ export class TableCollapse extends Component {
 TableCollapse.propTypes = {
   data: PropTypes.array,
   columns: PropTypes.array,
+  inner: PropTypes.array,
 }
 
 function mapStateToProps(state) {

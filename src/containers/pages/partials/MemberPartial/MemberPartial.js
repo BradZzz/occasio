@@ -13,6 +13,7 @@ export class MemberPartial extends Component {
     this.state = {
       data : props.data,
       isFetching : props.isFetching,
+      currYr : new Date().getFullYear(),
     }
   }
 
@@ -36,24 +37,39 @@ export class MemberPartial extends Component {
   }
 
   render() {
-    const { data } = this.state
+    const { data, currYr } = this.state
+
     const columns = [{
-       Header: 'Provider ID',
-       accessor: 'provider_dbid'
+       Header: 'Name',
+       accessor: 'full_name'
     },{
-       Header: 'First',
-       accessor: 'first_name'
+       Header: 'DOB',
+       accessor: 'date_of_birth'
     },{
-       Header: 'Last',
-       accessor: 'last_name'
+       Header: currYr + ' RAF',
+       accessor: 'current_raf_captured'
     },{
-       Header: 'Provider Name',
-       accessor: 'pcp_name'
+       Header: currYr + ' RAF Projected',
+       accessor: 'current_raf_projected'
+    },{
+       Header: currYr + ' Opportunity',
+       accessor: 'current_opportunity'
+    },{
+       Header: (currYr - 1) + ' RAF',
+       accessor: 'prior_raf_captured'
     }]
+
+    const inner = [
+      { Header: 'Last DOS', accessor: 'last_encounter' },
+      { Header: 'PCP', accessor: 'pcp_name' },
+      { Header: (currYr - 1) + ' RAF Projected', accessor: 'prior_raf_projected' },
+      { Header: (currYr - 1) + ' Opportunity', accessor: 'prior_opportunity' },
+      { Header: 'Current Status', accessor: 'current_is_eligible' }
+    ]
 
     return (
       <div className={ styles.root }>
-        <TablePanel ttype="collapse" data={ data } columns={ columns }/>
+        <TablePanel ttype="collapse" data={ data } columns={ columns } inner={ inner }/>
       </div>
     )
   }

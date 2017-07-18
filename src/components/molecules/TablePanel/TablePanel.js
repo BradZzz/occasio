@@ -12,9 +12,9 @@ export class TablePanel extends Component {
   }
 
   render() {
-    const { ttype, data, columns } = this.props
+    const { ttype, data, columns, inner } = this.props
     const table = ttype && ttype === 'collapse' ?
-      <TableCollapse data={ data } columns={ columns }/> : <TableNormal data={ data } columns={ columns }/>;
+      <TableCollapse data={ data } columns={ columns } inner={ inner }/> : <TableNormal data={ data } columns={ columns }/>;
     return (
       <div className={ styles.root }>
         <Card>
@@ -29,6 +29,7 @@ TablePanel.propTypes = {
   ttype: PropTypes.string,
   columns: PropTypes.array,
   data: PropTypes.array,
+  inner: PropTypes.array,
 }
 
 function mapStateToProps(state) {
