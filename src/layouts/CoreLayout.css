@@ -29,6 +29,9 @@
 
 .frame {
   height: 100%;
+}
+
+.frame.scroll {
   overflow-y: auto;
 }
 

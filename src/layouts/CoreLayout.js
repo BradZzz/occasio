@@ -25,6 +25,6 @@ const CoreLayout = (props: Props) => {
       </div>
     </div>
   )
-};
+}
 
-export default CoreLayout;
+export default CoreLayout

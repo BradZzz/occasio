@@ -27,6 +27,7 @@ export class DashboardPartial extends Component {
     return (
       <div className={ styles.root }>
         { cards.map(this.mkCard) }
+        <div style={{ "marginBottom" : "70px", "width" : "100%" }}></div>
       </div>
     )
   }
