@@ -40,20 +40,33 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+const queryMemDB = (res, key, table, order) => {
+  const memory = cache.get(key)
+  if (memory){
+    res.send({ status: "done", data: memory })
+  } else {
+    models[table].findAll({ limit : 200, where: { client_dbid: client }, order: [ order ] }).then(function(rows) {
+      const data = rows.map((row,idx) => row.toJSON() )
+      cache.set(key, data)
+      res.send({ status: "done", data: data })
+    })
+  }
+}
+
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/dist/index.html')
 })
 
 app.get('/members', function(req, res) {
-  models.vw_provider_members.findAll({ limit: 100, where: { client_dbid: client }, order: ['full_name'] }).then(function(members) {
-    res.send({ status: "done", data: members.map(function(member,idx){ return member.toJSON() }) })
-  })
+  queryMemDB(res, 'members', 'vw_provider_members', 'full_name')
 })
 
 app.get('/providers', function(req, res) {
-  models.vw_provider_index.findAll({ limit: 100, where: { client_dbid: client }, order: ['full_name'] }).then(function(providers) {
-    res.send({ status: "done", data: providers.map(function(provider,idx){ return provider.toJSON() }) })
-  })
+  queryMemDB(res, 'providers', 'vw_provider_index', 'full_name')
+})
+
+app.get('/campaigns', function(req, res) {
+  queryMemDB(res, 'campaigns', 'campaigns', 'name')
 })
 
 app.listen(PORT, function(error) {

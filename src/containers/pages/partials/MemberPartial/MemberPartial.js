@@ -71,7 +71,7 @@ export class MemberPartial extends Component {
 
     if (desc) {
       const click = () => dispatch(MembersPartialActions.unloadMemberDesc({}))
-      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "hicn" } click={ click }/>
+      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "hicn" } click={ click } showKey={ "full_name" }/>
     }
 
     return (

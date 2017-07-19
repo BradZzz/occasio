@@ -6,6 +6,7 @@ import { queryFeed } from "./partials/home"
 
 import { requestMembers, queryMembers } from "./models/members"
 import { requestProviders, queryProviders } from "./models/providers"
+import { requestCampaigns, queryCampaigns } from "./models/campaigns"
 
 export default function *rootSaga(): Generator<*, *, *> {
   yield [
@@ -20,5 +21,8 @@ export default function *rootSaga(): Generator<*, *, *> {
 
     fork(requestProviders),
     fork(queryProviders),
+
+    fork(requestCampaigns),
+    fork(queryCampaigns),
   ];
 }

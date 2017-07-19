@@ -2,6 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Member = sequelize.define("vw_provider_members", {
+    dbid: { type: DataTypes.INTEGER, primaryKey: true },
     client_dbid: { type: DataTypes.INTEGER },
 
     full_name: { type: DataTypes.STRING, allowNull: false },
@@ -10,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     gender: { type: DataTypes.STRING },
     date_of_birth: { type: DataTypes.DATE },
 
-    provider_dbid: { type: DataTypes.INTEGER, primaryKey: true },
+    provider_dbid: { type: DataTypes.INTEGER },
     pcp_name: { type: DataTypes.STRING },
     hicn: { type: DataTypes.STRING },
     health_plan_name: { type: DataTypes.STRING },

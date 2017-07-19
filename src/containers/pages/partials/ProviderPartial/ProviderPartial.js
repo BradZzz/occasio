@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import styles from "./styles.css"
+
 import { TablePanel, ProviderDescPanel } from "../../../../components/molecules"
 import { ListDetailPanel } from "../../../../components/organisms"
 
@@ -60,7 +61,7 @@ export class ProviderPartial extends Component {
 
     if (desc) {
       const click = () => dispatch(ProviderPartialActions.unloadProviderDesc({}))
-      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "npi" } click={ click }/>
+      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "npi" } click={ click } showKey={ "full_name" }/>
     }
 
     return (
