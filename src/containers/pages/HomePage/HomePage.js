@@ -5,6 +5,9 @@ import styles from "./styles.css"
 import type { Dispatch } from "redux"
 import Divider from 'material-ui/Divider';
 
+import { FoldingCubeMain } from "../../../components/atoms/"
+
+
 export class IndexPage extends Component {
   constructor(props) {
     super(props)
@@ -26,9 +29,11 @@ export class IndexPage extends Component {
   render() {
     const { info } = this.state
     return (
-      <div className={styles.root}>
-        { info.content }
-      </div>
+      <FoldingCubeMain>
+        <div className={styles.root}>
+          { info.content }
+        </div>
+      </FoldingCubeMain>
     )
   }
 }

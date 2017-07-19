@@ -3,25 +3,18 @@ import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import styles from "./styles.css"
 
-import { TablePanel } from "../../../../components/molecules"
+import { TablePanel, MemberDescPanel } from "../../../../components/molecules"
 
-import * as MembersActions from "../../../../actions/models/members"
+import * as MembersModelActions from "../../../../actions/models/members"
+import * as MembersPartialActions from "../../../../actions/partials/members"
 
 export class MemberPartial extends Component {
   constructor(props) {
     super(props)
     this.state = {
       data : props.data,
-      isFetching : props.isFetching,
+      desc : props.desc,
       currYr : new Date().getFullYear(),
-    }
-  }
-
-  componentDidMount() {
-    const { dispatch } = this.props
-    const { data } = this.state
-    if (data.length < 1) {
-      dispatch(MembersActions.queryMembers({ }))
     }
   }
 
@@ -30,18 +23,20 @@ export class MemberPartial extends Component {
     {
       this.setState({ data: nextProps.data })
     }
-    if(JSON.stringify(this.state.isFetching) !== JSON.stringify(nextProps.isFetching)) // Check if it's a new user, you can also use some unique, like the ID
+    if(JSON.stringify(this.state.desc) !== JSON.stringify(nextProps.desc)) // Check if it's a new user, you can also use some unique, like the ID
     {
-      this.setState({ isFetching: nextProps.isFetching })
+      this.setState({ desc: nextProps.desc })
     }
   }
 
   render() {
-    const { data, currYr } = this.state
+    const { dispatch } = this.props
+    const { desc, data, currYr } = this.state
 
     const columns = [{
        Header: 'Name',
-       accessor: 'full_name'
+       accessor: 'full_name',
+       Cell: props => <span style={{ 'width': '100%', 'color':'#2196F3', 'cursor':'pointer' }} onClick={() => dispatch(MembersPartialActions.loadMemberDesc(props.original))}>{props.value}</span>
     },{
        Header: 'DOB',
        accessor: 'date_of_birth'
@@ -67,23 +62,39 @@ export class MemberPartial extends Component {
       { Header: 'Current Status', accessor: 'current_is_eligible' }
     ]
 
+    //filter distinct here
+    var seen = []
+    var send = data.filter((dat)=>{
+      if (seen.indexOf(dat.hicn) === -1){
+        seen.push(dat.hicn)
+        return dat
+      }
+    })
+
+    let view = <TablePanel ttype="collapse" data={ send } columns={ columns } inner={ inner }/>
+
+    if (desc) {
+      view = <MemberDescPanel></MemberDescPanel>
+    }
+
     return (
       <div className={ styles.root }>
-        <TablePanel ttype="collapse" data={ data } columns={ columns } inner={ inner }/>
+        { view }
       </div>
     )
   }
 }
 
 MemberPartial.propTypes = {
-  isFetching: PropTypes.bool.isRequired,
   data: PropTypes.array.isRequired,
+  desc: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { isFetching, data } = state.m_members
-  return { isFetching, data }
+  const { data } = state.m_members
+  const { desc } = state.p_members
+  return { data, desc }
 }
 
 export default connect(mapStateToProps)(MemberPartial)

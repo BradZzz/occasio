@@ -6,3 +6,4 @@ export { default as DrillDownPanel } from "./DrillDownPanel/DrillDownPanel";
 export { default as InfoPanel } from "./InfoPanel/InfoPanel";
 export { default as LinePanel } from "./LinePanel/LinePanel";
 export { default as TablePanel } from "./TablePanel/TablePanel";
+export { default as MemberDescPanel } from "./MemberDescPanel/MemberDescPanel";

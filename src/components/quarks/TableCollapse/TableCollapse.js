@@ -77,8 +77,8 @@ export class TableCollapse extends Component {
      console.log(tinner)
 
      return (
-       <div>
-         <div className='table-wrap' className={ styles.trans }>
+       <div className={ styles.root }>
+         <div className='table-wrap'>
            <ReactTable
              className='-striped -highlight'
              data={ tdata }
@@ -86,7 +86,6 @@ export class TableCollapse extends Component {
              defaultPageSize={15}
              {...this.state.tableOptions}
              SubComponent={(row) => {
-                //transition: "all 0.5s ease"
                return (
                  <div style={{ padding: '20px',  border: "1px solid #000", margin: "1em", "borderRadius": "5px" }}>
                    {

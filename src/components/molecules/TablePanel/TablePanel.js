@@ -13,6 +13,7 @@ export class TablePanel extends Component {
 
   render() {
     const { ttype, data, columns, inner } = this.props
+    console.log(columns)
     const table = ttype && ttype === 'collapse' ?
       <TableCollapse data={ data } columns={ columns } inner={ inner }/> : <TableNormal data={ data } columns={ columns }/>;
     return (
