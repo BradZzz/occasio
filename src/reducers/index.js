@@ -7,6 +7,7 @@ import nav from "./nav";
 import p_home from "./partials/home";
 import p_dash from "./partials/dashboard";
 import p_members from "./partials/members";
+import p_providers from "./partials/providers";
 
 import m_members from "./models/members";
 import m_providers from "./models/providers";
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   p_home,
   p_dash,
   p_members,
+  p_providers,
   m_members,
   m_providers,
 });

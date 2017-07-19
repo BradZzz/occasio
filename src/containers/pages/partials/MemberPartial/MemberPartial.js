@@ -2,8 +2,8 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import styles from "./styles.css"
-
 import { TablePanel, MemberDescPanel } from "../../../../components/molecules"
+import { ListDetailPanel } from "../../../../components/organisms"
 
 import * as MembersModelActions from "../../../../actions/models/members"
 import * as MembersPartialActions from "../../../../actions/partials/members"
@@ -14,6 +14,7 @@ export class MemberPartial extends Component {
     this.state = {
       data : props.data,
       desc : props.desc,
+      idx : 0,
       currYr : new Date().getFullYear(),
     }
   }
@@ -31,12 +32,16 @@ export class MemberPartial extends Component {
 
   render() {
     const { dispatch } = this.props
-    const { desc, data, currYr } = this.state
+    const { desc, data, currYr, idx } = this.state
 
     const columns = [{
        Header: 'Name',
        accessor: 'full_name',
-       Cell: props => <span style={{ 'width': '100%', 'color':'#2196F3', 'cursor':'pointer' }} onClick={() => dispatch(MembersPartialActions.loadMemberDesc(props.original))}>{props.value}</span>
+       Cell: props => <span style={{ 'width': '100%', 'color':'#2196F3', 'cursor':'pointer' }}
+        onClick={() => {
+          this.setState({ idx: props.index })
+          dispatch(MembersPartialActions.loadMemberDesc(props.original))
+        }}>{props.value}</span>
     },{
        Header: 'DOB',
        accessor: 'date_of_birth'
@@ -62,19 +67,11 @@ export class MemberPartial extends Component {
       { Header: 'Current Status', accessor: 'current_is_eligible' }
     ]
 
-    //filter distinct here
-    var seen = []
-    var send = data.filter((dat)=>{
-      if (seen.indexOf(dat.hicn) === -1){
-        seen.push(dat.hicn)
-        return dat
-      }
-    })
-
-    let view = <TablePanel ttype="collapse" data={ send } columns={ columns } inner={ inner }/>
+    let view = <TablePanel ttype="collapse" data={ data } columns={ columns } inner={ inner }/>
 
     if (desc) {
-      view = <MemberDescPanel></MemberDescPanel>
+      const click = () => dispatch(MembersPartialActions.unloadMemberDesc({}))
+      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "hicn" } click={ click }/>
     }
 
     return (
@@ -92,7 +89,7 @@ MemberPartial.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { data } = state.m_members
+  const { unique:data } = state.m_members
   const { desc } = state.p_members
   return { data, desc }
 }

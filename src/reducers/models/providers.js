@@ -4,6 +4,7 @@ import * as P from "../../actions/models/providers"
 
 const initialState = {
   data: [],
+  unique: [],
   isFetching: false,
 }
 
@@ -16,5 +17,6 @@ export default handleActions({
     ...state,
     isFetching: false,
     data: action.payload.data,
+    unique: action.payload.unique
   }),
 }, initialState);

@@ -2,6 +2,8 @@
 import { takeEvery, delay } from "redux-saga"
 import { put, call, fork } from "redux-saga/effects"
 import * as M from "../../actions/models/members"
+
+import { findDistinct } from "../../constants/application"
 import fetch from 'isomorphic-fetch'
 
 export function* queryMembers(req) {
@@ -12,7 +14,8 @@ export function* requestMembers(req) {
   yield put( M.memberReq(req) )
   const msg = yield call(fetchMembers, req)
   console.log(msg.data)
-  yield put( M.memberRec(msg) )
+
+  yield put( M.memberRec( { data: msg.data, unique: findDistinct(msg.data,'hicn') } ))
 }
 
 export function fetchMembers(req) {

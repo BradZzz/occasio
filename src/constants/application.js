@@ -23,7 +23,16 @@ export const SECTION_COLORS = [
   "#607D8B"
 ]
 
-
+export const findDistinct = (array, key) => {
+  var seen = []
+  var info = array.filter((dat)=>{
+    if (dat[key] !== undefined && seen.indexOf(dat[key]) === -1){
+      seen.push(dat[key])
+      return dat
+    }
+  })
+  return info
+}
 
 export const LINE_CHART_TEST = {
    chart: {

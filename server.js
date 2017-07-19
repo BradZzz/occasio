@@ -17,7 +17,9 @@ const dateOpts = { year: '2-digit', month: '2-digit', day: '2-digit' }
 const pIncrements = [ 30 , 60 , 90 ]
 const acceptableActions = ['create','backorder']
 
-//The appraisal service only gets updated once a day, so we can set the cache ttl to that amount
+const client = 1
+
+//The sync service only gets updated once a day, so we can set the cache ttl to that amount
 const cache = new NodeCache({ stdTTL: 86400 })
 
 //mongoose.connect(process.env.MONGODB)
@@ -43,13 +45,13 @@ app.get('/', function(req, res) {
 })
 
 app.get('/members', function(req, res) {
-  models.vw_provider_members.findAll({ limit: 100, where: { client_dbid: 1 }, order: ['full_name'] }).then(function(members) {
+  models.vw_provider_members.findAll({ limit: 100, where: { client_dbid: client }, order: ['full_name'] }).then(function(members) {
     res.send({ status: "done", data: members.map(function(member,idx){ return member.toJSON() }) })
   })
 })
 
 app.get('/providers', function(req, res) {
-  models.vw_provider_index.findAll({ limit: 100, where: { client_dbid: 1 }, order: ['full_name'] }).then(function(providers) {
+  models.vw_provider_index.findAll({ limit: 100, where: { client_dbid: client }, order: ['full_name'] }).then(function(providers) {
     res.send({ status: "done", data: providers.map(function(provider,idx){ return provider.toJSON() }) })
   })
 })
