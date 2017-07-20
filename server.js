@@ -58,7 +58,7 @@ app.get('/', function(req, res) {
 })
 
 app.get('/members', function(req, res) {
-  queryMemDB(res, 'members', 'vw_provider_members', 'full_name')
+  queryMemDB(res, 'members', 'vw_member_index', 'full_name')
 })
 
 app.get('/providers', function(req, res) {

@@ -1,37 +1,146 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-  var Member = sequelize.define("vw_provider_members", {
+  var Member = sequelize.define("vw_member_index", {
+    //ID
     dbid: { type: DataTypes.INTEGER, primaryKey: true },
     client_dbid: { type: DataTypes.INTEGER },
-
+    member_id: { type: DataTypes.INTEGER },
+    hicn: { type: DataTypes.STRING },
+    //Member Demographic
     full_name: { type: DataTypes.STRING, allowNull: false },
     first_name: { type: DataTypes.STRING, allowNull: false },
     last_name: { type: DataTypes.STRING, allowNull: false },
-    gender: { type: DataTypes.STRING },
     date_of_birth: { type: DataTypes.DATE },
-
-    provider_dbid: { type: DataTypes.INTEGER },
-    pcp_name: { type: DataTypes.STRING },
-    hicn: { type: DataTypes.STRING },
-    health_plan_name: { type: DataTypes.STRING },
+    age: { type: DataTypes.FLOAT },
+    gender: { type: DataTypes.STRING },
+    city: { type: DataTypes.STRING },
+    state: { type: DataTypes.STRING },
+    zip: { type: DataTypes.INTEGER },
+    //HeathPlan
     health_plan_member_id: { type: DataTypes.STRING },
+    health_plan_name: { type: DataTypes.STRING },
+    //Provider
     last_encounter: { type: DataTypes.DATE },
+    pcp_provider_id: { type: DataTypes.INTEGER },
+    pcp_dbid: { type: DataTypes.INTEGER },
+    pcp_name: { type: DataTypes.STRING },
     pcp_last_encounter: { type: DataTypes.DATE },
-    current_is_eligible: { type: DataTypes.BOOLEAN },
+    program: { type: DataTypes.STRING },
+    number_of_charts: { type: DataTypes.INTEGER },
 
-    current_opportunity: { type: DataTypes.FLOAT },
-    current_raf_captured: { type: DataTypes.FLOAT },
-    current_raf_projected: { type: DataTypes.FLOAT },
-    prior_opportunity: { type: DataTypes.FLOAT },
-    prior_raf_captured: { type: DataTypes.FLOAT },
-    prior_raf_projected: { type: DataTypes.FLOAT },
+    //Member Health Info (this year)
+      current_is_eligible: { type: DataTypes.BOOLEAN },
+      current_num_months_eligible: { type: DataTypes.FLOAT },
+      current_dos_count: { type: DataTypes.FLOAT },
+      current_pcp_dos_count: { type: DataTypes.FLOAT },
+      current_eligibility_status: { type: DataTypes.STRING },
+      //Compiled Metrics
+      current_num_months_eligible: { type: DataTypes.FLOAT },
+      current_recap_opp_count: { type: DataTypes.FLOAT },
+      current_hcc_captured: { type: DataTypes.FLOAT },
+      current_opportunity: { type: DataTypes.FLOAT },
+      current_hcc_suspects_yoy: { type: DataTypes.FLOAT },
+      current_hcc_suspect_clin: { type: DataTypes.FLOAT },
+      current_hcc_unaccpt: { type: DataTypes.FLOAT },
+      current_raf_captured: { type: DataTypes.FLOAT },
+      current_raf_demo: { type: DataTypes.FLOAT },
+      current_raf_projected: { type: DataTypes.FLOAT },
+      current_raf_suspects_yoy: { type: DataTypes.FLOAT },
+      current_raf_suspects_clin: { type: DataTypes.FLOAT },
+      current_raf_yoy_recap: { type: DataTypes.FLOAT },
+      current_raf_clin: { type: DataTypes.FLOAT },
+      current_raf_unaccpt: { type: DataTypes.FLOAT },
+      current_raf_new_chron: { type: DataTypes.FLOAT },
+      current_raf_acute: { type: DataTypes.FLOAT },
+      current_raf_suspects_yoy_mor: { type: DataTypes.FLOAT },
+      //Totals for compiled metrics
+      num_current_captured_clin: { type: DataTypes.INTEGER },
+      num_current_hcc_suspects_yoy: { type: DataTypes.INTEGER },
+      num_current_hcc_suspects_clin: { type: DataTypes.INTEGER },
+      num_current_hcc_new_chron: { type: DataTypes.INTEGER },
+      num_current_hcc_unaccpt: { type: DataTypes.INTEGER },
+      num_current_hcc_yoy_recap: { type: DataTypes.INTEGER },
+      num_current_hcc_acute: { type: DataTypes.INTEGER },
+      num_current_suspect_mor_yoy: { type: DataTypes.INTEGER },
+
+    //Member Health Info (last year)
+      prior_is_eligible: { type: DataTypes.BOOLEAN },
+      prior_num_months_eligible: { type: DataTypes.FLOAT },
+      prior_dos_count: { type: DataTypes.FLOAT },
+      prior_pcp_dos_count: { type: DataTypes.FLOAT },
+      prior_eligibility_status: { type: DataTypes.STRING },
+      //Compiled Metrics
+      prior_num_months_eligible: { type: DataTypes.FLOAT },
+      prior_recap_opp_count: { type: DataTypes.FLOAT },
+      prior_hcc_captured: { type: DataTypes.FLOAT },
+      prior_opportunity: { type: DataTypes.FLOAT },
+      prior_hcc_suspects_yoy: { type: DataTypes.FLOAT },
+      prior_hcc_suspect_clin: { type: DataTypes.FLOAT },
+      prior_hcc_unaccpt: { type: DataTypes.FLOAT },
+      prior_raf_captured: { type: DataTypes.FLOAT },
+      prior_raf_demo: { type: DataTypes.FLOAT },
+      prior_raf_projected: { type: DataTypes.FLOAT },
+      prior_raf_suspects_yoy: { type: DataTypes.FLOAT },
+      prior_raf_suspects_clin: { type: DataTypes.FLOAT },
+      prior_raf_yoy_recap: { type: DataTypes.FLOAT },
+      prior_raf_clin: { type: DataTypes.FLOAT },
+      prior_raf_unaccpt: { type: DataTypes.FLOAT },
+      prior_raf_new_chron: { type: DataTypes.FLOAT },
+      prior_raf_acute: { type: DataTypes.FLOAT },
+      prior_raf_suspects_yoy_mor: { type: DataTypes.FLOAT },
+      //Totals for compiled metrics
+      num_prior_captured_clin: { type: DataTypes.INTEGER },
+      num_prior_hcc_suspects_yoy: { type: DataTypes.INTEGER },
+      num_prior_hcc_suspects_clin: { type: DataTypes.INTEGER },
+      num_prior_hcc_new_chron: { type: DataTypes.INTEGER },
+      num_prior_hcc_unaccpt: { type: DataTypes.INTEGER },
+      num_prior_hcc_yoy_recap: { type: DataTypes.INTEGER },
+      num_prior_hcc_acute: { type: DataTypes.INTEGER },
+      num_prior_suspect_mor_yoy: { type: DataTypes.INTEGER },
+
+    //Member Health Info (2 years ago)
+      prior2_is_eligible: { type: DataTypes.BOOLEAN },
+      prior2_num_months_eligible: { type: DataTypes.FLOAT },
+      prior2_dos_count: { type: DataTypes.FLOAT },
+      prior2_pcp_dos_count: { type: DataTypes.FLOAT },
+      prior2_eligibility_status: { type: DataTypes.STRING },
+      //Compiled Metrics
+      prior2_num_months_eligible: { type: DataTypes.FLOAT },
+      prior2_recap_opp_count: { type: DataTypes.FLOAT },
+      prior2_hcc_captured: { type: DataTypes.FLOAT },
+      prior2_opportunity: { type: DataTypes.FLOAT },
+      prior2_hcc_suspects_yoy: { type: DataTypes.FLOAT },
+      prior2_hcc_suspect_clin: { type: DataTypes.FLOAT },
+      prior2_hcc_unaccpt: { type: DataTypes.FLOAT },
+      prior2_raf_captured: { type: DataTypes.FLOAT },
+      prior2_raf_demo: { type: DataTypes.FLOAT },
+      prior2_raf_projected: { type: DataTypes.FLOAT },
+      prior2_raf_suspects_yoy: { type: DataTypes.FLOAT },
+      prior2_raf_suspects_clin: { type: DataTypes.FLOAT },
+      prior2_raf_yoy_recap: { type: DataTypes.FLOAT },
+      prior2_raf_clin: { type: DataTypes.FLOAT },
+      prior2_raf_unaccpt: { type: DataTypes.FLOAT },
+      prior2_raf_new_chron: { type: DataTypes.FLOAT },
+      prior2_raf_acute: { type: DataTypes.FLOAT },
+      prior2_raf_suspects_yoy_mor: { type: DataTypes.FLOAT },
+      //Totals for compiled metrics
+      num_prior2_captured_clin: { type: DataTypes.INTEGER },
+      num_prior2_hcc_suspects_yoy: { type: DataTypes.INTEGER },
+      num_prior2_hcc_suspects_clin: { type: DataTypes.INTEGER },
+      num_prior2_hcc_new_chron: { type: DataTypes.INTEGER },
+      num_prior2_hcc_unaccpt: { type: DataTypes.INTEGER },
+      num_prior2_hcc_yoy_recap: { type: DataTypes.INTEGER },
+      num_prior2_hcc_acute: { type: DataTypes.INTEGER },
+      num_prior2_suspect_mor_yoy: { type: DataTypes.INTEGER },
+
     },
     {
       schema: 'stage',
-      timestamps: false
+      timestamps: false,
+      freezeTableName: true,
     }
   )
 
-  return Member;
+  return Member
 }
