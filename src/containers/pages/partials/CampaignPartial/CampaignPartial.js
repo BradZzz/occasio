@@ -33,11 +33,11 @@ export class CampaignPartial extends Component {
 
   render() {
     const { data, currYr, desc, idx } = this.state
-    const { dispatch } = this.props
+    const { dispatch, retNav, retCont } = this.props
 
     const columns = [
       { Header: 'Campaign Name', accessor: 'name',
-        Cell: props => <span style={{ 'width': '100%', 'color':'#2196F3', 'cursor':'pointer' }}
+        Cell: props => <span className={ styles.click } style={{ 'width': '100%', 'cursor':'pointer' }}
           onClick={() => {
             this.setState({ idx: props.index })
             dispatch(CampaignPartialActions.loadCampaignDesc(props.original))
@@ -60,7 +60,7 @@ export class CampaignPartial extends Component {
 
     if (desc) {
       const click = () => dispatch(CampaignPartialActions.unloadCampaignDesc({}))
-      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "dbid" } click={ click } showKey={ "name" }/>
+      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "dbid" } click={ click } showKey={ "name" } nav={ retNav() } cont={ retCont() }/>
     }
 
     return (
@@ -74,41 +74,15 @@ export class CampaignPartial extends Component {
 CampaignPartial.propTypes = {
   data: PropTypes.array.isRequired,
   desc: PropTypes.bool.isRequired,
+  retCont: PropTypes.func.isRequired,
+  retNav: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   const { data } = state.m_campaigns
-  const { desc } = state.p_campaigns
-  return { data, desc }
+  const { desc, retNav, retCont } = state.p_campaigns
+  return { data, desc, retNav, retCont }
 }
 
 export default connect(mapStateToProps)(CampaignPartial)
-
-/*import { TablePanel } from "../../../../components/molecules"
-
-export class CampaignPartial extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-      <div className={ styles.root }>
-        <TablePanel/>
-      </div>
-    )
-  }
-}
-
-CampaignPartial.propTypes = {
-  feed: PropTypes.array.isRequired,
-  dispatch: PropTypes.func.isRequired
-}
-
-function mapStateToProps(state) {
-  const { feed } = state.p_home
-  return { feed }
-}
-
-export default connect(mapStateToProps)(CampaignPartial)*/

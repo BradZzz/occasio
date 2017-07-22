@@ -6,3 +6,7 @@
   flex-flow: row wrap;
   justify-content: flex-start;
 }
+
+.click {
+  color: var(--link-color);
+}

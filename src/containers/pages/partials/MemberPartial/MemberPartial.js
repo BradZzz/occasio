@@ -31,13 +31,13 @@ export class MemberPartial extends Component {
   }
 
   render() {
-    const { dispatch } = this.props
     const { desc, data, currYr, idx } = this.state
+    const { dispatch, retNav, retCont } = this.props
 
     const columns = [{
-       Header: 'Name',
-       accessor: 'full_name',
-       Cell: props => <span style={{ 'width': '100%', 'color':'#2196F3', 'cursor':'pointer' }}
+      Header: 'Name',
+      accessor: 'full_name',
+      Cell: props => <span className={ styles.click } style={{ 'width': '100%', 'cursor':'pointer' }}
         onClick={() => {
           this.setState({ idx: props.index })
           dispatch(MembersPartialActions.loadMemberDesc(props.original))
@@ -71,7 +71,7 @@ export class MemberPartial extends Component {
 
     if (desc) {
       const click = () => dispatch(MembersPartialActions.unloadMemberDesc({}))
-      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "hicn" } click={ click } showKey={ "full_name" }/>
+      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "hicn" } click={ click } showKey={ "full_name" } nav={ retNav() } cont={ retCont() }/>
     }
 
     return (
@@ -85,13 +85,15 @@ export class MemberPartial extends Component {
 MemberPartial.propTypes = {
   data: PropTypes.array.isRequired,
   desc: PropTypes.bool.isRequired,
+  retCont: PropTypes.func.isRequired,
+  retNav: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   const { unique:data } = state.m_members
-  const { desc } = state.p_members
-  return { data, desc }
+  const { desc, retNav, retCont } = state.p_members
+  return { data, desc, retNav, retCont }
 }
 
 export default connect(mapStateToProps)(MemberPartial)

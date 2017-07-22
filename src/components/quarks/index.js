@@ -9,3 +9,4 @@ export { default as TableCollapse } from "./TableCollapse/TableCollapse";
 export { default as DonutChart } from "./DonutChart/DonutChart";
 export { default as DrillDownChart } from "./DrillDownChart/DrillDownChart";
 export { default as LineChart } from "./LineChart/LineChart";
+export { default as StackedBarChart } from "./StackedBarChart/StackedBarChart";

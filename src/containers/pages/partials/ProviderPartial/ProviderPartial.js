@@ -33,11 +33,11 @@ export class ProviderPartial extends Component {
 
   render() {
     const { data, currYr, desc, idx } = this.state
-    const { dispatch } = this.props
+    const { dispatch, retNav, retCont } = this.props
 
     const columns = [
       { Header: 'Name', accessor: 'full_name',
-        Cell: props => <span style={{ 'width': '100%', 'color':'#2196F3', 'cursor':'pointer' }}
+        Cell: props => <span className={ styles.click } style={{ 'width': '100%', 'cursor':'pointer' }}
           onClick={() => {
             this.setState({ idx: props.index })
             dispatch(ProviderPartialActions.loadProviderDesc(props.original))
@@ -61,7 +61,7 @@ export class ProviderPartial extends Component {
 
     if (desc) {
       const click = () => dispatch(ProviderPartialActions.unloadProviderDesc({}))
-      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "npi" } click={ click } showKey={ "full_name" }/>
+      view = <ListDetailPanel data={ data } idx={ idx } dataKey={ "npi" } click={ click } showKey={ "full_name" } nav={ retNav() } cont={ retCont() }/>
     }
 
     return (
@@ -75,13 +75,15 @@ export class ProviderPartial extends Component {
 ProviderPartial.propTypes = {
   data: PropTypes.array.isRequired,
   desc: PropTypes.bool.isRequired,
+  retCont: PropTypes.func.isRequired,
+  retNav: PropTypes.func.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   const { unique:data } = state.m_providers
-  const { desc } = state.p_providers
-  return { data, desc }
+  const { desc, retNav, retCont } = state.p_providers
+  return { data, desc, retNav, retCont }
 }
 
 export default connect(mapStateToProps)(ProviderPartial)
