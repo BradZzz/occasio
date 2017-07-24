@@ -7,27 +7,27 @@
 
 .card {
   width : 100%;
-  max-height : 700px;
-  min-height : 700px;
+  max-height : 85vh;
+  min-height : 85vh;
   position: relative;
 }
 
 .card > div {
-  max-height : 700px;
-  min-height : 700px;
+  max-height : 85vh;
+  min-height : 85vh;
 }
 
 .left {
-  max-height : 700px;
-  min-height : 700px;
+  max-height : 85vh;
+  min-height : 85vh;
   width : 20%;
   float: left;
   overflow-y: auto;
 }
 
 .right {
-  max-height : 650px;
-  min-height : 650px;
+  max-height : 85vh;
+  min-height : 85vh;
   width : 80%;
   float: left;
 }
@@ -39,8 +39,8 @@
 }
 
 .right > .bottom {
-  max-height : 610px;
-  min-height : 610px;
+  max-height : 75vh;
+  min-height : 75vh;
   overflow-y : auto;
   margin: 0 1em;
 }
