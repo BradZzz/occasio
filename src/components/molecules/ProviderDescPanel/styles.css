@@ -1,0 +1,56 @@
+@import "variables";
+
+.root {
+  margin: 1em;
+  width: 100%;
+}
+
+.card {
+  width : 100%;
+  max-height : 600px;
+  min-height : 600px;
+  position: absolute;
+}
+
+.card > div {
+  max-height : 600px;
+  min-height : 600px;
+}
+
+.left {
+  max-height : 600px;
+  min-height : 600px;
+  width : 20%;
+  float: left;
+  overflow-y: auto;
+}
+
+.right {
+  max-height : 600px;
+  min-height : 600px;
+  width : 80%;
+  float: right;
+}
+
+.item {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: .8em;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.item.active {
+  color: #7EBA4C;
+  font-weight: bold;
+}
+
+.item:hover {
+  background: color(var(--primary-color) alpha(20%))
+}
+
+.item:active {
+  background: color(var(--primary-color) alpha(50%))
+}
+
