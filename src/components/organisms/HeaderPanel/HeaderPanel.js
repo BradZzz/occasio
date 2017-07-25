@@ -6,12 +6,18 @@ import { connect } from "react-redux"
 import { browserHistory } from 'react-router'
 import styles from "./styles.css"
 
+import HardwareKeyboardArrowRight from "material-ui/svg-icons/hardware/keyboard-arrow-right"
+import HardwareKeyboardArrowLeft from "material-ui/svg-icons/hardware/keyboard-arrow-left"
+import * as NavActions from "../../../actions/nav"
+
 export class HeaderPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
       info: props.tabs[props.pos],
       signedin: props.signedIn,
+      pos: props.pos,
+      expFlag: props.expFlag,
     }
   }
 
@@ -20,11 +26,35 @@ export class HeaderPanel extends Component {
     {
       this.setState({ signedIn: nextProps.signedIn })
     }
+    if(JSON.stringify(this.state.expFlag) !== JSON.stringify(nextProps.expFlag))
+    {
+      this.setState({ expFlag: nextProps.expFlag })
+    }
+    if(JSON.stringify(this.state.pos) !== JSON.stringify(nextProps.pos))
+    {
+      this.setState({ pos: nextProps.pos })
+    }
+  }
+
+  flip = () => {
+    const { dispatch } = this.props
+    const { expFlag } = this.state
+    dispatch( NavActions.expReq({ expFlag: !expFlag }) )
   }
 
   render() {
-    const { meta } = this.props
-    const { signedIn, info } = this.state
+    const { meta, dispatch, tabs, sSnap } = this.props
+    const { signedIn, info, expFlag, pos } = this.state
+    let view = (<div></div>)
+    console.log(pos)
+    console.log(tabs)
+    if ('desc' in sSnap[tabs[pos].partial] && sSnap[tabs[pos].partial].desc) {
+      view = (
+        <div style={{ "width" : "50px", "position" : "absolute", "cursor" : "pointer", "zIndex" : 1, "margin" : "10px 0 0 20px" }}>
+          { expFlag ? <HardwareKeyboardArrowRight onClick={ this.flip }/> : <HardwareKeyboardArrowLeft onClick={ this.flip }/> }
+        </div>
+      )
+    }
     if (!signedIn) {
       return (
         <div className={styles.root} style={{ height: "60px" }}>
@@ -34,6 +64,7 @@ export class HeaderPanel extends Component {
     } else {
       return (
         <div className={styles.root}>
+          { view }
           <CenterBox align="right" height="50px">
             <div className="flex layout-row layout-align-end-center" style={{ height: "100%"}}>
               <div className={ styles.profileWrap } onClick={ () => browserHistory.push('/profile') }>
@@ -55,17 +86,23 @@ HeaderPanel.propTypes = {
   meta: PropTypes.object.isRequired,
   pos: PropTypes.number.isRequired,
   tabs: PropTypes.array.isRequired,
+  expFlag: PropTypes.bool.isRequired,
+  sSnap: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   const { signedIn, isFetching, meta } = state.user
-  const { pos, tabs } = state.nav
+  const { pos, tabs, expFlag } = state.nav
+  const sSnap = state
   return {
     signedIn,
     isFetching,
     meta,
     pos,
     tabs,
+    expFlag,
+    sSnap
   }
 }
 

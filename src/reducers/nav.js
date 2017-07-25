@@ -17,24 +17,25 @@ import { DashboardPartial, HomePartial, MemberPartial, ProviderPartial, Campaign
 const initialState = {
   meta: BLANK_USR,
   pos: 0,
+  expFlag: false,
   tabs: [
     { icon: <ActionHome/>, text: 'Home', nav: '/home', content: (<HomePartial/>),
-      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], scroll: true
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], partial: 'p_home'
     },
     { icon: <SocialPoll/>, text: 'Dashboard', nav: '/dash', content: (<DashboardPartial/>),
-      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], scroll: true
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], partial: 'p_dash'
     },
     { icon: <ActionWork/>, text: 'Campaigns', nav: '/camp', content: (<CampaignPartial/>),
-      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], scroll: false
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], partial: 'p_campaigns'
     },
     { icon: <SocialPeople/>, text: 'Member Index', nav: '/membi', content: (<MemberPartial/>),
-      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], scroll: false
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], partial: 'p_members'
     },
     { icon: <SocialLocationCity/>, text: 'Provider Index', nav: '/provi', content: (<ProviderPartial/>),
-      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], scroll: false
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], partial: 'p_providers'
     },
     { icon: <ContentArchive/>, text: 'Downloads', nav: '/downlds', content: (<div>Downloads</div>),
-      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], scroll: true
+      sub: [<div>Updates</div>,<div>Feed</div>,<div>Blog</div>], partial: 'p_home'
     }
   ],
 }
@@ -43,5 +44,9 @@ export default handleActions({
   [N.NAV_REQ]: (state = { }, action) => ({
     ...state,
     pos: action.payload.pos
+  }),
+  [N.EXP_REQ]: (state = { }, action) => ({
+    ...state,
+    expFlag: action.payload.expFlag
   })
 }, initialState);

@@ -18,12 +18,20 @@ export class ListDetailPanel extends Component {
       generateTabDOM: (tab, idx) => (
         <ClickActionButton key={ idx } action={ () => this.setState({ pos: idx }) } className={ styles.detail }
           style={{ "width" : parseInt(90 / props.nav.length) + "%", "background" : SECTION_COLORS[idx * 2] }}
-          tooltip={ tab.name } > { tab.nav } </ClickActionButton>)
+          tooltip={ tab.name } > { tab.nav } </ClickActionButton>),
+      expFlag: props.expFlag,
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(this.state.expFlag) !== JSON.stringify(nextProps.expFlag))
+    {
+      this.setState({ expFlag: nextProps.expFlag })
     }
   }
 
   render() {
-    const { idx, generateTabDOM, pos } = this.state
+    const { idx, generateTabDOM, pos, expFlag } = this.state
     const { data, dataKey, showKey, click, nav, cont } = this.props
     const self = this
     console.log('render')
@@ -31,11 +39,11 @@ export class ListDetailPanel extends Component {
     return (
       <div className={ styles.root }>
         <Card className={ styles.card }>
-          <div className={ styles.left }>
+          <div className={ styles.left + " " + (expFlag ? styles.expand : "" ) }>
             { data.map((dat, index)=> <div key={ index } onClick={ ()=> { self.setState({ idx: index }); self.setState({ pos: 0 }); } }
               className={ styles.item + (dat[dataKey] === data[idx][dataKey] ? " " + styles.active : "") }>{ dat[showKey] }</div> )}
           </div>
-          <div className={ styles.right }>
+          <div className={ styles.right + " " + (expFlag ? styles.expand : "" ) }>
             <div className={ styles.top }>
               { nav.map(generateTabDOM) }
               <ClickActionButton action={ click } className={ styles.close }> <ContentClear/> </ClickActionButton>
@@ -66,10 +74,12 @@ ListDetailPanel.propTypes = {
   showKey: PropTypes.string.isRequired,
   nav: PropTypes.array.isRequired,
   cont: PropTypes.array.isRequired,
+  expFlag: PropTypes.boolean,
 }
 
 function mapStateToProps(state) {
-  return { }
+  const { expFlag } = state.nav
+  return { expFlag }
 }
 
 export default connect(mapStateToProps)(ListDetailPanel)
