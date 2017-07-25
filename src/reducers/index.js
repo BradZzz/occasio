@@ -13,6 +13,8 @@ import p_campaigns from "./partials/campaigns";
 import m_members from "./models/members";
 import m_providers from "./models/providers";
 import m_campaigns from "./models/campaigns";
+import m_dxs from "./models/dxs";
+import m_hccs from "./models/hccs";
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -25,6 +27,8 @@ const rootReducer = combineReducers({
   p_campaigns,
   m_members,
   m_providers,
+  m_dxs,
+  m_hccs,
   m_campaigns,
 });
 

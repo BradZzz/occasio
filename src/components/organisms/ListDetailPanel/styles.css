@@ -1,33 +1,32 @@
 @import "variables";
 
 .root {
-  margin: 1em;
   width: 100%;
 }
 
 .card {
   width : 100%;
-  max-height : 85vh;
-  min-height : 85vh;
+  max-height : 92vh;
+  min-height : 92vh;
   position: relative;
 }
 
 .card > div {
-  max-height : 85vh;
-  min-height : 85vh;
+  max-height : 92vh;
+  min-height : 92vh;
 }
 
 .left {
-  max-height : 85vh;
-  min-height : 85vh;
+  max-height : 92vh;
+  min-height : 92vh;
   width : 20%;
   float: left;
   overflow-y: auto;
 }
 
 .right {
-  max-height : 85vh;
-  min-height : 85vh;
+  max-height : 92vh;
+  min-height : 92vh;
   width : 80%;
   float: left;
 }
@@ -39,8 +38,8 @@
 }
 
 .right > .bottom {
-  max-height : 75vh;
-  min-height : 75vh;
+  max-height : 85vh;
+  min-height : 85vh;
   overflow-y : auto;
   margin: 0 1em;
 }

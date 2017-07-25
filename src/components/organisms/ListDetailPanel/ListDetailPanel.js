@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from "react"
 import { connect } from "react-redux"
 import { Card } from 'material-ui/Card'
+import { HCCPanel } from "../../../components/molecules"
 import { ClickActionButton } from "../../../components/atoms"
 import { SECTION_COLORS } from "../../../constants/application"
 import ContentClear from "material-ui/svg-icons/content/clear"
@@ -40,12 +41,7 @@ export class ListDetailPanel extends Component {
               <ClickActionButton action={ click } className={ styles.close }> <ContentClear/> </ClickActionButton>
             </div>
             <div className={ styles.bottom }>
-            { cont[pos] }
-            {
-              Object.keys(data[idx]).map(function(key, index){
-                return <div key={ index }><strong>{ key }: </strong>{ data[idx][key] }</div>
-              })
-            }
+            { cont[pos](data[idx]) }
             </div>
           </div>
         </Card>
@@ -53,6 +49,14 @@ export class ListDetailPanel extends Component {
     )
   }
 }
+
+/*
+  {
+    Object.keys(data[idx]).map(function(key, index){
+      return <div key={ index }><strong>{ key }: </strong>{ data[idx][key] }</div>
+    })
+  }
+*/
 
 ListDetailPanel.propTypes = {
   click: PropTypes.func.isRequired,

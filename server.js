@@ -40,12 +40,12 @@ app.use(express.static(path.join(__dirname, 'dist')))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-const queryMemDB = (res, key, table, order) => {
+const queryMemDB = (res, key, table, params) => {
   const memory = cache.get(key)
   if (memory){
     res.send({ status: "done", data: memory })
   } else {
-    models[table].findAll({ limit : 200, where: { client_dbid: client }, order: [ order ] }).then(function(rows) {
+    models[table].findAll(params).then(function(rows) {
       const data = rows.map((row,idx) => row.toJSON() )
       cache.set(key, data)
       res.send({ status: "done", data: data })
@@ -53,20 +53,54 @@ const queryMemDB = (res, key, table, order) => {
   }
 }
 
+const error = (req, res, msg, code) => {
+  res.send({
+    status: "error",
+    msg: msg,
+    info: {
+      query: req.query,
+      body: req.body,
+      params: req.params
+    },
+    code: code
+  })
+}
+
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/dist/index.html')
 })
 
 app.get('/members', function(req, res) {
-  queryMemDB(res, 'members', 'vw_member_index', 'full_name')
+  const params = { limit : 200, where: { client_dbid: client }, order: [ 'full_name' ] }
+  queryMemDB(res, 'members', 'vw_member_index', params)
 })
 
 app.get('/providers', function(req, res) {
-  queryMemDB(res, 'providers', 'vw_provider_index', 'full_name')
+  const params = { limit : 200, where: { client_dbid: client }, order: [ 'full_name' ] }
+  queryMemDB(res, 'providers', 'vw_provider_index', params)
 })
 
 app.get('/campaigns', function(req, res) {
-  queryMemDB(res, 'campaigns', 'campaigns', 'name')
+  const params = { limit : 200, where: { client_dbid: client }, order: [ 'name' ] }
+  queryMemDB(res, 'campaigns', 'campaigns', params)
+})
+
+app.get('/hccs', function(req, res) {
+  if ('member' in req.query) {
+    const params = { where: { member_dbid: req.query.member }, order: [ 'hcc_code' ] }
+    queryMemDB(res, 'hcc_' +  req.query.member, 'member_hccs', params)
+  } else {
+    error(req,res,"Bad Request",400)
+  }
+})
+
+app.get('/dxs', function(req, res) {
+  if ('member' in req.query) {
+    const params = { where: { member_dbid: req.query.member }, order: [ 'date_of_service' ] }
+    queryMemDB(res, 'dx_' +  req.query.member, 'member_dxcodes', params)
+  } else {
+    error(req,res,"Bad Request",400)
+  }
 })
 
 app.listen(PORT, function(error) {

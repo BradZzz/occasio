@@ -14,7 +14,7 @@ export class StackedBarChart extends Component {
     this.state = {
       config :  {
         chart: {
-            type: 'column'
+            type: 'column',
         },
         title: {
             text: 'Stacked column chart'
@@ -22,19 +22,13 @@ export class StackedBarChart extends Component {
         xAxis: {
             categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
         },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Total fruit consumption'
-            }
-        },
         tooltip: {
             pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
             shared: true
         },
         plotOptions: {
             column: {
-                stacking: 'percent'
+                stacking: 'normal'
             }
         },
         series: [{
@@ -46,7 +40,8 @@ export class StackedBarChart extends Component {
         }, {
             name: 'Joe',
             data: [3, 4, 4, 2, 5]
-        }]
+        }],
+        credits: { enabled: false }
      }
     }
   }
@@ -54,12 +49,13 @@ export class StackedBarChart extends Component {
   render() {
     const { sub, width, height, data } = this.props
     const { config } = this.state
+    const merged = Object.assign(config, data)
 
     console.log(this.props)
 
     config.chart.height = height
     config.chart.width = width
-    config.series[0].name = sub
+    config.title.text = sub
 
 //    data.chart.height = height
 //    data.chart.width = width
@@ -67,7 +63,7 @@ export class StackedBarChart extends Component {
 
     return (
       <div>
-        <ReactHighcharts config = { config } ref="chart"/>
+        <ReactHighcharts config = { merged } ref="chart"/>
       </div>
     )
   }

@@ -24,11 +24,51 @@ const initialState = {
   desc: false,
   desc_load: {},
   desc_tabs: [
-    { name: "Highlights", nav: <ActionFace/>, content: <div><StackedBarPanel title="Stacked Bar Chart" sub="Bars on Bars" data={ {} } width={ 600 } height={ 300 } /></div> },
-    { name: "HCC Registry", nav: <MapsLocalPharmacy/>, content: <div>1</div> },
-    { name: "Medical Records", nav: <AvWeb/>, content: <div>2</div> },
-    { name: "Letters", nav: <CommunicationMailOutline/>, content: <div>3</div> },
-    { name: "Notes", nav: <ContentCreate/>, content: <div>4</div> },
+    { name: "Highlights", nav: <ActionFace/>,
+      content: (camp) => {
+        return (
+          <div>
+            <StackedBarPanel title="Stacked Bar Chart" sub="Bars on Bars" data={ {} } width={ 600 } height={ 300 } />
+          </div>
+        )
+      }
+    },
+    { name: "HCC Registry", nav: <MapsLocalPharmacy/>,
+      content: (camp) => {
+        return (
+          <div>
+            <StackedBarPanel title="Stacked Bar Chart" sub="Bars on Bars" data={ {} } width={ 600 } height={ 300 } />
+          </div>
+        )
+      }
+    },
+    { name: "Medical Records", nav: <AvWeb/>,
+      content: (camp) => {
+        return (
+          <div>
+            <StackedBarPanel title="Stacked Bar Chart" sub="Bars on Bars" data={ {} } width={ 600 } height={ 300 } />
+          </div>
+        )
+      }
+    },
+    { name: "Letters", nav: <CommunicationMailOutline/>,
+      content: (camp) => {
+        return (
+          <div>
+            <StackedBarPanel title="Stacked Bar Chart" sub="Bars on Bars" data={ {} } width={ 600 } height={ 300 } />
+          </div>
+        )
+      }
+    },
+    { name: "Notes", nav: <ContentCreate/>,
+      content: (camp) => {
+        return (
+          <div>
+            <StackedBarPanel title="Stacked Bar Chart" sub="Bars on Bars" data={ {} } width={ 600 } height={ 300 } />
+          </div>
+        )
+      }
+    },
   ],
   retCont: () => initialState.desc_tabs.map( (tab) => tab.content ),
   retNav: () => initialState.desc_tabs.map( (tab) => { return { name: tab.name, nav: tab.nav }}),
