@@ -12,16 +12,11 @@ export function* queryHcc(req) {
 
 export function* requestHcc(req) {
   if ('member' in req.payload) {
-    console.log(req.payload)
     const member = req.payload.member
     const s_hccs = yield select(getState)
-    console.log(s_hccs)
-    console.log(member in s_hccs)
     if (!(member in s_hccs)) {
       yield put( H.hccReq(req) )
       const msg = yield call(fetchHcc, req)
-      console.log(msg)
-
       let ret = { data : {} }
       if ('data' in s_hccs){
         ret.data = Object.assign( {}, s_hccs.data)

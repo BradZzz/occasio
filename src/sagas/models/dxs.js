@@ -12,19 +12,15 @@ export function* queryDx(req) {
 
 export function* requestDx(req) {
   if ('member' in req.payload) {
-    console.log(req.payload)
     const member = req.payload.member
     const s_dxs = yield select(getState)
-    console.log(s_dxs)
     if (!(member in s_dxs)) {
       yield put( D.dxReq(req) )
       const msg = yield call(fetchDx, req)
-      console.log(s_dxs)
-      const ret = { data : {} }
+      let ret = { data : {} }
       if ('data' in s_dxs){
         ret.data = Object.assign( {}, s_dxs.data)
       }
-      console.log(ret)
       ret.data[member] = msg.data
       yield put( D.dxRec( ret ))
     }

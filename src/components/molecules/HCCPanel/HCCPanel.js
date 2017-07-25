@@ -18,16 +18,13 @@ export class HCCPanel extends Component {
       hcc: props.hcc,
       member: props.member,
     }
+    this.reload()
   }
 
   reload = () => {
     const { dispatch, member } = this.props
     dispatch(DxActions.queryDx({ member : member }))
     dispatch(HccActions.queryHcc({ member : member }))
-  }
-
-  componentDidMount() {
-    this.reload()
   }
 
   componentWillReceiveProps(nextProps) {

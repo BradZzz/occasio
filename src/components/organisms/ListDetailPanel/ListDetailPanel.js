@@ -32,7 +32,7 @@ export class ListDetailPanel extends Component {
       <div className={ styles.root }>
         <Card className={ styles.card }>
           <div className={ styles.left }>
-            { data.map((dat, index)=> <div key={ index } onClick={ ()=> self.setState({ idx: index }) }
+            { data.map((dat, index)=> <div key={ index } onClick={ ()=> { self.setState({ idx: index }); self.setState({ pos: 0 }); } }
               className={ styles.item + (dat[dataKey] === data[idx][dataKey] ? " " + styles.active : "") }>{ dat[showKey] }</div> )}
           </div>
           <div className={ styles.right }>
