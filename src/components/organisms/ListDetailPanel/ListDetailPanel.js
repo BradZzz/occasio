@@ -58,14 +58,6 @@ export class ListDetailPanel extends Component {
   }
 }
 
-/*
-  {
-    Object.keys(data[idx]).map(function(key, index){
-      return <div key={ index }><strong>{ key }: </strong>{ data[idx][key] }</div>
-    })
-  }
-*/
-
 ListDetailPanel.propTypes = {
   click: PropTypes.func.isRequired,
   data: PropTypes.array.isRequired,
@@ -74,7 +66,7 @@ ListDetailPanel.propTypes = {
   showKey: PropTypes.string.isRequired,
   nav: PropTypes.array.isRequired,
   cont: PropTypes.array.isRequired,
-  expFlag: PropTypes.boolean,
+  expFlag: PropTypes.bool,
 }
 
 function mapStateToProps(state) {

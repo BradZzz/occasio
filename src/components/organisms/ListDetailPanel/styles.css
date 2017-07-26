@@ -22,7 +22,6 @@
   width : 20%;
   float: left;
   overflow-y: auto;
-  transition: all 0.5s ease;
 }
 
 .left.expand {
@@ -79,7 +78,7 @@
 }
 
 .item.active {
-  color: var(--link-color);
+  color: var(--accent-color);
   font-weight: bold;
 }
 

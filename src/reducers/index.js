@@ -3,6 +3,7 @@ import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
 import user from "./user";
 import nav from "./nav";
+import s3 from "./s3";
 
 import p_home from "./partials/home";
 import p_dash from "./partials/dashboard";
@@ -15,11 +16,13 @@ import m_providers from "./models/providers";
 import m_campaigns from "./models/campaigns";
 import m_dxs from "./models/dxs";
 import m_hccs from "./models/hccs";
+import m_charts from "./models/charts";
 
 const rootReducer = combineReducers({
   routing: routerReducer,
   user,
   nav,
+  s3,
   p_home,
   p_dash,
   p_campaigns,
@@ -30,6 +33,7 @@ const rootReducer = combineReducers({
   m_dxs,
   m_hccs,
   m_campaigns,
+  m_charts,
 });
 
 export default rootReducer;

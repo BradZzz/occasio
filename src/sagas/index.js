@@ -1,6 +1,7 @@
 // @flow
 import { fork } from "redux-saga/effects"
 import { login, logout } from "./user"
+import { queryS3 } from "./s3"
 
 import { queryFeed } from "./partials/home"
 
@@ -9,12 +10,14 @@ import { requestProviders, queryProviders } from "./models/providers"
 import { requestCampaigns, queryCampaigns } from "./models/campaigns"
 import { queryDx } from "./models/dxs"
 import { queryHcc } from "./models/hccs"
+import { queryChart } from "./models/charts"
 
 export default function *rootSaga(): Generator<*, *, *> {
   yield [
     fork(login),
     fork(logout),
     fork(queryFeed),
+    fork(queryS3),
 
     /*
       Run two forks for each model.
@@ -37,5 +40,6 @@ export default function *rootSaga(): Generator<*, *, *> {
     */
     fork(queryDx),
     fork(queryHcc),
+    fork(queryChart),
   ];
 }

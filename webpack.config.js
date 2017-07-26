@@ -41,6 +41,10 @@ module.exports = {
           "css?modules&importLoaders=1",
           "postcss"
         ]
+      },
+      {
+        test: /.json$/,
+        loaders: ['json']
       }
     ]
   },

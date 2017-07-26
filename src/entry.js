@@ -1,13 +1,14 @@
 // @flow
-import "babel-polyfill";
-import React from "react";
-import { render } from "react-dom";
-import { Provider } from "react-redux";
-import { Router, browserHistory } from "react-router";
-import { syncHistoryWithStore } from "react-router-redux";
-import configureStore from "./store/configure-store";
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import "babel-polyfill"
+import "screw-filereader"
+import React from "react"
+import { render } from "react-dom"
+import { Provider } from "react-redux"
+import { Router, browserHistory } from "react-router"
+import { syncHistoryWithStore } from "react-router-redux"
+import configureStore from "./store/configure-store"
+import injectTapEventPlugin from 'react-tap-event-plugin'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Root from './containers/Root'
 
 injectTapEventPlugin()

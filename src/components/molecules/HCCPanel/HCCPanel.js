@@ -18,6 +18,9 @@ export class HCCPanel extends Component {
       hcc: props.hcc,
       member: props.member,
     }
+  }
+
+  componentDidMount() {
     this.reload()
   }
 
@@ -45,20 +48,6 @@ export class HCCPanel extends Component {
 
   render() {
     const { member, dx, hcc } = this.state
-
-    /*
-      Hcc
-
-      DOS Year
-      HCC Code
-      HCC Description
-      HCC Status
-      RAF Value
-      Dx Code(s)
-      Trumped By
-      Capture Date
-    */
-
     const hccData = hcc[member]
     const columnsHcc = [
       { Header: 'DOS Year', accessor: 'year' },
@@ -70,22 +59,7 @@ export class HCCPanel extends Component {
     const innerHcc = [
       { Header: 'Member', accessor: 'member_dbid' },
     ]
-    console.log(hcc)
-
     const hccView = <TablePanel ttype="collapse" data={ hccData } columns={ columnsHcc } inner={ innerHcc }/>
-
-    /*
-      Dx
-
-      DX Code
-      HCC Code
-      CPT Code
-      DOS
-      POS
-      Status
-      Provider
-    */
-
     const dxData = dx[member]
     const columnsDx = [
       { Header: 'DX Code', accessor: 'dxcode' },
@@ -98,11 +72,7 @@ export class HCCPanel extends Component {
     const innerDx = [
       { Header: 'Description', accessor: 'description' },
     ]
-    console.log(dx)
-    console.log(member)
-
     const dxView = <TablePanel ttype="collapse" data={ dxData } columns={ columnsDx } inner={ innerDx }/>
-
     return (
       <div className={ styles.root }>
         { hccView }

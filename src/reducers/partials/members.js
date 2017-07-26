@@ -12,7 +12,7 @@ import ContentCreate from "material-ui/svg-icons/content/create"
 import * as M from "../../actions/partials/members"
 import { ClickActionButton } from "../../components/atoms"
 import { SECTION_COLORS } from "../../constants/application"
-import { StackedBarPanel, InfoPanel, HCCPanel } from "../../components/molecules"
+import { StackedBarPanel, InfoPanel, HCCPanel, MedicalPanel } from "../../components/molecules"
 import styles from "./styles.css"
 
 const generateTabDOM = (tab, idx) => (
@@ -83,7 +83,7 @@ const initialState = {
       content: (user) => {
         return (
           <div>
-            <StackedBarPanel title="Stacked Bar Chart" sub="Bars on Bars" data={ {} } width={ 600 } height={ 300 } />
+            <MedicalPanel member={ parseInt(user.dbid) }/>
           </div>
         )
       }
