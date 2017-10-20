@@ -5,9 +5,9 @@ import { Card } from 'material-ui/Card';
 import styles from "./styles.css"
 import ReactHighcharts from 'react-highcharts'
 
-import { LineChart } from '../../quarks';
+import { DoublePie } from '../../quarks';
 
-export class LinePanel extends Component {
+export class DoublePiePanel extends Component {
   constructor(props) {
     super(props)
   }
@@ -18,22 +18,22 @@ export class LinePanel extends Component {
       <div className={ styles.root }>
         <Card style={{ width : "100%" }}>
           <p>{ title }</p>
-          <LineChart width={ width } height={ height } data={ data }/>
+          <DoublePie width={ width } height={ height } data={ data } sub={""}/>
         </Card>
       </div>
     );
   }
 }
 
-LinePanel.propTypes = {
+DoublePiePanel.propTypes = {
   title: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
-  data: PropTypes.object.isRequired,
+  data: PropTypes.array.isRequired,
 }
 
 function mapStateToProps(state) {
   return { }
 }
 
-export default connect(mapStateToProps)(LinePanel)
+export default connect(mapStateToProps)(DoublePiePanel)

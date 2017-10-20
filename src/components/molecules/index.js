@@ -11,3 +11,4 @@ export { default as ProviderDescPanel } from "./ProviderDescPanel/ProviderDescPa
 export { default as StackedBarPanel } from "./StackedBarPanel/StackedBarPanel";
 export { default as HCCPanel } from "./HCCPanel/HCCPanel";
 export { default as MedicalPanel } from "./MedicalPanel/MedicalPanel";
+export { default as DoublePiePanel } from "./DoublePiePanel/DoublePiePanel";

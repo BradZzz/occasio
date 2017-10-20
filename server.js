@@ -77,6 +77,10 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/dist/index.html')
 })
 
+/*
+  TODO: Complete models with no parameters
+*/
+
 app.get('/members', function(req, res) {
   const params = { limit : 200, where: { client_dbid: client }, order: [ 'full_name' ] }
   queryMemDB(res, 'members', 'vw_member_index', params)
@@ -91,6 +95,10 @@ app.get('/campaigns', function(req, res) {
   const params = { limit : 200, where: { client_dbid: client }, order: [ 'name' ] }
   queryMemDB(res, 'campaigns', 'campaigns', params)
 })
+
+/*
+  TODO: Models that rely on parameters
+*/
 
 app.get('/hccs', function(req, res) {
   if ('member' in req.query) {
@@ -158,6 +166,23 @@ app.get('/download/chart', function(req, res) {
     error(req,res,"Bad Request", 400)
   }
 })
+
+/*
+  TODO: Stored procedures here
+*/
+
+app.get('/letters', function(req, res) {
+  if ('member' in req.query) {
+    models.sequelize.query('select * from ' + process.env.SCHEMA + '.fn_get_letters_member(' + req.query.member + ')').then(function(response){
+      res.json(response)
+    }).error(function(err){
+      res.json(err)
+    })
+  } else {
+    error(req,res,"Bad Request",400)
+  }
+})
+
 
 app.listen(PORT, function(error) {
   if (error) {

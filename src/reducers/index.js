@@ -4,6 +4,7 @@ import { routerReducer } from "react-router-redux";
 import user from "./user";
 import nav from "./nav";
 import s3 from "./s3";
+import books from "./books";
 
 import p_home from "./partials/home";
 import p_dash from "./partials/dashboard";
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   user,
   nav,
   s3,
+  books,
   p_home,
   p_dash,
   p_campaigns,

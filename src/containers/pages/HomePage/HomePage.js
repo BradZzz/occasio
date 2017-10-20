@@ -18,7 +18,7 @@ export class IndexPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.state.pos) !== JSON.stringify(nextProps.pos)) // Check if it's a new user, you can also use some unique, like the ID
+    if(JSON.stringify(this.state.pos) !== JSON.stringify(nextProps.pos))
     {
       const { tabs } = this.props
       this.setState({ pos: nextProps.pos })

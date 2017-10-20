@@ -14,11 +14,10 @@ export class LineChart extends Component {
   }
 
   render() {
-    const { sub, width, height, data } = this.props
+    const { width, height, data } = this.props
 
     data.chart.height = height
     data.chart.width = width
-    data.series[0].name = sub
 
     return (
       <div>
@@ -29,7 +28,6 @@ export class LineChart extends Component {
 }
 
 LineChart.propTypes = {
-  sub: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   data: PropTypes.object.isRequired,
