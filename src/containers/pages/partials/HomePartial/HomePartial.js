@@ -58,9 +58,10 @@ export class HomePartial extends Component {
   }
 
   list = (part,idx) => {
-    return (<div key={ idx } className={styles.parent} onClick={() => { this.action(part) } } style={{ cursor: "pointer", background: "rgba(255,255,255,.8)" }}>
+    const base = part.split('_')
+    return (<div key={ idx } className={styles.parent} onClick={() => { this.action(part) } } style={{ cursor: "pointer" }}>
         <div className={styles.container}>
-          <span className={styles.item}>{part}</span>
+          <span className={styles.item}>{base[0] + " - " + base[1].replace("(analysis).json","")}</span>
         </div>
         <Divider />
     </div>)

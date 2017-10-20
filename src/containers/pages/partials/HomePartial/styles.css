@@ -9,6 +9,18 @@
 
 .parent {
   padding: 0 1em;
+  background: rgba(255,255,255,.8);
+  &:hover {
+    margin-left: 1em;
+    background: rgba(215,215,215,.9);
+  }
+  &:active {
+    margin-left: 1em;
+    background: rgba(205,205,205,.9);
+  }
+  &:hover hr {
+    display: none;
+  }
 }
 
 .container {
