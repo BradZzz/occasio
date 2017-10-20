@@ -76,9 +76,9 @@ export class HeaderPanel extends Component {
       )
     }
     if (!signedIn) {
+      //<img className={ styles.headImg } src='./images/logo_header.png'/>
       return (
         <div className={styles.root} style={{ height: "60px" }}>
-          <img className={ styles.headImg } src='./images/logo_header.png'/>
         </div>
       )
     } else {

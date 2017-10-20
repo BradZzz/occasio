@@ -58,7 +58,7 @@ export class HomePartial extends Component {
   }
 
   list = (part,idx) => {
-    return (<div key={ idx } className={styles.parent} onClick={() => { this.action(part) } } style={{ cursor: "pointer"}}>
+    return (<div key={ idx } className={styles.parent} onClick={() => { this.action(part) } } style={{ cursor: "pointer", background: "rgba(255,255,255,.8)" }}>
         <div className={styles.container}>
           <span className={styles.item}>{part}</span>
         </div>
@@ -238,7 +238,7 @@ export class HomePartial extends Component {
          id: 'versions'
       }]
       bView = (
-        <div style={{ "marginBottom": "5em" }}>
+        <div>
           <Card style={{ width : "100%", "marginBottom": "1em", padding: "1em" }}>
             <div style={{ display: "flex" }}>
               <div style={{ "marginTop": "1em" }}>
@@ -294,7 +294,9 @@ export class HomePartial extends Component {
     return (
       <div className={styles.root}>
         <FoldingCubeHome/>
-        { bView }
+        <div style={{ "marginBottom":"5em" }}>
+          { bView }
+        </div>
       </div>
     )
   }

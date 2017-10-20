@@ -8,6 +8,10 @@
   transition: all 0.5s ease;
 }
 
+.author {
+  color: var(--accent-color);
+}
+
 .navLogo {
   width : 100%;
   padding : 1em;
