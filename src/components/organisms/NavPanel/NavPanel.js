@@ -107,7 +107,7 @@ export class NavPanel extends Component {
 }
 
 NavPanel.propTypes = {
-  book: PropTypes.bool.isRequired,
+  book: PropTypes.string.isRequired,
   dataList: PropTypes.array.isRequired,
   isFetchingSearch: PropTypes.bool.isRequired,
   tabs: PropTypes.array.isRequired,

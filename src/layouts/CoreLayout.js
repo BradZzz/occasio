@@ -7,42 +7,6 @@ import { Link } from "react-router";
 import styles from "./CoreLayout.css";
 import { HeaderPanel, NavPanel } from "../components/organisms/"
 
-
-//type Props = {
-//  children: React$Element<any>;
-//};
-//
-//const CoreLayout = (props: Props) => {
-//  const { children, book } = props;
-//  console.log('book', book)
-//  return (
-//    <div className={styles.root}>
-//      <div className={styles.left}>
-//        <NavPanel></NavPanel>
-//      </div>
-//      <div className={styles.right}>
-//        <HeaderPanel></HeaderPanel>
-//        <div className={styles.frame}>
-//          {children}
-//        </div>
-//      </div>
-//    </div>
-//  )
-//}
-//
-//CoreLayout.propTypes = {
-//  book: PropTypes.bool.isRequired,
-//}
-//
-//function mapStateToProps(state) {
-//  const { book } = state.books
-//  return {
-//    book
-//  }
-//}
-//
-//export default connect(mapStateToProps)(CoreLayout)
-
 export class CoreLayout extends Component {
   constructor(props) {
     super(props)
@@ -60,10 +24,12 @@ export class CoreLayout extends Component {
   }
 
   render() {
-    const { children, book } = this.state;
-//    const { children, book } = props;
-//    console.log('book', book)
+    const { children } = this.props
+    const { book } = this.state;
     const mRight = book ? styles.right : styles.rightAlt
+
+    console.log('children', children)
+
     return (
       <div className={styles.root}>
         <div className={styles.left}>

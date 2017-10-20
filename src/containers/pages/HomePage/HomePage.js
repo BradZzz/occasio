@@ -15,6 +15,7 @@ export class IndexPage extends Component {
       info: props.tabs[props.pos],
       pos: props.pos,
     }
+    console.log('IndexPage')
   }
 
   componentWillReceiveProps(nextProps) {

@@ -16,6 +16,7 @@ export class IndexPage extends Component {
     const { dispatch } = this.props
     if (nextProps.signedIn) {
       this.props.router.push('/home')
+      console.log('nav')
     } else {
       dispatch(UserActions.logout())
     }
