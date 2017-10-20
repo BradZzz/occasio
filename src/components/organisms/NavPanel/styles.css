@@ -8,6 +8,24 @@
   transition: all 0.5s ease;
 }
 
+.container {
+  &:hover, &:active {
+    margin-left: 1em;
+  }
+  &:hover .title {
+
+  }
+  &:active .title {
+
+  }
+  &:hover .author {
+    color: color(var(--accent-color) alpha(80%));
+  }
+  &:active .author {
+    color: color(var(--accent-color) alpha(60%));
+  }
+}
+
 .author {
   color: var(--accent-color);
 }

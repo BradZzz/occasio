@@ -83,7 +83,7 @@ export class NavPanel extends Component {
     const bAuth = name.split("_")[1]
     return (<div key={ idx } className={styles.parent} style={{ cursor: "pointer", height: "80px", "marginLeft": "1em" }}>
         <div className={styles.container} style={{ display: "flex", "flexDirection": "column" }}>
-          <span >{this.truncate(bName,32)}</span>
+          <span className={styles.title}>{this.truncate(bName,32)}</span>
           <span className={styles.author}>{this.truncate(bAuth,20)}</span>
         </div>
     </div>)
