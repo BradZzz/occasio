@@ -120,8 +120,21 @@ export class HomePartial extends Component {
 
     if (book && !isFetchingSearch){
 
+      console.log('dataSummary', dataSummary)
+
       const bIndex = dataSummary['books'].indexOf(book.replace('(analysis).json',''))
-      const defWords = this.sortArrayObjs(dataSummary['defining_words'][bIndex])
+      console.log('bIndex', bIndex)
+      let cosineSim = {}
+      for(let x = 0; x < dataList.length; x++){
+        if (x !== bIndex) {
+          cosineSim[dataList[x].replace('(analysis).json','')] = dataSummary['word_similarity'][bIndex][x]
+        }
+      }
+      console.log('cosineSim', cosineSim)
+      cosineSim = this.sortArrayObjs(cosineSim)
+      let defWords = dataSummary['defining_words'][bIndex]
+      console.log('defWords', defWords)
+      defWords = this.sortArrayObjs(defWords)
 
       let counts = {};
       const words = dataSearch["words"]
@@ -131,15 +144,21 @@ export class HomePartial extends Component {
 
       const items = this.sortArrayObjs(counts)
 
+      let thumb = ""
+      if ("imageLinks" in dataSearch["oMeta"] && "thumbnail" in dataSearch["oMeta"]["imageLinks"]){
+        thumb = dataSearch["oMeta"]["imageLinks"]["thumbnail"]
+      }
+
       const meta = {
         book: book.split('_')[0],
         author: book.split('_')[1].split('(')[0],
         description: dataSearch["oMeta"]["description"] ? dataSearch["oMeta"]["description"] : "*No Description*",
         maturity: dataSearch["oMeta"]["maturityRating"],
-        thumb: dataSearch["oMeta"]["imageLinks"]["thumbnail"],
+        thumb: thumb,
         readLink: dataSearch["oMeta"]["previewLink"],
         cat: dataSearch["oMeta"]["categories"],
-        defWords: defWords
+        defWords: defWords,
+        cosineSim: cosineSim
       }
 
       console.log(dataSearch)
@@ -249,15 +268,21 @@ export class HomePartial extends Component {
               </div>
             </div>
           </Card>
+          <Card style={{ "margin":"1em 0", "padding":"1em"}}>
+            <h3 style={{ textAlign: "center" }}>Similar Books</h3>
+            <div style={{ "marginLeft": "1em" }}>
+              { meta.cosineSim.slice(0, 10).map((itm, idx) => { return <div key={idx}>{ "(" + (100 * parseFloat(itm[1])).toFixed(2) + "%) " + itm[0] }</div> })}
+            </div>
+          </Card>
           <DoublePiePanel title="Semantic Analysis" data={config} sub={''} width={800} height={600}/>
           <Card style={{ "margin":"1em 0", "padding":"1em"}}>
             <div style={{ width : "100%", display: "flex" }}>
               <div style={{ width : "50%" }}>
-                <p style={{ textAlign: "center" }}>{ "Polarity Analysis" }</p>
+                <h3 style={{ textAlign: "center" }}>{ "Polarity Analysis" }</h3>
                 <LineChart data={ pol_data } width={ 500 } height={ 300 }/>
               </div>
               <div style={{ width : "50%" }}>
-                <p style={{ textAlign: "center" }}>{ "Subjectivity Analysis" }</p>
+                <h3 style={{ textAlign: "center" }}>{ "Subjectivity Analysis" }</h3>
                 <LineChart data={ sub_data } width={ 500 } height={ 300 }/>
               </div>
             </div>
