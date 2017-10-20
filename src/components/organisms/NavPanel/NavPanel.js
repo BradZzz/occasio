@@ -83,7 +83,7 @@ export class NavPanel extends Component {
     const bAuth = name.split("_")[1]
     return (<div key={ idx } className={styles.parent} style={{ cursor: "pointer", height: "80px", "marginLeft": "1em" }}>
         <div className={styles.container} style={{ display: "flex", "flexDirection": "column" }}>
-          <span >{this.truncate(bName,40)}</span>
+          <span >{this.truncate(bName,32)}</span>
           <span className={styles.author}>{this.truncate(bAuth,20)}</span>
         </div>
     </div>)
@@ -95,11 +95,10 @@ export class NavPanel extends Component {
     const sView = book && !isFetchingSearch ? dataList.map(this.list) : <span></span>
     return (
       <div className={styles.root}>
-        <div className={styles.navLogo}>
+        <div className={styles.navLogo} style={{ "borderBottom": "1px solid", "maxHeight": "60px" }}>
           <img src='./images/logo_nav.png'/>
         </div>
-        <Divider/>
-        <div style={{ "overflowY": "auto", position: "relative", height: "90vh", "paddingTop": "1em" }}>
+        <div style={{ "overflowY": "auto", position: "relative", height: "92vh", "paddingTop": "1em" }}>
           { sView }
         </div>
       </div>

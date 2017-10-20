@@ -46,3 +46,10 @@
     width : 85%;
     height: 100vh;
 }
+
+.rightAlt {
+    position: absolute;
+    float: left;
+    width : 100%;
+    height: 100vh;
+}

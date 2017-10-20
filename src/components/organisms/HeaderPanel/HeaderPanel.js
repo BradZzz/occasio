@@ -62,12 +62,16 @@ export class HeaderPanel extends Component {
     console.log(pos)
     console.log(tabs)
     const bView = book ? (
-      <div onClick={() => { this.removeBook() }} style={{ width: "400px", position: "absolute", top: "10px",
+      <div onClick={() => { this.removeBook() }} style={{ width: "500px", position: "absolute", top: "10px",
         left: "10px", cursor: "pointer", "zIndex" : 2, "whiteSpace": "nowrap", overflow: "hidden", "textOverflow": "ellipsis" }}>
         <span style={{top: "7px", position:"relative"}}><HardwareKeyboardArrowLeft/></span>
         <span style={{ "marginLeft": ".4em" }}>{ book.split('_')[0] + " - " + book.split('_')[1].split('(')[0] }</span>
       </div>
-     ) : (<span></span>)
+     ) : (
+      <div className={styles.navLogo} style={{ "position": "absolute", "maxWidth": "200px", "maxHeight": "60px" }}>
+        <img src='./images/logo_nav_dark.png' style={{ "maxWidth": "100%", "maxHeight": "100%" }}/>
+      </div>
+    )
     if ('desc' in sSnap[tabs[pos].partial] && sSnap[tabs[pos].partial].desc) {
       view = (
         <div style={{ "width" : "50px", "position" : "absolute", "cursor" : "pointer", "zIndex" : 1, "margin" : "10px 0 0 20px" }}>
