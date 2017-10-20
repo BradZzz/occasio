@@ -10,6 +10,7 @@
 .parent {
   padding: 0 1em;
   background: rgba(255,255,255,.8);
+  transition: all .5s ease-out 0s;
   &:hover {
     margin-left: 1em;
     background: rgba(215,215,215,.9);

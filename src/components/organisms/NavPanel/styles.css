@@ -9,6 +9,7 @@
 }
 
 .container {
+  transition: all .5s ease-out 0s;
   &:hover, &:active {
     margin-left: 1em;
   }
