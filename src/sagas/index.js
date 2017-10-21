@@ -17,8 +17,8 @@ export default function *rootSaga(): Generator<*, *, *> {
   yield [
     fork(login),
     fork(logout),
-    fork(queryFeed),
-    fork(queryS3),
+//    fork(queryFeed),
+//    fork(queryS3),
     fork(queryListBooks),
     fork(querySummaryBooks),
     fork(querySearchBooks),
@@ -29,21 +29,21 @@ export default function *rootSaga(): Generator<*, *, *> {
       The second fork is for the refresh.
     */
 
-    fork(requestMembers),
-    fork(queryMembers),
-
-    fork(requestProviders),
-    fork(queryProviders),
-
-    fork(requestCampaigns),
-    fork(queryCampaigns),
+//    fork(requestMembers),
+//    fork(queryMembers),
+//
+//    fork(requestProviders),
+//    fork(queryProviders),
+//
+//    fork(requestCampaigns),
+//    fork(queryCampaigns),
 
     /*
       These models require a member.
       We will cache these as necessary, but will not load on start.
     */
-    fork(queryDx),
-    fork(queryHcc),
-    fork(queryChart),
+//    fork(queryDx),
+//    fork(queryHcc),
+//    fork(queryChart),
   ];
 }

@@ -13,12 +13,12 @@ export class DoublePiePanel extends Component {
   }
 
   render() {
-    const { title, width, height, data } = this.props
+    const { title, width, height, data, nav } = this.props
     return (
       <div className={ styles.root }>
         <Card style={{ width : "100%" }}>
           <p>{ title }</p>
-          <DoublePie width={ width } height={ height } data={ data } sub={""}/>
+          <DoublePie width={ width } height={ height } data={ data } sub={""} nav={nav} />
         </Card>
       </div>
     );
@@ -30,6 +30,7 @@ DoublePiePanel.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,
+  nav: PropTypes.object,
 }
 
 function mapStateToProps(state) {

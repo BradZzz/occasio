@@ -6,7 +6,7 @@ import styles from "./styles.css"
 
 import { DoublePiePanel } from "../../../components/molecules"
 import { LineChart } from "../../../components/quarks"
-import { LINE_CHART_TEST } from "../../../constants/application"
+import { LINE_CHART_TEST, POS_TAGS } from "../../../constants/application"
 import { Card } from 'material-ui/Card';
 
 const POL_ACCEPT = [-.3,.3]
@@ -248,12 +248,12 @@ export class BookPanel extends Component {
             { meta.cosineSim.slice(0, 10).map((itm, idx) => { return <div key={idx}>{ "(" + (100 * parseFloat(itm[1])).toFixed(2) + "%) " + itm[0] }</div> })}
           </div>
         </Card>
-        <DoublePiePanel title="Semantic Analysis" data={config} sub={''} width={800} height={600}/>
+        <DoublePiePanel title="Semantic Analysis" data={config} sub={''} width={800} height={600} nav={ { data: POS_TAGS, key: "pos", val: "desc" } }/>
         <Card style={{ "margin":"1em 0", "padding":"1em"}}>
           <div style={{ width : "100%", display: "flex" }}>
             <div style={{ width : "50%" }}>
               <h3 style={{ textAlign: "center" }}>{ "Polarity Analysis" }</h3>
-              <LineChart data={ pol_data } width={ 500 } height={ 300 }/>
+              <LineChart data={ pol_data } width={ 500 } height={ 300 } />
             </div>
             <div style={{ width : "50%" }}>
               <h3 style={{ textAlign: "center" }}>{ "Subjectivity Analysis" }</h3>

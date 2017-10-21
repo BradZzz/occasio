@@ -5,7 +5,7 @@ import styles from "./styles.css"
 
 import * as BookActions from "../../../../actions/books"
 
-import { FoldingCubeHome } from "../../../../components/atoms"
+import { FoldingCubeBookDetails, FoldingCubeHome } from "../../../../components/atoms"
 import { BookPanel } from "../../../../components/organisms"
 
 import { Card } from 'material-ui/Card';
@@ -64,7 +64,7 @@ export class HomePartial extends Component {
     const { dataList, dataSummary } = this.props
     const { book, dataSearch, isFetchingSearch } = this.state
 
-    let bView = book ? <BookPanel /> : dataList.map(this.list)
+    let bView = book ? <div><FoldingCubeBookDetails /><BookPanel /></div>: dataList.map(this.list)
 
     return (
       <div className={styles.root}>
