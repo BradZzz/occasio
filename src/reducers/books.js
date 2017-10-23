@@ -4,18 +4,35 @@ import * as B from "../actions/books"
 
 const initialState = {
   book: '',
+  bookComp: '',
   dataList: [],
   isFetchingList: false,
   dataSummary: {},
   isFetchingSummary: false,
   dataSearch: {},
+  dataSearchComp: {},
   isFetchingSearch: false,
 }
 
 export default handleActions({
+  [B.SWAP_BOOKS]: (state = { }) => {
+    console.log(state)
+    const { bookComp, book, dataSearchComp, dataSearch } = state
+    return {
+      ...state,
+      book: bookComp,
+      bookComp: book,
+      dataSearch: dataSearchComp,
+      dataSearchComp: dataSearch,
+    }
+  },
   [B.NAV_BOOKS]: (state = { }, action) => ({
     ...state,
     book: action.payload.book
+  }),
+  [B.NAV_BOOKS_COMP]: (state = { }, action) => ({
+    ...state,
+    bookComp: action.payload.book
   }),
   [B.REQ_LIST_BOOKS]: (state = { }) => ({
     ...state,
@@ -44,4 +61,9 @@ export default handleActions({
     isFetchingSearch: false,
     dataSearch: JSON.parse(action.payload.data)
   }),
+  [B.REC_SEARCH_BOOKS_COMP]: (state = { }, action) => ({
+    ...state,
+    isFetchingSearch: false,
+    dataSearchComp: JSON.parse(action.payload.data)
+  })
 }, initialState);

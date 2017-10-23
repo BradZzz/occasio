@@ -14,7 +14,6 @@ export function* queryListBooks(req) {
 export function* requestListBooks(req) {
   yield put( B.reqListBooks(req) )
   const msg = yield call(fetchBookList, req)
-  console.log(msg)
   yield put( B.recListBooks( { data: msg } ))
 }
 
@@ -36,7 +35,6 @@ export function* querySummaryBooks(req) {
 export function* requestSummaryBooks(req) {
   yield put( B.reqSummaryBooks(req) )
   const msg = yield call(fetchBookSummary, req)
-  console.log(msg)
   yield put( B.recSummaryBooks( { data: msg } ))
 }
 
@@ -55,13 +53,24 @@ export function* querySearchBooks(req) {
   yield takeEvery(B.QUERY_SEARCH_BOOKS, requestSearchBooks)
 }
 
+export function* querySearchBooksComp(req) {
+  yield takeEvery(B.QUERY_SEARCH_BOOKS_COMP, requestSearchBooksComp)
+}
+
 export function* requestSearchBooks(req) {
   console.log(req)
   yield put( B.reqSearchBooks(req) )
   yield put( B.navBooks({ book: req.payload.book }) )
   const msg = yield call(fetchSearchBook, req)
-  console.log(msg)
   yield put( B.recSearchBooks( { data: msg } ))
+}
+
+export function* requestSearchBooksComp(req) {
+  console.log(req)
+  //yield put( B.reqSearchBooks(req) )
+  yield put( B.navBooksComp({ book: req.payload.book }) )
+  const msg = yield call(fetchSearchBook, req)
+  yield put( B.recSearchBooksComp( { data: msg } ))
 }
 
 export function fetchSearchBook(req) {

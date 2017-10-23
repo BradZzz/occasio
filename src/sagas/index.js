@@ -2,7 +2,7 @@
 import { fork } from "redux-saga/effects"
 import { login, logout } from "./user"
 import { queryS3 } from "./s3"
-import { queryListBooks, querySummaryBooks, querySearchBooks } from "./books"
+import { queryListBooks, querySummaryBooks, querySearchBooks, querySearchBooksComp } from "./books"
 
 import { queryFeed } from "./partials/home"
 
@@ -22,6 +22,7 @@ export default function *rootSaga(): Generator<*, *, *> {
     fork(queryListBooks),
     fork(querySummaryBooks),
     fork(querySearchBooks),
+    fork(querySearchBooksComp),
 
     /*
       Run two forks for each model.

@@ -117,7 +117,7 @@ export class DoublePie extends Component {
           enabled: false
        },
        title: {
-           text: 'Browser market share, January, 2015 to May, 2015'
+           text: ''
        },
 //       subtitle: {
 //           text: 'Source: <a href="http://netmarketshare.com/">netmarketshare.com</a>'
