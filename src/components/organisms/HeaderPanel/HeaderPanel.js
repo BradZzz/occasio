@@ -74,14 +74,15 @@ export class HeaderPanel extends Component {
       ""
     )
     const bView = book ? (
-      <div style={{ display: "flex", width: "500px", position: "absolute", top: "10px",
+      <div style={{ display: "flex", width: "600px", position: "absolute", top: "10px",
         left: "10px", cursor: "pointer", "zIndex" : 2, "whiteSpace": "nowrap", overflow: "hidden", "textOverflow": "ellipsis" }}>
         <span style={{top: "7px", position:"relative"}} onClick={() => { this.removeBook() }}><HardwareKeyboardArrowLeft/></span>
-        <div style={{ "marginLeft": ".4em", display: "flex", "flexDirection": "column" }} onClick={() => { this.removeAltBook() }}>
+        <div style={{ width: "500px", "whiteSpace": "nowrap", overflow: "hidden", "textOverflow": "ellipsis",
+          "marginLeft": ".4em", display: "flex", "flexDirection": "column" }} onClick={() => { this.removeAltBook() }}>
           <span>{ book.split('_')[0] + " - " + book.split('_')[1].split('(')[0] }</span>
           { bPartView }
         </div>
-        <span style={{ top: "7px", left: "5px", position: "relative" }} onClick={ this.flip }>
+        <span style={{ top: "7px", left: "10px", position: "relative" }} onClick={ this.flip }>
           <ActionSwapVert/>
         </span>
       </div>
