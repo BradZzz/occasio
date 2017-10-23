@@ -10,6 +10,7 @@ export class FoldingCubeBookDetails extends Component {
     super(props)
     this.state = {
       isFetchingSearch: props.isFetchingSearch,
+      isFetchingSearchComp: props.isFetchingSearchComp
     }
   }
 
@@ -18,11 +19,15 @@ export class FoldingCubeBookDetails extends Component {
     {
       this.setState({ isFetchingSearch: nextProps.isFetchingSearch })
     }
+    if ((JSON.stringify(this.state.isFetchingSearchComp) !== JSON.stringify(nextProps.isFetchingSearchComp))) // Check if it's a new user, you can also use some unique, like the ID
+    {
+      this.setState({ isFetchingSearchComp: nextProps.isFetchingSearchComp })
+    }
   }
 
   render() {
-    const { isFetchingSearch } = this.state
-    if (!isFetchingSearch) {
+    const { isFetchingSearch, isFetchingSearchComp } = this.state
+    if (!isFetchingSearch && !isFetchingSearchComp) {
         return ( <div></div> )
     } else {
         return (
@@ -35,12 +40,13 @@ export class FoldingCubeBookDetails extends Component {
 }
 
 FoldingCubeBookDetails.propTypes = {
-  isFetchingSearch: PropTypes.bool.isRequired
+  isFetchingSearch: PropTypes.bool.isRequired,
+  isFetchingSearchComp: PropTypes.bool.isRequired,
 }
 
 function mapStateToProps(state) {
-  const { isFetchingSearch } = state.books
-  return { isFetchingSearch }
+  const { isFetchingSearch, isFetchingSearchComp } = state.books
+  return { isFetchingSearch, isFetchingSearchComp }
 }
 
 export default connect(mapStateToProps)(FoldingCubeBookDetails)

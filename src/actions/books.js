@@ -14,6 +14,7 @@ export const REC_SUMMARY_BOOKS = 'REC_SUMMARY_BOOKS'
 export const QUERY_SEARCH_BOOKS = 'QUERY_SEARCH_BOOKS'
 export const QUERY_SEARCH_BOOKS_COMP = 'QUERY_SEARCH_BOOKS_COMP'
 export const REQ_SEARCH_BOOKS = 'REQ_SEARCH_BOOKS'
+export const REQ_SEARCH_BOOKS_COMP = 'REQ_SEARCH_BOOKS_COMP'
 export const REC_SEARCH_BOOKS = 'REC_SEARCH_BOOKS'
 export const REC_SEARCH_BOOKS_COMP = 'REC_SEARCH_BOOKS_COMP'
 
@@ -97,6 +98,13 @@ export function querySearchBooksComp(payload) {
 export function reqSearchBooks(payload) {
   return {
     type: REQ_SEARCH_BOOKS,
+    payload
+  }
+}
+
+export function reqSearchBooksComp(payload) {
+  return {
+    type: REQ_SEARCH_BOOKS_COMP,
     payload
   }
 }

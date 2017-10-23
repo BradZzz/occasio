@@ -12,6 +12,7 @@ const initialState = {
   dataSearch: {},
   dataSearchComp: {},
   isFetchingSearch: false,
+  isFetchingSearchComp: false,
 }
 
 export default handleActions({
@@ -56,6 +57,10 @@ export default handleActions({
     ...state,
     isFetchingSearch: true,
   }),
+  [B.REQ_SEARCH_BOOKS_COMP]: (state = { }) => ({
+    ...state,
+    isFetchingSearchComp: true,
+  }),
   [B.REC_SEARCH_BOOKS]: (state = { }, action) => ({
     ...state,
     isFetchingSearch: false,
@@ -63,7 +68,7 @@ export default handleActions({
   }),
   [B.REC_SEARCH_BOOKS_COMP]: (state = { }, action) => ({
     ...state,
-    isFetchingSearch: false,
+    isFetchingSearchComp: false,
     dataSearchComp: JSON.parse(action.payload.data)
   })
 }, initialState);

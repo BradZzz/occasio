@@ -67,7 +67,7 @@ export function* requestSearchBooks(req) {
 
 export function* requestSearchBooksComp(req) {
   console.log(req)
-  //yield put( B.reqSearchBooks(req) )
+  yield put( B.reqSearchBooksComp(req) )
   yield put( B.navBooksComp({ book: req.payload.book }) )
   const msg = yield call(fetchSearchBook, req)
   yield put( B.recSearchBooksComp( { data: msg } ))
