@@ -69,7 +69,7 @@ export class HeaderPanel extends Component {
       </div>
      ) : (
       <div className={styles.navLogo} style={{ "position": "absolute", "maxWidth": "200px", "maxHeight": "60px" }}>
-        <img src='./images/logo_nav_dark.png' style={{ "maxWidth": "100%", "maxHeight": "100%" }}/>
+        <img src='./images/logo_darker.png' style={{ "maxWidth": "100%", "maxHeight": "100%" }}/>
       </div>
     )
     if ('desc' in sSnap[tabs[pos].partial] && sSnap[tabs[pos].partial].desc) {
