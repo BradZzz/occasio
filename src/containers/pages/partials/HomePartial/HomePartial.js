@@ -5,7 +5,7 @@ import styles from "./styles.css"
 
 import * as BookActions from "../../../../actions/books"
 
-import { FoldingCubeHome } from "../../../../components/atoms"
+import { FoldingCubeBookDetails, FoldingCubeHome } from "../../../../components/atoms"
 import { BookPanel } from "../../../../components/organisms"
 
 import { Card } from 'material-ui/Card';
@@ -17,7 +17,8 @@ export class HomePartial extends Component {
     this.state = {
       book: props.book,
       dataSearch: props.dataSearch,
-      isFetchingSearch: props.isFetchingSearch
+      isFetchingSearch: props.isFetchingSearch,
+      isFetchingSearchComp: props.isFetchingSearchComp
     }
   }
 
@@ -33,6 +34,10 @@ export class HomePartial extends Component {
     if(JSON.stringify(this.state.isFetchingSearch) !== JSON.stringify(nextProps.isFetchingSearch))
     {
       this.setState({ isFetchingSearch: nextProps.isFetchingSearch })
+    }
+    if(JSON.stringify(this.state.isFetchingSearchComp) !== JSON.stringify(nextProps.isFetchingSearchComp))
+    {
+      this.setState({ isFetchingSearchComp: nextProps.isFetchingSearchComp })
     }
   }
 
@@ -62,9 +67,10 @@ export class HomePartial extends Component {
 
   render() {
     const { dataList, dataSummary } = this.props
-    const { book, dataSearch, isFetchingSearch } = this.state
+    const { book, dataSearch, isFetchingSearch, isFetchingSearchComp } = this.state
 
-    let bView = book ? <BookPanel /> : dataList.map(this.list)
+    let bView = book ? (isFetchingSearchComp ? (<div><FoldingCubeBookDetails /></div>)
+      :(<div><FoldingCubeBookDetails /><BookPanel /></div>)) : dataList.map(this.list)
 
     return (
       <div className={styles.root}>
@@ -83,14 +89,15 @@ HomePartial.propTypes = {
   isFetchingList: PropTypes.bool.isRequired,
   dataSearch: PropTypes.object.isRequired,
   isFetchingSearch: PropTypes.bool.isRequired,
+  isFetchingSearchComp: PropTypes.bool.isRequired,
   dataSummary: PropTypes.object.isRequired,
   isFetchingSummary: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
-  const { book, dataList, isFetchingList, dataSearch, isFetchingSearch, dataSummary, isFetchingSummary } = state.books
-  return { book, dataList, isFetchingList, dataSearch, isFetchingSearch, dataSummary, isFetchingSummary }
+  const { book, dataList, isFetchingList, dataSearch, isFetchingSearch, isFetchingSearchComp, dataSummary, isFetchingSummary } = state.books
+  return { book, dataList, isFetchingList, dataSearch, isFetchingSearch, isFetchingSearchComp, dataSummary, isFetchingSummary }
 }
 
 export default connect(mapStateToProps)(HomePartial)

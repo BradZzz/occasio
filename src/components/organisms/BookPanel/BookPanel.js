@@ -6,7 +6,7 @@ import styles from "./styles.css"
 
 import { DoublePiePanel } from "../../../components/molecules"
 import { LineChart } from "../../../components/quarks"
-import { LINE_CHART_TEST } from "../../../constants/application"
+import { LINE_CHART_TEST, POS_TAGS } from "../../../constants/application"
 import { Card } from 'material-ui/Card';
 
 const POL_ACCEPT = [-.3,.3]
@@ -17,7 +17,9 @@ export class BookPanel extends Component {
     super(props)
     this.state = {
       book: props.book,
+      bookComp: props.bookComp,
       dataSearch: props.dataSearch,
+      dataSearchComp: props.dataSearchComp,
       isFetchingSearch: props.isFetchingSearch,
       isFetchingSummary: props.isFetchingSummary,
       isFetchingList: props.isFetchingList
@@ -25,9 +27,21 @@ export class BookPanel extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if(JSON.stringify(this.state.book) !== JSON.stringify(nextProps.book))
+    {
+      this.setState({ book: nextProps.book })
+    }
+    if(JSON.stringify(this.state.bookComp) !== JSON.stringify(nextProps.bookComp))
+    {
+      this.setState({ bookComp: nextProps.bookComp })
+    }
     if(JSON.stringify(this.state.dataSearch) !== JSON.stringify(nextProps.dataSearch))
     {
       this.setState({ dataSearch: nextProps.dataSearch })
+    }
+    if(JSON.stringify(this.state.dataSearchComp) !== JSON.stringify(nextProps.dataSearchComp))
+    {
+      this.setState({ dataSearchComp: nextProps.dataSearchComp })
     }
     if(JSON.stringify(this.state.isFetchingSearch) !== JSON.stringify(nextProps.isFetchingSearch))
     {
@@ -89,40 +103,97 @@ export class BookPanel extends Component {
     return items
   }
 
+  getBookIndex(book) {
+    const { dataSummary } = this.props
+    return dataSummary['books'].indexOf(book.replace('(analysis).json',''))
+  }
+
+  getCosineSim(index) {
+    const { dataList, dataSummary } = this.props
+    let cosineSim = {}
+    for(let x = 0; x < dataList.length; x++){
+      if (x !== index) {
+        cosineSim[dataList[x].replace('(analysis).json','')] = dataSummary['word_similarity'][index][x]
+      }
+    }
+    return cosineSim
+  }
+
+  getObjCopy(obj) {
+    return JSON.parse(JSON.stringify(obj))
+  }
+
+  constructConfig(search) {
+    let allKeys = []
+    const combinedKeys = {}
+    let combKeysAll = []
+    let total = 0
+    for (let key in search["tags"]){
+      const colorConf = this.retColor(key)
+      if (!(colorConf[0] in combinedKeys)){
+        combinedKeys[colorConf[0]] = 0
+      }
+      const val = search["tags"][key]
+      combinedKeys[colorConf[0]] += val
+      allKeys.push({name: key, y: val, color: colorConf[1]})
+      total+= val
+    }
+    total = parseFloat(total)
+    for (let key in combinedKeys){
+      const colorConf = this.retColor(key)
+      const val = combinedKeys[key]
+      combKeysAll.push({name: key, y: parseFloat(((val/total) * 100).toFixed(2)), color: colorConf[1]})
+    }
+    for (let val of allKeys){
+      val.y = parseFloat(((val.y/total) * 100).toFixed(2))
+    }
+
+    allKeys = allKeys.sort(this.sortString)
+
+    combKeysAll = combKeysAll.sort(this.sortString)
+
+    return [{
+       name: 'Browsers',
+       data: combKeysAll,
+       size: '60%',
+       dataLabels: {
+           formatter: function () {
+               return this.y > 5 ? this.point.name : null;
+           },
+           color: '#ffffff',
+           distance: -30
+       }
+    }, {
+       name: 'Versions',
+       data: allKeys,
+       size: '80%',
+       innerSize: '60%',
+       dataLabels: {
+           formatter: function () {
+               // display only if larger than 1
+               return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
+                   this.y + '%' : null;
+           }
+       },
+       id: 'versions'
+    }]
+  }
+
   render() {
     const { dataList, dataSummary } = this.props
-    const { book, dataSearch, isFetchingSearch, isFetchingList, isFetchingSummary } = this.state
+    const { book, bookComp, dataSearch, dataSearchComp, isFetchingSearch, isFetchingList, isFetchingSummary } = this.state
 
     let bView = <span></span>
 
     if (book && !isFetchingSearch && !isFetchingSummary && !isFetchingList) {
-      const bIndex = dataSummary['books'].indexOf(book.replace('(analysis).json',''))
-      console.log('bIndex', bIndex)
-      let cosineSim = {}
-      for(let x = 0; x < dataList.length; x++){
-        if (x !== bIndex) {
-          cosineSim[dataList[x].replace('(analysis).json','')] = dataSummary['word_similarity'][bIndex][x]
-        }
-      }
-      console.log('cosineSim', cosineSim)
+      const bIndex = this.getBookIndex(book)
+      let cosineSim = this.getCosineSim(bIndex)
       cosineSim = this.sortArrayObjs(cosineSim)
-      let defWords = dataSummary['defining_words'][bIndex]
-      console.log('defWords', defWords)
-      defWords = this.sortArrayObjs(defWords)
-
-      let counts = {};
-      const words = dataSearch["words"]
-      for (var i = 0; i < words.length; i++) {
-          counts[words[i]] = 1 + (counts[words[i]] || 0)
-      }
-
-      const items = this.sortArrayObjs(counts)
-
+      let defWords = this.sortArrayObjs(dataSummary['defining_words'][bIndex])
       let thumb = ""
       if ("imageLinks" in dataSearch["oMeta"] && "thumbnail" in dataSearch["oMeta"]["imageLinks"]){
         thumb = dataSearch["oMeta"]["imageLinks"]["thumbnail"]
       }
-
       const meta = {
         book: book.split('_')[0],
         author: book.split('_')[1].split('(')[0],
@@ -135,82 +206,98 @@ export class BookPanel extends Component {
         cosineSim: cosineSim
       }
 
-      console.log(dataSearch)
-
       const pol_data = JSON.parse(JSON.stringify(LINE_CHART_TEST))
       const sub_data = JSON.parse(JSON.stringify(LINE_CHART_TEST))
 
-      pol_data.series[0].name = "Polarity"
+      pol_data.series[0].name = "Book A"
       pol_data.series[0].data = dataSearch["pol"].map((pol) => {
         return pol > POL_ACCEPT[1] ? 1 : (pol < POL_ACCEPT[0] ? -1 : 0)
       })
+      pol_data.series[0].color = "#000000"
+
       pol_data.yAxis.min = -1
       pol_data.yAxis.max = 1
 
-
-      sub_data.series[0].name = "Subjectivity"
+      sub_data.series[0].name = "Book A"
       sub_data.series[0].data = dataSearch["sub"].map((sub) => {
         return sub > SUB_ACCEPT[1] ? 1 : (sub < SUB_ACCEPT[0] ? -1 : 0)
       })
+      sub_data.series[0].color = "#000000"
+
       sub_data.yAxis.min = -1
       sub_data.yAxis.max = 1
 
-      console.log("pol/sub", pol_data, sub_data)
+      const config = this.constructConfig(dataSearch)
+      let dpView = (<DoublePiePanel title="Semantic Analysis" data={config} dataComp={ null } sub={''} width={800}
+              height={600} nav={ { data: POS_TAGS, key: "pos", val: "desc" } }/>)
+      let defWordView = (<div style={{ display: 'flex', "marginLeft": "1em" }}>
+         <div style={{ width: '25%' }}>
+           { meta.defWords.slice(0, 5).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+         </div>
+         <div style={{ width: '25%' }}>
+           { meta.defWords.slice(5, 10).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+         </div>
+         <div style={{ width: '25%' }}>
+           { meta.defWords.slice(10, 15).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+         </div>
+         <div style={{ width: '25%' }}>
+           { meta.defWords.slice(15, 20).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+         </div>
+       </div>)
+      let cosView = (<div style={{ "marginLeft": "1em" }}>
+         { meta.cosineSim.slice(0, 10).map((itm, idx) => { return <div key={idx}>{ "(" + (100 * parseFloat(itm[1])).toFixed(2) + "%) " + itm[0] }</div> })}
+      </div>)
 
-      let allKeys = []
-      const combinedKeys = {}
-      let combKeysAll = []
-      let total = 0
-      for (let key in dataSearch["tags"]){
-        const colorConf = this.retColor(key)
-        if (!(colorConf[0] in combinedKeys)){
-          combinedKeys[colorConf[0]] = 0
+      if (bookComp && "pol" in dataSearchComp && "sub" in dataSearchComp) {
+        const bIndexComp = this.getBookIndex(bookComp)
+        let cosineSimComp = this.sortArrayObjs(this.getCosineSim(bIndexComp))
+        let defWordsComp = this.sortArrayObjs(dataSummary['defining_words'][bIndexComp])
+
+        if (pol_data.series.length === 1) {
+          pol_data.series.push(this.getObjCopy(pol_data.series[0]))
         }
-        const val = dataSearch["tags"][key]
-        combinedKeys[colorConf[0]] += val
-        allKeys.push({name: key, y: val, color: colorConf[1]})
-        total+= val
-      }
-      total = parseFloat(total)
-      console.log("combined keys", combinedKeys, total)
-      for (let key in combinedKeys){
-        const colorConf = this.retColor(key)
-        const val = combinedKeys[key]
-        combKeysAll.push({name: key, y: parseFloat(((val/total) * 100).toFixed(2)), color: colorConf[1]})
-      }
-      for (let val of allKeys){
-        val.y = parseFloat(((val.y/total) * 100).toFixed(2))
+        pol_data.series[1].name = "Book B"
+        pol_data.series[1].data = dataSearchComp["pol"].map((pol) => {
+          return pol > POL_ACCEPT[1] ? 1 : (pol < POL_ACCEPT[0] ? -1 : 0)
+        })
+        pol_data.series[1].color = "#d32f2f"
+
+        if (sub_data.series.length === 1) {
+          sub_data.series.push(this.getObjCopy(sub_data.series[0]))
+        }
+        sub_data.series[1].name = "Book B"
+        sub_data.series[1].data = dataSearchComp["sub"].map((sub) => {
+          return sub > SUB_ACCEPT[1] ? 1 : (sub < SUB_ACCEPT[0] ? -1 : 0)
+        })
+        sub_data.series[1].color = "#d32f2f"
+
+        const configComp = this.constructConfig(dataSearchComp)
+        defWordView = (<div style={{ display: 'flex', "marginLeft": "1em" }}>
+           <div style={{ width: '25%' }}>
+             { meta.defWords.slice(0, 5).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+           </div>
+           <div style={{ width: '25%' }}>
+             { meta.defWords.slice(5, 10).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+           </div>
+           <div style={{ width: '25%' }}>
+             { defWordsComp.slice(0, 5).map((itm, idx) => { return <div key={idx} className={ styles.bookAlt }>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+           </div>
+           <div style={{ width: '25%' }}>
+             { defWordsComp.slice(5, 10).map((itm, idx) => { return <div key={idx} className={ styles.bookAlt }>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
+           </div>
+         </div>)
+        cosView = (<div style={{ "marginLeft": "1em", display: "flex" }}>
+           <div style={{ width: "50%" }}>
+            { meta.cosineSim.slice(0, 10).map((itm, idx) => { return <div key={idx}>{ "(" + (100 * parseFloat(itm[1])).toFixed(2) + "%) " + itm[0] }</div> })}
+           </div>
+           <div style={{ width: "50%" }}>
+            { cosineSimComp.slice(0, 10).map((itm, idx) => { return <div key={idx} className={ styles.bookAlt }>{ "(" + (100 * parseFloat(itm[1])).toFixed(2) + "%) " + itm[0] }</div> })}
+           </div>
+        </div>)
+        dpView = (<DoublePiePanel title="Semantic Analysis" data={config} dataComp={ configComp } sub={''} width={500}
+                height={400} nav={ { data: POS_TAGS, key: "pos", val: "desc" } }/>)
       }
 
-      allKeys = allKeys.sort(this.sortString)
-
-      combKeysAll = combKeysAll.sort(this.sortString)
-
-      const config = [{
-         name: 'Browsers',
-         data: combKeysAll,
-         size: '60%',
-         dataLabels: {
-             formatter: function () {
-                 return this.y > 5 ? this.point.name : null;
-             },
-             color: '#ffffff',
-             distance: -30
-         }
-      }, {
-         name: 'Versions',
-         data: allKeys,
-         size: '80%',
-         innerSize: '60%',
-         dataLabels: {
-             formatter: function () {
-                 // display only if larger than 1
-                 return this.y > 1 ? '<b>' + this.point.name + ':</b> ' +
-                     this.y + '%' : null;
-             }
-         },
-         id: 'versions'
-      }]
       bView = (
       <div>
         <Card style={{ width : "100%", "marginBottom": "1em", padding: "1em" }}>
@@ -227,33 +314,17 @@ export class BookPanel extends Component {
         </Card>
         <Card style={{ "margin":"1em 0", "padding":"1em"}}>
           <h3 style={{ textAlign: "center" }}>Defining Words</h3>
-          <div style={{ display: 'flex', "marginLeft": "1em" }}>
-            <div style={{ width: '25%' }}>
-              { meta.defWords.slice(0, 5).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
-            </div>
-            <div style={{ width: '25%' }}>
-              { meta.defWords.slice(5, 10).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
-            </div>
-            <div style={{ width: '25%' }}>
-              { meta.defWords.slice(10, 15).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
-            </div>
-            <div style={{ width: '25%' }}>
-              { meta.defWords.slice(15, 20).map((itm, idx) => { return <div key={idx}>{ itm[0] + ": " + (100 * parseFloat(itm[1])).toFixed(2) + "%" }</div> })}
-            </div>
-          </div>
+          { defWordView }
         </Card>
         <Card style={{ "margin":"1em 0", "padding":"1em"}}>
           <h3 style={{ textAlign: "center" }}>Similar Books</h3>
-          <div style={{ "marginLeft": "1em" }}>
-            { meta.cosineSim.slice(0, 10).map((itm, idx) => { return <div key={idx}>{ "(" + (100 * parseFloat(itm[1])).toFixed(2) + "%) " + itm[0] }</div> })}
-          </div>
+          { cosView }
         </Card>
-        <DoublePiePanel title="Semantic Analysis" data={config} sub={''} width={800} height={600}/>
         <Card style={{ "margin":"1em 0", "padding":"1em"}}>
           <div style={{ width : "100%", display: "flex" }}>
             <div style={{ width : "50%" }}>
               <h3 style={{ textAlign: "center" }}>{ "Polarity Analysis" }</h3>
-              <LineChart data={ pol_data } width={ 500 } height={ 300 }/>
+              <LineChart data={ pol_data } width={ 500 } height={ 300 } />
             </div>
             <div style={{ width : "50%" }}>
               <h3 style={{ textAlign: "center" }}>{ "Subjectivity Analysis" }</h3>
@@ -261,6 +332,7 @@ export class BookPanel extends Component {
             </div>
           </div>
         </Card>
+        { dpView }
       </div>
       )
     }
@@ -275,6 +347,7 @@ export class BookPanel extends Component {
 
 BookPanel.propTypes = {
   book: PropTypes.string.isRequired,
+  bookComp: PropTypes.string.isRequired,
   dataList: PropTypes.array.isRequired,
   isFetchingList: PropTypes.bool.isRequired,
   dataSearch: PropTypes.object.isRequired,
@@ -285,8 +358,8 @@ BookPanel.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const { book, dataList, isFetchingList, dataSearch, isFetchingSearch, dataSummary, isFetchingSummary } = state.books
-  return { book, dataList, isFetchingList, dataSearch, isFetchingSearch, dataSummary, isFetchingSummary }
+  const { book, bookComp, dataList, isFetchingList, dataSearch, dataSearchComp, isFetchingSearch, dataSummary, isFetchingSummary } = state.books
+  return { book, bookComp, dataList, isFetchingList, dataSearch, dataSearchComp, isFetchingSearch, dataSummary, isFetchingSummary }
 }
 
 export default connect(mapStateToProps)(BookPanel)

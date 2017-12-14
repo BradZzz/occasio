@@ -5,6 +5,7 @@ import styles from "./styles.css"
 
 import { NavTab } from "../../../components/molecules/"
 import { Collapse } from "../../../components/atoms/"
+import * as BookActions from "../../../actions/books"
 
 // Home
 import ActionHome from 'material-ui/svg-icons/action/home'
@@ -76,12 +77,19 @@ export class NavPanel extends Component {
     }
   }
 
+  action = (part) => {
+    const { dispatch } = this.props
+    console.log(part)
+    dispatch( BookActions.querySearchBooksComp({ book: part }) )
+  }
 
   list = (part,idx) => {
+    const { book } = this.state
     const name = part.replace("(analysis).json","")
+    const sName = book.split("_")[0] || ""
     const bName = name.split("_")[0]
     const bAuth = name.split("_")[1]
-    return (<div key={ idx } className={styles.parent} style={{ cursor: "pointer", height: "80px", "marginLeft": "1em" }}>
+    return (<div key={ idx } onClick={() => { this.action(part) } } className={styles.parent + (sName === bName ? " hide" : "") } style={{ cursor: "pointer", height: "80px", "marginLeft": "1em" }}>
         <div className={styles.container} style={{ display: "flex", "flexDirection": "column" }}>
           <span className={styles.title}>{this.truncate(bName,32)}</span>
           <span className={styles.author}>{this.truncate(bAuth,20)}</span>

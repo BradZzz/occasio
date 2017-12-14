@@ -117,7 +117,7 @@ export class DoublePie extends Component {
           enabled: false
        },
        title: {
-           text: 'Browser market share, January, 2015 to May, 2015'
+           text: ''
        },
 //       subtitle: {
 //           text: 'Source: <a href="http://netmarketshare.com/">netmarketshare.com</a>'
@@ -134,10 +134,14 @@ export class DoublePie extends Component {
            }
        },
        tooltip: {
-           pointFormat: "{point.y:.2f}%"
+           formatter: function() {
+               console.log(this, props)
+               const toolStr = this.key + "\n" + this.y + ":" + this.series.name + ":" + props.nav.data[this.key]
+               return "<span><b>" + this.key + ":</b></span><span style='margin:5px'>" + " " + this.y + "</span><br/><span>" + props.nav.data[this.key] + "</span>"
+           }
        },
        series: [{
-           name: 'Browsers',
+           name: 'General POS',
            data: browserData,
            size: '60%',
            dataLabels: {
@@ -148,7 +152,7 @@ export class DoublePie extends Component {
                distance: -30
            }
        }, {
-           name: 'Versions',
+           name: 'Specific POS',
            data: versionsData,
            size: '80%',
            innerSize: '60%',
@@ -205,6 +209,7 @@ DoublePie.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,
+  nav: PropTypes.object
 }
 
 function mapStateToProps(state) {

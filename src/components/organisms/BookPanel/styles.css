@@ -7,6 +7,10 @@
   position: relative;
 }
 
+.bookAlt {
+  color: var(--accent-color);
+}
+
 .navWrap {
   position: absolute;
 }
