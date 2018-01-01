@@ -1,46 +1,34 @@
-Occas.io
-========
+## CoverJudge
 
-Website for domain experts
+### Frameworks / Libraries
+* NodeJS
+* React
+* AWS
+* NumPy
+* Pandas
+* NLTK
 
-## Screens
+### Description
 
-![Screen01](screens/screen_01.png "Screen01")
-![Screen02](screens/screen_02.png "Screen02")
+A quick way to judge a book by it's cover! Select a book you are familiar with, or even one you are not, and watch as the website calculates the closest matches within the books that it knows.
+The website uses a TFIDFVectorizer as well as a semantic analysis to try and predict the books closest to the book selected by the user.
 
-## Technology
+### Install
 
-React, Nodejs, MongoDB
+1. `npm install`
 
-## Installation
+2. `npm start`
 
-Create a .env with the following variables defined:
+3. navigate to localhost:3000 in your browser
 
-NODE_ENV,DOM_USR,DOM_PASS,MONGODB,DOM_INDEX,ESTIBOT_USR,ESTIBOT_PASS
+### CoverJudge Screens
 
-Then start the server like so:
+<img src="./screens/hopshares01.png" width="400"/>
+<img src="./screens/hopshares02.png" width="400"/>
+<img src="./screens/hopshares03.png" width="400"/>
+<img src="./screens/hopshares04.png" width="400"/>
+<img src="./screens/hopshares05.png" width="400"/>
 
-```
-  npm start
-```
+#### license
 
-This should kick off the installation process right away, but if there is a problem, you can use the following command to install again:
-
-```
-  npm install
-```
-
-## Building
-
-```
-  npm run build
-```
-
-## Partner Repos
-
-This repo is a direct partner with the flask-epp repository for dedicated server requests from a specified IP address. Without it, this website would be unable to buy/sell domains. This will be added as a submodule in future releases.
-
-## License
-
-The code in this repo is licensed under the Apache 2.0 License.
-See [LICENSE.txt](LICENSE.txt) for more info.
+MIT. Copyright (c) Brad Zimmerman
