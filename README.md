@@ -26,7 +26,6 @@ The website uses a TFIDFVectorizer as well as a semantic analysis to try and pre
 <img src="./screens/screen_00.png" width="400"/>
 <img src="./screens/screen_01.png" width="400"/>
 <img src="./screens/screen_02.png" width="400"/>
-<img src="./screens/screen_03.png" width="400"/>
 
 #### license
 
