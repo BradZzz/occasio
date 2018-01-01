@@ -23,11 +23,10 @@ The website uses a TFIDFVectorizer as well as a semantic analysis to try and pre
 
 ### CoverJudge Screens
 
-<img src="./screens/hopshares01.png" width="400"/>
-<img src="./screens/hopshares02.png" width="400"/>
-<img src="./screens/hopshares03.png" width="400"/>
-<img src="./screens/hopshares04.png" width="400"/>
-<img src="./screens/hopshares05.png" width="400"/>
+<img src="./screens/screen_00.png" width="400"/>
+<img src="./screens/screen_01.png" width="400"/>
+<img src="./screens/screen_02.png" width="400"/>
+<img src="./screens/screen_03.png" width="400"/>
 
 #### license
 
